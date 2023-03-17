@@ -1,0 +1,31 @@
+{
+  "name": "cooperation_jn_backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon src/index.ts",
+    "build": "tsc --project ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sigrennesmetropole/cooperation_jn_backend.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sigrennesmetropole/cooperation_jn_backend/issues"
+  },
+  "homepage": "https://github.com/sigrennesmetropole/cooperation_jn_backend#readme",
+  "dependencies": {
+    "express": "^4.18.2",
+    "ts-node": "^10.9.1"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.17",
+    "nodemon": "^2.0.21",
+    "typescript": "^5.0.2"
+  }
+}
