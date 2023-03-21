@@ -1,6 +1,6 @@
 import { Request } from 'express';
 import { MySessionData } from '../interface/MySessionData';
-import axios from 'axios';
+import axios, { Method } from 'axios';
 import qs from 'qs';
 
 export function getUrlUserAuthorization(req: Request & { session: MySessionData }) {
@@ -30,7 +30,7 @@ async function getUserAccessToken() {
         'client_secret': process.env.CLIENT_SECRET 
     });
     var config = {
-        method: 'post',
+        method: 'post' as Method,
         url: getUrlFromEnv() + '/oauth2/v3/token',
         headers: { 
             'Content-Type': 'application/x-www-form-urlencoded'
@@ -44,7 +44,7 @@ async function getUserAccessToken() {
 
 async function getDailyConsumption(access_token: string, prm: string, start: string, end: string) {
     var config = {
-        method: 'get',
+        method: 'get' as Method,
         url: `${getUrlFromEnv()}/metering_data_dc/v5/daily_consumption?start=${start}&end=${end}&usage_point_id=${prm}`,
         headers: { 
             'Authorization': `Bearer ${access_token}`,
