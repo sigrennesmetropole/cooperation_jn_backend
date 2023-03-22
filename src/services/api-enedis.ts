@@ -23,6 +23,7 @@ function getUrlFromEnv(){
         return process.env.ENEDIS_URL_PRODUCTION
     }
 }
+
 async function getUserAccessToken() {
     var data = qs.stringify({
         'grant_type': 'client_credentials',

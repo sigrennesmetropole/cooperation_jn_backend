@@ -2,6 +2,7 @@ import express, { Express, Request, Response } from 'express';
 import dotenv from 'dotenv';
 import session, { SessionData, SessionOptions } from 'express-session';
 import { getUrlUserAuthorization, getAnnualConsumption } from './services/api-enedis';
+import { getComputeData } from './services/api-autocalsol';
 import { MySessionData } from './interface/MySessionData';
 
 // Load environment variables from .env file
@@ -25,7 +26,7 @@ app.use(session({
 
 app.use(express.json());
 
-// ROUTES API
+// ROUTES API ENEDIS
 app.get('/api/enedis/user/url-authorization', (req: Request & { session: MySessionData }, res: Response) => {
   res.json({ url: getUrlUserAuthorization(req) });
 });
@@ -48,6 +49,40 @@ app.get(
   '/api/enedis/user/annual-consumption', 
   async (req: Request & { session: MySessionData }, res: Response) => {
     res.json({ consumption: await getAnnualConsumption(req) });
+  }
+);
+
+// ROUTES API AUTOCALSOL
+app.get(
+  '/api/autocalsol/data-compute',
+  async (req: Request & { session: MySessionData }, res: Response) => {
+    const latitude = req.query.latitude as string | undefined;
+    const longitude = req.query.longitude as string | undefined;
+    const slope = req.query.slope as number | undefined;
+    const azimuth = req.query.azimuth as number | undefined;
+    const annual_consumption = req.query.annual_consumption as number | undefined;
+    const peak_power = req.query.peak_power as number | undefined;
+
+    if (
+      latitude !== undefined &&
+      longitude !== undefined &&
+      slope !== undefined &&
+      azimuth !== undefined &&
+      annual_consumption !== undefined &&
+      peak_power !== undefined
+    ) {
+      const compute = await getComputeData(
+        latitude,
+        longitude,
+        slope,
+        azimuth,
+        annual_consumption,
+        peak_power
+      );
+      res.json({ compute: compute });
+    } else {
+      res.status(400).json({ error: 'Missing required query parameters' });
+    }
   }
 );
 
