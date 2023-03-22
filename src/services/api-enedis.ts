@@ -9,25 +9,25 @@ export function getUrlUserAuthorization(req: Request & { session: MySessionData 
     const url =
         'https://mon-compte-particulier.enedis.fr/dataconnect/v1/oauth2/authorize' +
         '?' +
-        `client_id=${process.env.CLIENT_ID}` +
+        `client_id=${process.env.ENEDIS_CLIENT_ID}` +
         `&state=${req.session.state}` +
-        `&duration=${process.env.CLIENT_DURATION}` + // duration est la durée du consentement que vous souhaitez obtenir : cette durée est à renseigner au format ISO 8601 (exemple : « P6M » pour une durée de 6 mois),
+        `&duration=${process.env.ENEDIS_CLIENT_DURATION}` + // duration est la durée du consentement que vous souhaitez obtenir : cette durée est à renseigner au format ISO 8601 (exemple : « P6M » pour une durée de 6 mois),
         '&response_type=code'
     return url
 }
 
 function getUrlFromEnv(){
     if(process.env.ENV === 'dev'){
-        return process.env.URL_SANDBOX
+        return process.env.ENEDIS_URL_SANDBOX
     } else {
-        return process.env.URL_PRODUCTION
+        return process.env.ENEDIS_URL_PRODUCTION
     }
 }
 async function getUserAccessToken() {
     var data = qs.stringify({
         'grant_type': 'client_credentials',
-        'client_id':  process.env.CLIENT_ID,
-        'client_secret': process.env.CLIENT_SECRET 
+        'client_id':  process.env.ENEDIS_CLIENT_ID,
+        'client_secret': process.env.ENEDIS_CLIENT_SECRET 
     });
     var config = {
         method: 'post' as Method,
