@@ -37,18 +37,20 @@ app.get('/api/enedis/user/prm', (req: Request & { session: MySessionData }, res:
 });
 
 app.post('/api/enedis/user/prm', (req: Request & { session: MySessionData }, res: Response) => {
-  const prm = req.body.prm
-  if(prm !== undefined){
-    req.session.prm = prm
-    req.session.save()
+  const prm = req.body.prm as string | undefined;
+  if(prm === undefined){
+    res.status(400).json({ error: 'Missing required body parameters' });
   }
+  req.session.prm = prm
+  req.session.save()
   res.json({ prm: prm });
 });
 
 app.get(
   '/api/enedis/user/annual-consumption', 
   async (req: Request & { session: MySessionData }, res: Response) => {
-    res.json({ consumption: await getAnnualConsumption(req) });
+    const annual_consumption = await getAnnualConsumption(req) 
+    res.json({ consumption: annual_consumption});
   }
 );
 

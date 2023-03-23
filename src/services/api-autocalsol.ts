@@ -83,6 +83,10 @@ export async function getComputeData(
         },
         data : data
     };
-    const response = await axios(config)
-    return response.data
+    try {
+        const response = await axios(config)
+        return response.data
+    } catch (error) {
+        throw new Error(`HTTP error`);
+    }
 }

@@ -67,7 +67,7 @@ function calculateAnnualConsumption(interval_reading: [{value: string, date: str
 export async function getAnnualConsumption(req: Request & { session: MySessionData }){
     const prm = req.session.prm
     if(prm === undefined){
-        return undefined
+        throw new Error(`PRM undefined`);
     }
     try {
         const token_response = await getUserAccessToken()
@@ -79,14 +79,14 @@ export async function getAnnualConsumption(req: Request & { session: MySessionDa
             consumption_response.meter_reading === undefined
             || consumption_response.meter_reading.interval_reading === undefined
         ){
-            return undefined
+            throw new Error(`consumption_response.meter_reading.interval_reading undefined`);
         }
         const interval_reading = consumption_response.meter_reading.interval_reading
         const annualConsumption = calculateAnnualConsumption(interval_reading)
         if(
             consumption_response.meter_reading.reading_type === undefined
         ){
-            return undefined
+            throw new Error(`consumption_response.meter_reading.reading_type undefined`);
         }
         const reading_type = consumption_response.meter_reading.reading_type
         return {
@@ -94,7 +94,6 @@ export async function getAnnualConsumption(req: Request & { session: MySessionDa
             reading_type: reading_type
         }
     } catch (error) {
-        console.log(error)
-        return undefined
+        throw new Error(`HTTP error`);
     }  
 }
