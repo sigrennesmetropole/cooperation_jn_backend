@@ -12,7 +12,7 @@ npm i
 
 Create a .env file using the example in .env.example
 
-You should request sensitive information directly from the project team. For example the value of : CLIENT_ID, CLIENT_SECRET
+You should request sensitive information directly from the project team. For example the value of : ENEDIS_CLIENT_ID, ENEDIS_CLIENT_SECRET
 
 #### Run the app in dev mode
 
