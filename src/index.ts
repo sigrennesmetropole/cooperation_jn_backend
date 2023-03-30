@@ -2,7 +2,7 @@ import express, { Express, Request, Response } from 'express';
 import dotenv from 'dotenv';
 import session, { SessionData, SessionOptions } from 'express-session';
 import { getUrlUserAuthorization, getAnnualConsumption } from './services/api-enedis';
-import { getTotalDistrictConsumption } from './services/api-enedis-district';
+import { getTotalDistrictDatas } from './services/api-enedis-district';
 import { getComputeData } from './services/api-autocalsol';
 import { MySessionData } from './interface/MySessionData';
 
@@ -57,8 +57,8 @@ app.get(
 
 // ROUTES API ENEDIS DISTRICT
 app.get('/api/enedis/district/:codeIris', async (req: Request & { session: MySessionData }, res: Response) => {
-  const totalConsumptions = await getTotalDistrictConsumption(req.params.codeIris)
-  res.json({ totalConsumptions: totalConsumptions });
+  const districtDatas = await getTotalDistrictDatas(req.params.codeIris)
+  res.json( districtDatas );
 });
 
 // ROUTES API AUTOCALSOL

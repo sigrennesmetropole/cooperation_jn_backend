@@ -1,7 +1,4 @@
-import { Request } from 'express';
-import { MySessionData } from '../interface/MySessionData';
 import axios, { Method } from 'axios';
-import qs from 'qs';
 
 async function getDistrictConsumptionData(rows: number, codeIris: string) {
     var config = {
@@ -14,14 +11,23 @@ async function getDistrictConsumptionData(rows: number, codeIris: string) {
     return response.data
 }
 
-async function getdistrictDatas(codeIris: string) {
-    const districtData = await getDistrictConsumptionData(10, codeIris)
+async function getDistrictProductionData(rows: number, codeIris: string) {
+    var config = {
+        method: 'get' as Method,
+        url: `https://data.enedis.fr/api/records/1.0/search/?dataset=production-electrique-par-filiere-a-la-maille-iris&q=&rows=${rows}&sort=-nb_sites_photovoltaique_enedis&facet=annee&facet=nom_iris&facet=code_iris&facet=type_iris&facet=nom_epci&facet=code_epci&facet=domaine_de_tension&refine.nom_epci=Rennes+M%C3%A9tropole&refine.code_iris=${codeIris}`,
+        headers: { 
+        }
+    };
+    const response = await axios(config)
+    return response.data
+}
 
+async function getAllDistrictDatas(callback: any, codeIris: string) {
+    const districtData = await callback(500, codeIris)
     const nbHits = districtData.nhits
     const nbGettedData = districtData.records.length
-
     if(nbHits > nbGettedData) {
-        const totalDistrictData = await getDistrictConsumptionData(parseInt(districtData.nhits),codeIris)
+        const totalDistrictData = await callback(parseInt(districtData.nhits),codeIris)
         return totalDistrictData
     }
     else {
@@ -37,27 +43,42 @@ function verifiedYear(year: string) {
     return parseInt(year)
 }
 
+function filterDataByYear(data: any) {
+    var records = data.records.map((r: { fields: any; }) =>r.fields)
+    const years = records.map((r: { annee: string; }) => verifiedYear(r.annee))
+    const recentYear = Math.max(...years)
+    const recordsOfRecentYear = records.filter((r: { annee: string; }) => parseInt(r.annee) == recentYear)
+    return recordsOfRecentYear
+}
 
-export async function getTotalDistrictConsumption(codeIris: string) {
+function addRecordsOfRecentYear(key: string, recordOfRecentYear: any) {
+    const records = recordOfRecentYear.map((r: { [x: string]: any; }) => r[key])
+    const correctedRecords = records.filter((r: number) => r != undefined)
+    const totalRecords = correctedRecords.reduce((accumulator: number, currentValue: number) => accumulator + currentValue, 0)
+    return totalRecords
+}
+
+export async function getTotalDistrictDatas(codeIris: string) {
     try {
-        const data = await getdistrictDatas(codeIris)
-        // récupération de l'objet contenant la consommation
-        var consumptionRecords = data.records.map((r: { fields: any; }) =>r.fields)
 
-        // détermination de l'année de prise en compte
-        const years = consumptionRecords.map((r: { annee: string; }) => verifiedYear(r.annee))
-        const maxYear = Math.max(...years)
+        const consumptionData = await getAllDistrictDatas(getDistrictConsumptionData, codeIris)
+        const consumptionRecordsOfRecentYear = filterDataByYear(consumptionData)
+        const consumptionKey = "conso_totale_mwh"
+        const totalConsumptions = addRecordsOfRecentYear(consumptionKey, consumptionRecordsOfRecentYear)
 
-        // filtrer résultats sur année
-        const consumptionRecordsOfMaxYear = consumptionRecords.filter((r: { annee: string; }) => parseInt(r.annee) == maxYear)
+        const productionData = await getAllDistrictDatas(getDistrictProductionData, codeIris)
+        const productionRecordsOfRecentYear = filterDataByYear(productionData)
+        const productionKey = "energie_produite_annuelle_photovoltaique_enedis_mwh"
+        const totalProductions = addRecordsOfRecentYear(productionKey, productionRecordsOfRecentYear)
 
-        // somme de la consommation totale
-        const consumptions = consumptionRecordsOfMaxYear.map((r: { conso_totale_mwh: number; }) => r.conso_totale_mwh)
+        const nbPhotovoltaicSites = "nb_sites_photovoltaique_enedis"
+        const totalNbPhotovoltaicSites = addRecordsOfRecentYear(nbPhotovoltaicSites, productionRecordsOfRecentYear)
 
-        // filtrer pour enlever les valeur undefined
-        const correctedConsumptions = consumptions.filter((r: number) => r != undefined)
-        const totalConsumptions = correctedConsumptions.reduce((accumulator: number, currentValue: number) => accumulator + currentValue, 0)
-        return totalConsumptions
+        return {
+            totalConsumptione : totalConsumptions,
+            totalProduction :  totalProductions,
+            totalPhotovoltaicSites : totalNbPhotovoltaicSites
+        }
 
     } catch (error) {
         throw new Error(`HTTP error`);
