@@ -51,6 +51,12 @@ function filterDataByYear(data: any) {
     return recordsOfRecentYear
 }
 
+function getIrisName(data: any) {
+    var records = data.records.map((r: { fields: any; }) =>r.fields)
+    const irisName = records[0].nom_iris
+    return irisName
+}
+
 function addRecordsOfRecentYear(key: string, recordOfRecentYear: any) {
     const records = recordOfRecentYear.map((r: { [x: string]: any; }) => r[key])
     const correctedRecords = records.filter((r: number) => r != undefined)
@@ -74,8 +80,11 @@ export async function getTotalDistrictDatas(codeIris: string) {
         const nbPhotovoltaicSites = "nb_sites_photovoltaique_enedis"
         const totalNbPhotovoltaicSites = addRecordsOfRecentYear(nbPhotovoltaicSites, productionRecordsOfRecentYear)
 
+        const irisName = getIrisName(consumptionData)
+
         return {
-            totalConsumptione : totalConsumptions,
+            irisName : irisName,
+            totalConsumption : totalConsumptions,
             totalProduction :  totalProductions,
             totalPhotovoltaicSites : totalNbPhotovoltaicSites
         }
