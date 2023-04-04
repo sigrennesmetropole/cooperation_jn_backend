@@ -1,25 +1,48 @@
 import axios, { Method } from 'axios';
+const baseURL = "https://data.enedis.fr/api/records/1.0/search/";
 
 async function getDistrictConsumptionData(rows: number, codeIris: string) {
-    var config = {
-        method: 'get' as Method,
-        url: `https://data.enedis.fr/api/records/1.0/search/?dataset=consommation-electrique-par-secteur-dactivite-iris&q=&rows=${rows}&sort=annee&facet=annee&facet=code_iris&facet=nom_iris&facet=code_epci&facet=nom_epci&facet=code_categorie_consommation&refine.nom_epci=Rennes+M%C3%A9tropole&refine.code_iris=${codeIris}`,
-        headers: { 
+    const config = {
+        method: 'get'as Method,
+        url: baseURL,
+        params: {
+            dataset: "consommation-electrique-par-secteur-dactivite-iris",
+            q: "",
+            rows: rows,
+            sort: "annee",
+            facet: ["annee", "code_iris", "nom_iris", "code_epci", "nom_epci", "code_categorie_consommation"].join(','),
+            'refine.nom_epci': "Rennes Métropole",
+            'refine.code_iris': codeIris
         }
     };
-    const response = await axios(config)
-    return response.data
+    try {
+        const response = await axios(config);
+        return response.data;
+    } catch (error) {
+        console.error("Error fetching data:", error);
+    }
 }
 
 async function getDistrictProductionData(rows: number, codeIris: string) {
     var config = {
         method: 'get' as Method,
-        url: `https://data.enedis.fr/api/records/1.0/search/?dataset=production-electrique-par-filiere-a-la-maille-iris&q=&rows=${rows}&sort=-nb_sites_photovoltaique_enedis&facet=annee&facet=nom_iris&facet=code_iris&facet=type_iris&facet=nom_epci&facet=code_epci&facet=domaine_de_tension&refine.nom_epci=Rennes+M%C3%A9tropole&refine.code_iris=${codeIris}`,
-        headers: { 
-        }
+        url: baseURL,
+        params: {
+            dataset: "production-electrique-par-filiere-a-la-maille-iris",
+            q: "",
+            rows: rows,
+            sort: "-nb_sites_photovoltaique_enedis",
+            facet: ["annee", "nom_iris", "code_iris", "type_iris",  "nom_epci", "code_epci", "domaine_de_tension"].join(','),
+            'refine.nom_epci': "Rennes Métropole",
+            'refine.code_iris': codeIris
+        },
     };
-    const response = await axios(config)
-    return response.data
+    try {
+        const response = await axios(config);
+        return response.data;
+    } catch (error) {
+        console.error("Error fetching data:", error);
+    }
 }
 
 async function getAllDistrictDatas(callback: any, codeIris: string) {
