@@ -1,7 +1,8 @@
 import express, { Express, Request, Response } from 'express';
 import dotenv from 'dotenv';
 import session, { SessionData, SessionOptions } from 'express-session';
-import { getUrlUserAuthorization, getAnnualConsumption } from './services/api-enedis';
+import { getUrlUserAuthorization, getAnnualConsumption } from './services/api-enedis-dataconnect';
+import { getTotalDistrictDatas } from './services/api-enedis-district';
 import { getComputeData } from './services/api-autocalsol';
 import { MySessionData } from './interface/MySessionData';
 
@@ -26,7 +27,7 @@ app.use(session({
 
 app.use(express.json());
 
-// ROUTES API ENEDIS
+// ROUTES API ENEDIS USER
 app.get('/api/enedis/user/url-authorization', (req: Request & { session: MySessionData }, res: Response) => {
   res.json({ url: getUrlUserAuthorization(req) });
 });
@@ -53,6 +54,12 @@ app.get(
     res.json({ consumption: annual_consumption});
   }
 );
+
+// ROUTES API ENEDIS DISTRICT
+app.get('/api/enedis/district/:codeIris', async (req: Request & { session: MySessionData }, res: Response) => {
+  const districtDatas = await getTotalDistrictDatas(req.params.codeIris)
+  res.json( districtDatas );
+});
 
 // ROUTES API AUTOCALSOL
 app.get(
