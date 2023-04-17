@@ -1,0 +1,36 @@
+name: CI
+env:
+  ACTIONS_ALLOW_UNSECURE_COMMANDS: true
+
+on:
+  push:
+    tags:
+      - '*'
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+    types:
+      - opened
+      - reopened
+      - synchronize
+      - ready_for_review
+
+jobs:
+  build-lint-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+          cache: 'npm'
+      - uses: jgierer12/npm-auth-gpr@v1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - run: npm ci
+      - run: npm run build
