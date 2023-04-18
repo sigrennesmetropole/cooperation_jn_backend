@@ -16,7 +16,7 @@ You should request sensitive information directly from the project team. For exa
 
 #### Build docker image
 
-```docker build -t "local/rennes-back" --secret id=RENNES_ENV,src=.env .```
+```docker build -t "local/rennes-back" .```
 
 #### Run the app in dev mode
 
