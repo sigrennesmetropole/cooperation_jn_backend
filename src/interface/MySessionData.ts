@@ -1,6 +1,6 @@
-import { SessionData } from 'express-session';
+import { type SessionData } from 'express-session'
 
 export interface MySessionData extends SessionData {
-    state?: string;
-    prm?: string;
+  state?: string
+  prm?: string
 }
