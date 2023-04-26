@@ -80,22 +80,27 @@ app.get(
       annual_consumption !== undefined &&
       peak_power !== undefined
     ) {
-      const compute = await getComputeData(
-        latitude,
-        longitude,
-        slope,
-        azimuth,
-        annual_consumption,
-        peak_power
-      );
-      res.json({ compute: compute });
+      try {
+        const compute = await getComputeData(
+          latitude,
+          longitude,
+          slope,
+          azimuth,
+          annual_consumption,
+          peak_power
+        );
+        res.json({ compute: compute });
+        
+      } catch (error) {
+        res.status(500).json({ error: 'internal server error' });
+      }
     } else {
       res.status(400).json({ error: 'Missing required query parameters' });
     }
   }
-);
+)
 
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 3000
 app.listen(port, () => {
   console.log(`Running on port ${port}`);
 });
