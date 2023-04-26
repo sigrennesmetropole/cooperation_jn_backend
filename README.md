@@ -14,6 +14,10 @@ Create a .env file using the example in .env.example
 
 You should request sensitive information directly from the project team. For example the value of : ENEDIS_CLIENT_ID, ENEDIS_CLIENT_SECRET
 
+#### Build docker image
+
+```docker build -t "local/rennes-back" .```
+
 #### Run the app in dev mode
 
 ```shell
