@@ -101,7 +101,7 @@ app.get(
       res.status(400).json({ error: 'Missing required query parameters' });
     }
   }
-)
+));
 
 const port = process.env.PORT || 3000
 app.listen(port, () => {
