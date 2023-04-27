@@ -21,5 +21,5 @@ You should request sensitive information directly from the project team. For exa
 #### Run the app in dev mode
 
 ```shell
-npm run dev
+npm run dev 
 ```
