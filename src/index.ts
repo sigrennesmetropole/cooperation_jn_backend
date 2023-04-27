@@ -4,7 +4,7 @@ import session, {SessionData, SessionOptions} from 'express-session';
 import {getUrlUserAuthorization, getAnnualConsumption} from './services/api-enedis-dataconnect';
 import {getTotalDistrictDatas} from './services/api-enedis-district';
 import {getComputeData} from './services/api-autocalsol';
-import { getIrisCode } from './services/api-insee-iris';
+import { getIrisCode } from './services/api-iris';
 import {MySessionData} from './interface/MySessionData';
 
 const asyncHandler = require('express-async-handler')
@@ -104,8 +104,8 @@ app.listen(port, () => {
     console.log(`Running on port ${port}`);
 });
 
-// ROUTES API INSEE CODE IRIS
-app.get('/api/insee/codeiris/:lat/:lon',
+// ROUTES API CODE IRIS NEIGHBOURHOOD
+app.get('/api/codeiris/:lat/:lon',
     asyncHandler(async (req: Request & { session: MySessionData }, res: Response) => {
         const codeIris = await getIrisCode(req.params.lat, req.params.lon)
         res.json(codeIris);
