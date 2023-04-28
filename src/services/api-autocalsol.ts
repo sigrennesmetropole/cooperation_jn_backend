@@ -41,7 +41,7 @@ function getFormattedProdAndConso (data: [number, string][]){
       //Half-hour data is not taken into account
       if(!hours.match(':30:')){
         dataFilterredOnTheGoodDay.push(
-          [hours, item[1]]
+          [hours, parseInt(item[1])]
         )
       }
     }
