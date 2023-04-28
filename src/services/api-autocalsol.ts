@@ -1,6 +1,8 @@
 import axios, { type Method } from 'axios'
 import { type AutocalsolType } from '../model/autocalsol.model'
 
+const DATE_PROD_CONSO = '05-28'
+
 function getUrlFromEnv (): string | undefined {
   return process.env.AUTOCALSOL_URL
 }
@@ -17,45 +19,44 @@ function convertTimestamp (timestamp: number): string {
   // Create a new Date object using the timestamp
   const date = new Date(timestamp)
 
-  // Format the date using the built-in methods
+  const year = date.getFullYear()
+  const month = (date.getMonth() + 1).toString().padStart(2, '0')
+  const day = date.getDate().toString().padStart(2, '0')
   const hours = date.getHours().toString().padStart(2, '0')
   const minutes = date.getMinutes().toString().padStart(2, '0')
   const seconds = date.getSeconds().toString().padStart(2, '0')
 
   // Return the formatted date string
-  return `${hours}:${minutes}:${seconds}`
+  return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`
 }
 
-function avgOfProdAndConso(data: [number, string][]): [string, number][] {
-  let dataAvg: { [key: string]: { total: number; count: number } } = {};
-
-  for (let i = 0; i < 24; i++) {
-    let hour = `${i}:00:00`;
-    hour = parseInt(hour) < 10 ? "0" + hour : hour;
-    dataAvg[hour] = {
-      total: 0,
-      count: 0,
-    };
-  }
+//The consumption and production data are taken over a single day: DATE_PROD_CONSO
+function getFormattedProdAndConso (data: [number, string][]){
+  const dataFilterredOnTheGoodDay: [string, string|number][] = []
 
   data.forEach((item) => {
-    const hour = convertTimestamp(item[0]);
-    if (dataAvg[hour]) {
-      dataAvg[hour].total += parseInt(item[1]);
-      dataAvg[hour].count += 1;
+    const date = convertTimestamp(item[0])
+    if(date.match('-' + DATE_PROD_CONSO + ' ')){
+      const hours  = date.split(' ')[1]
+      //Half-hour data is not taken into account
+      if(!hours.match(':30:')){
+        dataFilterredOnTheGoodDay.push(
+          [hours, item[1]]
+        )
+      }
     }
   });
-
-  return Object.keys(dataAvg).map((key) => {
-    return [key, Math.round(dataAvg[key].total / dataAvg[key].count)];
-  });
+  if(dataFilterredOnTheGoodDay.length !== 24){
+    return []
+  } 
+  return dataFilterredOnTheGoodDay
 }
 
 function formatComputeData (compute: AutocalsolType) {
   const prodByMonth = compute.resultConso.tabProdMonth
   const consoByMonth = compute.resultConso.tabConsoMonth
-  const prodByHour = avgOfProdAndConso(compute.resultConso.prodTotale)
-  const consoByHour = avgOfProdAndConso(compute.resultConso.consoPetit)
+  const prodByHour = getFormattedProdAndConso(compute.resultConso.prodTotale)
+  const consoByHour = getFormattedProdAndConso(compute.resultConso.consoPetit)
  
   const consoAnnualInjected = compute.resultConso.energieInjectee / 1000 // Wh to kwH
   const consoAnnualAutoConsumed = compute.resultConso.energieAutoconsommee / 1000 // Wh to kwH
