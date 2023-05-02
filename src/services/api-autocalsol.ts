@@ -1,6 +1,8 @@
 import axios, { type Method } from 'axios'
 import { type AutocalsolType } from '../model/autocalsol.model'
 
+const DATE_PROD_CONSO = '05-28'
+
 function getUrlFromEnv (): string | undefined {
   return process.env.AUTOCALSOL_URL
 }
@@ -17,7 +19,6 @@ function convertTimestamp (timestamp: number): string {
   // Create a new Date object using the timestamp
   const date = new Date(timestamp)
 
-  // Format the date using the built-in methods
   const year = date.getFullYear()
   const month = (date.getMonth() + 1).toString().padStart(2, '0')
   const day = date.getDate().toString().padStart(2, '0')
@@ -29,21 +30,34 @@ function convertTimestamp (timestamp: number): string {
   return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`
 }
 
+//The consumption and production data are taken over a single day: DATE_PROD_CONSO
+function getFormattedProdAndConso (data: [number, string][]){
+  const dataFilterredOnTheGoodDay: [string, string|number][] = []
+
+  data.forEach((item) => {
+    const date = convertTimestamp(item[0])
+    if(date.match('-' + DATE_PROD_CONSO + ' ')){
+      const hours  = date.split(' ')[1]
+      //Half-hour data is not taken into account
+      if(!hours.match(':30:')){
+        dataFilterredOnTheGoodDay.push(
+          [hours, parseInt(item[1])]
+        )
+      }
+    }
+  });
+  if(dataFilterredOnTheGoodDay.length !== 24){
+    return []
+  } 
+  return dataFilterredOnTheGoodDay
+}
+
 function formatComputeData (compute: AutocalsolType) {
   const prodByMonth = compute.resultConso.tabProdMonth
   const consoByMonth = compute.resultConso.tabConsoMonth
-  const prodByHour = compute.resultConso.prodTotale.map(item => {
-    return [
-      convertTimestamp(item[0]),
-      item[1]
-    ]
-  })
-  const consoByHour = compute.resultConso.consoPetit.map(item => {
-    return [
-      convertTimestamp(item[0]),
-      item[1]
-    ]
-  })
+  const prodByHour = getFormattedProdAndConso(compute.resultConso.prodTotale)
+  const consoByHour = getFormattedProdAndConso(compute.resultConso.consoPetit)
+ 
   const consoAnnualInjected = compute.resultConso.energieInjectee / 1000 // Wh to kwH
   const consoAnnualAutoConsumed = compute.resultConso.energieAutoconsommee / 1000 // Wh to kwH
   return {
@@ -123,8 +137,8 @@ export async function getComputeData (
   }
   try {
     const response = await axios(config)
-    const data = response.data
-    return formatComputeData(data)
+    const data2 = response.data
+    return formatComputeData(data2)
   } catch (error) {
     throw new Error('HTTP error')
   }
