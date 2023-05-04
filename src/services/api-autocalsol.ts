@@ -16,18 +16,41 @@ function getTokenFromEnv (): string | undefined {
 }
 
 function convertTimestamp (timestamp: number): string {
-  // Create a new Date object using the timestamp
   const date = new Date(timestamp)
 
-  const year = date.getFullYear()
-  const month = (date.getMonth() + 1).toString().padStart(2, '0')
-  const day = date.getDate().toString().padStart(2, '0')
-  const hours = date.getHours().toString().padStart(2, '0')
-  const minutes = date.getMinutes().toString().padStart(2, '0')
-  const seconds = date.getSeconds().toString().padStart(2, '0')
+  // Use the Intl.DateTimeFormat object to format the date in Paris timezone
+  const dateFormatter = new Intl.DateTimeFormat('en-US', {
+    timeZone: 'Europe/Paris',
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit',
+    hour12: false
+  })
+
+  // Extract the date parts
+  let [
+    { value: month },
+    ,
+    { value: day },
+    ,
+    { value: year },
+    ,
+    { value: hour },
+    ,
+    { value: minute },
+    ,
+    { value: second }
+  ] = dateFormatter.formatToParts(date)
+
+  if (hour == '24') {
+    hour = '00'
+  }
 
   // Return the formatted date string
-  return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`
+  return `${year}-${month}-${day} ${hour}:${minute}:${second}`
 }
 
 //The consumption and production data are taken over a single day: DATE_PROD_CONSO
