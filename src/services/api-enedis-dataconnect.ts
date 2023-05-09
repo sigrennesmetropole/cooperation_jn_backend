@@ -17,6 +17,8 @@ export function getUrlUserAuthorization (req: Request & { session: MySessionData
 }
 
 function getUrlFromEnv () {
+  return process.env.ENEDIS_URL_SANDBOX
+  //TODO: when the prod env is set update this function
   if (process.env.ENV === 'dev') {
     return process.env.ENEDIS_URL_SANDBOX
   } else {
