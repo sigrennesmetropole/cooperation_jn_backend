@@ -96,7 +96,7 @@ app.get(
       check('latitude').isFloat({ min: -90, max: 90 }).withMessage('Invalid latitude'),
       check('longitude').isFloat({ min: -180, max: 180 }).withMessage('Invalid longitude'),
       check('slope').isFloat({ min: 0, max: 90 }).withMessage('Invalid slope'),
-      check('azimuth').isFloat({ min: 0, max: 360 }).withMessage('Invalid azimuth'),
+      check('azimuth').isFloat({ min: -180, max: 180}).withMessage('Invalid azimuth'),
       check('annual_consumption').isFloat({ min: 0 }).withMessage('Invalid annual consumption'),
       check('peak_power').isFloat({ min: 0 }).withMessage('Invalid peak power'),
   ],
