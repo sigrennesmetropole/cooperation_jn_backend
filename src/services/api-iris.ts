@@ -22,7 +22,15 @@ export async function getIrisCode(lat: string, lon: string) {
   }
   try {
     const response = await axios(config)
-    return response.data.features[0].properties.code_iris
+    if(response.data
+      && response.data.features.length > 0
+      && response.data.features[0].properties
+      && response.data.features[0].properties.code_iris
+    ){
+      return response.data.features[0].properties.code_iris
+    } else {
+      return 0
+    }
   } catch (error) {
     console.error('Error fetching data:', error)
   }
