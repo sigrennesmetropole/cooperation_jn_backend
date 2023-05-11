@@ -148,7 +148,7 @@ export async function getComputeData (
       }
     }
   }
-  const url = getUrlFromEnv() + '/api/v1/compute' + '?latitude=' + latitude + '&longitude=' + longitude
+  const url = getUrlFromEnv() + '/api/v1/compute' + '?latitude=' + encodeURIComponent(latitude) + '&longitude=' + encodeURIComponent(longitude)
   const config = {
     method: 'post' as Method,
     url,
