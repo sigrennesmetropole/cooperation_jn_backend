@@ -10,7 +10,7 @@ export function getUrlUserAuthorization (req: Request & { session: MySessionData
         'https://mon-compte-particulier.enedis.fr/dataconnect/v1/oauth2/authorize' +
         '?' +
         `client_id=${process.env.ENEDIS_CLIENT_ID}` +
-        `&state=${req.session.state}` +
+        `&state=${encodeURIComponent(req.session.state)}` +
         `&duration=${process.env.ENEDIS_CLIENT_DURATION}` + // duration est la durée du consentement que vous souhaitez obtenir : cette durée est à renseigner au format ISO 8601 (exemple : « P6M » pour une durée de 6 mois),
         '&response_type=code'
   return url
@@ -48,7 +48,7 @@ async function getUserAccessToken () {
 async function getDailyConsumption (access_token: string, prm: string, start: string, end: string) {
   const config = {
     method: 'get' as Method,
-    url: `${getUrlFromEnv()}/metering_data_dc/v5/daily_consumption?start=${start}&end=${end}&usage_point_id=${prm}`,
+    url: `${getUrlFromEnv()}/metering_data_dc/v5/daily_consumption?start=${encodeURIComponent(start)}&end=${encodeURIComponent(end)}&usage_point_id=${encodeURIComponent(prm)}`,
     headers: {
       Authorization: `Bearer ${access_token}`,
       accept: 'application/json'

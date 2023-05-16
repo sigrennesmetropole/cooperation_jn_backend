@@ -6,6 +6,7 @@ import {getTotalDistrictDatas} from './services/api-enedis-district';
 import {getComputeData} from './services/api-autocalsol';
 import { getIrisCode } from './services/api-iris';
 import {MySessionData} from './interface/MySessionData';
+import { check, validationResult, body } from 'express-validator';
 
 const asyncHandler = require('express-async-handler')
 
@@ -40,7 +41,15 @@ app.get('/api/enedis/user/prm', (req: Request & { session: MySessionData }, res:
     res.json({prm: prm});
 });
 
-app.post('/api/enedis/user/prm', (req: Request & { session: MySessionData }, res: Response) => {
+app.post(
+  '/api/enedis/user/prm', 
+  body('prm').isString().notEmpty().withMessage('prm must be a non-empty string'),
+  (req: Request & { session: MySessionData }, res: Response) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
     const prm = req.body.prm as string | undefined;
     if (prm === undefined) {
         res.status(400).json({error: 'Missing required body parameters'});
@@ -48,7 +57,8 @@ app.post('/api/enedis/user/prm', (req: Request & { session: MySessionData }, res
     req.session.prm = prm
     req.session.save()
     res.json({prm: prm});
-});
+  }
+);
 
 app.get(
     '/api/enedis/user/annual-consumption',
@@ -59,16 +69,43 @@ app.get(
     ));
 
 // ROUTES API ENEDIS DISTRICT
-app.get('/api/enedis/district/:codeIris',
-    asyncHandler(async (req: Request & { session: MySessionData }, res: Response) => {
-        const districtDatas = await getTotalDistrictDatas(req.params.codeIris)
-        res.json(districtDatas);
-    }));
+app.get(
+  '/api/enedis/district/:codeIris',
+  [
+    check('codeIris')
+      .isString()
+      .isLength({ min: 1 })
+      .withMessage('CodeIris must be a non-empty string')
+      .matches(/^[a-z0-9]+$/i)
+      .withMessage('CodeIris can only contain alphanumeric characters'),
+  ],
+  asyncHandler(async (req: Request & { session: MySessionData }, res: Response) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+    const districtDatas = await getTotalDistrictDatas(req.params.codeIris)
+    res.json(districtDatas);
+  })
+);
 
 // ROUTES API AUTOCALSOL
 app.get(
-    '/api/autocalsol/data-compute',
-    asyncHandler(async (req: Request & { session: MySessionData }, res: Response) => {
+  '/api/autocalsol/data-compute',
+  [
+      check('latitude').isFloat({ min: -90, max: 90 }).withMessage('Invalid latitude'),
+      check('longitude').isFloat({ min: -180, max: 180 }).withMessage('Invalid longitude'),
+      check('slope').isFloat({ min: 0, max: 90 }).withMessage('Invalid slope'),
+      check('azimuth').isFloat({ min: -180, max: 180}).withMessage('Invalid azimuth'),
+      check('annual_consumption').isFloat({ min: 0 }).withMessage('Invalid annual consumption'),
+      check('peak_power').isFloat({ min: 0 }).withMessage('Invalid peak power'),
+  ],
+  asyncHandler(async (req: Request & { session: MySessionData }, res: Response) => {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ errors: errors.array() });
+        }
+
         const latitude = req.query.latitude as string | undefined;
         const longitude = req.query.longitude as string | undefined;
         const slope = req.query.slope as number | undefined;
@@ -101,17 +138,24 @@ app.get(
     } else {
       res.status(400).json({ error: 'Missing required query parameters' });
     }
-  }
-));
+  })
+);
+
+// ROUTES API CODE IRIS NEIGHBOURHOOD
+app.get(
+  '/api/codeiris/:lat/:lon',
+  [
+    check('lat').isFloat({ min: -90, max: 90 }).toFloat(),
+    check('lon').isFloat({ min: -180, max: 180 }).toFloat(),
+  ],
+  asyncHandler(async (req: Request & { session: MySessionData }, res: Response) => {
+    const codeIris = await getIrisCode(req.params.lat, req.params.lon)
+    res.json(codeIris);
+  })
+);
+
 
 const port = process.env.PORT || 3000
 app.listen(port, () => {
     console.log(`Running on port ${port}`);
 });
-
-// ROUTES API CODE IRIS NEIGHBOURHOOD
-app.get('/api/codeiris/:lat/:lon',
-    asyncHandler(async (req: Request & { session: MySessionData }, res: Response) => {
-        const codeIris = await getIrisCode(req.params.lat, req.params.lon)
-        res.json(codeIris);
-    }));
