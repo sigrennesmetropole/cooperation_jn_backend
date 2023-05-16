@@ -5,8 +5,11 @@ import {getUrlUserAuthorization, getAnnualConsumption} from './services/api-ened
 import {getTotalDistrictDatas} from './services/api-enedis-district';
 import {getComputeData} from './services/api-autocalsol';
 import { getIrisCode } from './services/api-iris';
-import {MySessionData} from './interface/MySessionData';
+import { MySessionData } from './interface/MySessionData';
 import { check, validationResult, body } from 'express-validator';
+import { getGridFormatted } from './services/grid';
+import type { GeoJSON } from 'ol/format'
+import type { GeoJSONFeatureCollection } from 'ol/format/GeoJSON'
 
 const asyncHandler = require('express-async-handler')
 
@@ -29,7 +32,9 @@ app.use(session({
     saveUninitialized: false,
 }));
 
-app.use(express.json());
+// Increase the limit to a higher value, e.g., '50mb'
+app.use(express.json({ limit: '500mb' }));
+app.use(express.urlencoded({ limit: '500mb', extended: true, parameterLimit: 50000 }));
 
 // ROUTES API ENEDIS USER
 app.get('/api/enedis/user/url-authorization', (req: Request & { session: MySessionData }, res: Response) => {
@@ -151,6 +156,38 @@ app.get(
   asyncHandler(async (req: Request & { session: MySessionData }, res: Response) => {
     const codeIris = await getIrisCode(req.params.lat, req.params.lon)
     res.json(codeIris);
+  })
+);
+
+app.post(
+  '/api/grid',
+  [
+    body('roofSlope').isNumeric().notEmpty().withMessage('roofSlope must be a non-empty number'),
+    body('roofShape').custom((value) => {
+      try {
+        if (value.type !== 'FeatureCollection') {
+          throw new Error('roofShape must be a GeoJSON FeatureCollection');
+        }
+        if(value.features.length < 1) {
+          throw new Error('roofShape must contain at least one feature');
+        }
+        return true;
+      } catch (error) {
+        throw new Error('roofShape must be a valid GeoJSON FeatureCollection');
+      }
+    }),
+  ],
+  asyncHandler(async (req: Request & { session: MySessionData }, res: Response) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+    }
+
+    const grid = await getGridFormatted(
+      req.body.roofShape,
+      req.body.roofSlope
+    )
+    res.json(grid);
   })
 );
 

@@ -36,7 +36,13 @@
     "parcel": "^2.8.3",
     "proj4": "^2.9.0",
     "qs": "^6.11.1",
-    "ts-node": "^10.9.1"
+    "ts-node": "^10.9.1",
+    "@turf/boolean-intersects": "^6.5.0",
+    "@turf/distance": "^6.5.0",
+    "@turf/helpers": "^6.5.0",
+    "@turf/rectangle-grid": "^6.5.0",
+    "@turf/turf": "^6.5.0",
+    "ol": "^7.1.0"
   },
   "devDependencies": {
     "@types/express": "^4.17.17",
