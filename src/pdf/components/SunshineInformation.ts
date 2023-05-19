@@ -7,9 +7,9 @@ export function getSunshineInformation(
 ){
     const html = `
         <div class="flex-column box-white">
-            <div class="flex-row items-center gap-2;" style="margin-top: 20px;">
+            <div class="flex-row items-center gap-4" style="margin-top: 10px;">
                 ${getPotentialImg()}
-                <span class="font-bold text-2xl">
+                <span class="font-bold text-2xl" style="margin-top: 25px;">
                     Votre ensoleillement
                 </span> 
             </div>
@@ -32,22 +32,24 @@ export function getSunshineInformation(
                             </p>
                         </div>
                     </div>
-                    <div style="border-bottom-width: 1px; border-color: rgb(212,212,212)"></div>
+
+                    <div style="width: 100%; border: 1px solid #D4D4D4;"></div>
+
                     <div 
                         class="flex-row" 
-                        style="padding-top: 0px;
-                        padding-bottom: 0px; padding-left: 0.375rem/* 6px */;
-                        padding-right: 0.375rem gap: 1.5rem"
+                        style="gap: 1.5rem;"
                     >
-                        <div class="flex-row justify-between items-center p-0 gap-2 grow">
-                            <p class="font-dm-sans text-sm font-normal">Orientation</p>
-                            <p class="font-dm-sans font-bold text-base">
+                        <div class="flex-row gap-2 flex-1"  style="margin:0; padding: 0;">
+                            <p class="font-dm-sans text-sm font-normal">
+                                Orientation
+                            </p>
+                            <p class="font-dm-sans font-bold text-base" style="margin-left: 8px;">
                                 ${roofSurface.orientation}
                             </p>
                         </div>
-                        <div class="flex-row justify-between items-center p-0 gap-2 grow">
+                        <div class="flex-row gap-2 flex-1" >
                             <p class="font-dm-sans text-sm font-normal">Inclinaison</p>
-                            <p class="font-dm-sans font-bold text-base">
+                            <p class="font-dm-sans font-bold text-base" style="margin-left: 8px;">
                                 ${roofSurface.inclinaison}°
                             </p>
                         </div>

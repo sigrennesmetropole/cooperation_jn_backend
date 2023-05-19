@@ -21,17 +21,18 @@ export function getPdfStyle(){
 
         .box-white {
             gap: 0.75rem;
-            width: 100%;
             background-color: white;
             border-radius: 0.75rem;
-            margin-left: auto;
-            margin-right: auto;
             font-family: DM Sans;
             padding: 1.5rem;
         }
 
         .justify-between{
             justify-content: space-between;
+        }
+
+        .justifty-center {
+            justify-content: center;
         }
 
         items-center {
@@ -55,7 +56,7 @@ export function getPdfStyle(){
             line-height: 2rem/* 32px */;
         }
 
-        text-xs {
+        .text-xs {
             font-size: 0.75rem/* 12px */;
             line-height: 1rem/* 16px */;
         }
@@ -98,6 +99,23 @@ export function getPdfStyle(){
         .text-base {
             font-size: 1rem/* 16px */;
             line-height: 1.5rem/* 24px */;
+        }
+
+        .text-lg {
+            font-size: 1.125rem/* 18px */;
+            line-height: 1.75rem/* 28px */;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .m-0 {
+            margin: 0px;
+        }
+
+        .p-0 {
+            padding: 0px;
         }
     `
 }

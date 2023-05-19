@@ -21,6 +21,10 @@ export async function getPdfHtml(){
       inclinaison: 1,
     }
     const address= '1 rue de la paix, 75000 Paris'
+    const annualConsumption = '7000'
+    const currentNumSolarPanel = 5
+    const currentPower = 7000
+    const currentSurface = 40
 
     // const chartImageBase64 = await generateChartImg();
 
@@ -31,7 +35,14 @@ export async function getPdfHtml(){
             </style>
             <body style="background-color: rgb(241,245,249);">
                 ${getPage1()}
-                ${getPage2(address, selectedRoof)}
+                ${getPage2(
+                    address, 
+                    selectedRoof, 
+                    annualConsumption,
+                    currentNumSolarPanel,
+                    currentPower,
+                    currentSurface
+                )}
                 ${getPage3()}
                 ${getPage4()}
                 ${getPage5()}
