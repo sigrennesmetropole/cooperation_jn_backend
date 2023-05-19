@@ -7,6 +7,7 @@ import {getComputeData} from './services/api-autocalsol';
 import { getIrisCode } from './services/api-iris';
 import {MySessionData} from './interface/MySessionData';
 import { check, validationResult, body } from 'express-validator';
+import { getPdfHtml } from './pdf/PdfHtml';
 
 const asyncHandler = require('express-async-handler')
 
@@ -151,6 +152,51 @@ app.get(
   asyncHandler(async (req: Request & { session: MySessionData }, res: Response) => {
     const codeIris = await getIrisCode(req.params.lat, req.params.lon)
     res.json(codeIris);
+  })
+);
+
+const puppeteer = require('puppeteer');
+const fs = require('fs');
+
+app.post(
+  '/api/pdf',
+  asyncHandler(async (req: Request & { session: MySessionData }, res: Response)  => {
+    console.log("Must be keep alive ");
+    res.json({ message: 'PDF generation and mailing process has been started.' });
+
+    // Your HTML content
+    const html = await getPdfHtml()
+
+    try {
+      // Launch a new browser instance
+      const browser = await puppeteer.launch();
+
+      // Create a new page in the browser
+      const page = await browser.newPage();
+
+      // Set the HTML content of the page
+      await page.setContent(html);
+      
+      // Set the page size
+      await page.emulateMediaType('screen');
+      await page.setViewport({ width: 1200, height: 800 })
+
+      // Generate the PDF
+      const pdfBuffer = await page.pdf({ 
+        format: 'A4',
+        printBackground: true,     
+      });
+
+      // Save the PDF to a file
+      fs.writeFileSync('./output.pdf', pdfBuffer);
+
+      // Clean up: close the browser
+      await browser.close();
+
+      console.log('finish')
+    } catch (error) {
+      console.error("Error in PDF Generation:", error);
+    }
   })
 );
 
