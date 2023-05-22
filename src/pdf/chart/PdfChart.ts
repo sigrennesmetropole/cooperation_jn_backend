@@ -1,6 +1,6 @@
 import {
     getChartOptions
-} from './chart/graphOptions'
+} from './graphOptions'
 
 const fs = require('fs');
 const puppeteer = require('puppeteer');

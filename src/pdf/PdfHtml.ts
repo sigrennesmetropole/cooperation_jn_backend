@@ -1,5 +1,4 @@
-import { generateChartImg } from './PdfChart';
-
+import { generateChartImg } from './chart/PdfChart';
 import { getPage1 } from './PdfPage1'
 import { getPage2 } from './PdfPage2'
 import { getPage3 } from './PdfPage3'
@@ -28,8 +27,7 @@ export async function getPdfHtml(){
     const currentSurface = 40
     const districtNumberInstallations = 177
     const districtProduction = 1198
-
-    // const chartImageBase64 = await generateChartImg();
+    const chartImageBase64 = await generateChartImg();
 
     const html =  `           
         <html>
@@ -52,15 +50,15 @@ export async function getPdfHtml(){
                     districtNumberInstallations,
                     districtProduction
                 )}
-                ${getPage4()}
+                ${getPage4(
+                    chartImageBase64
+                )}
                 ${getPage5()}
                 ${getPage6()}
 
             </body>
         </html>
     `;
-
-    // <!-- <img src="data:image/png;base64,${chartImageBase64}" alt="Chart image"> --!>
 
     // put html into a file
     fs.writeFileSync('output.text', html);

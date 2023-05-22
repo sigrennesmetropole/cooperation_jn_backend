@@ -218,12 +218,20 @@ export function getPdfStyle(){
             border: 1px solid;
         }
 
+        .border-dashed {
+            border-style: dashed;
+        }
+
         .border-r-0 {
             border-right-width: 0;
         }
 
         .border-l-0 {
             border-left-width: 0;
+        }
+
+        .border-l {
+            border-left-width: 1px;
         }
 
         .border-orange-300 {
@@ -272,6 +280,14 @@ export function getPdfStyle(){
 
         .bg-indigo-600 {
             background-color: #4F46E5;
+        }
+
+        .bg-indigo-200 {
+            background-color: #C7D2FE;
+        }
+
+        .border-indigo-200 {
+            border-color: #C7D2FE;
         }
 
         .bg-black {
@@ -332,6 +348,75 @@ export function getPdfStyle(){
         
         .h-5 {
             height: 1.25rem; /* 20px */
+        }
+        
+        .border-l-4 {
+            border-left-width: 4px;
+        }
+
+        .border-t-0 {
+            border-top: none;
+        }
+        
+        .border-b-0 {
+            border-bottom: none;
+        }
+        
+        .border-r-0 {
+            border-right: none;
+        }
+        
+        
+        .pl-3 {
+            padding-left: 0.75rem/* 12px */;
+        }
+        
+        .ml-10 {
+            margin-left: 2.5rem/* 40px */;
+        }
+        
+        .mb-4 {
+            margin-bottom: 1rem/* 16px */;
+        }
+        
+        .mt-10 {
+            margin-top: 2.5rem/* 40px */;
+        }
+        
+        .ml-6 {
+            margin-left: 1.5rem/* 24px */;
+        }
+        
+        .ml-2 {
+            margin-left: 0.5rem/* 8px */;
+        }
+
+        .border-l-2 {
+            border-left-width: 2px;
+        }
+
+        .ml-3 {
+            margin-left: 0.75rem/* 12px */;
+        }
+        
+        .w-6 {
+            width: 1.5rem/* 24px */;
+        }
+        
+        .h-6 {
+            height: 1.5rem/* 24px */;
+        }
+        
+        .rounded-sm {
+            border-radius: 0.125rem/* 2px */;
+        }
+        
+        .border-amber-500 {
+            border-color: #F59E0B;
+        }
+        
+        .border-teal-700 {
+            border-color: #2C7A7B;
         }
         
     `
