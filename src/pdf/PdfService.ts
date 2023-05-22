@@ -12,9 +12,10 @@ export async function generateHTMLPdf(
     let data_autocalsol
     if(
       req.body.autocalsolResult === undefined
-      || req.body.latitude === null
+      || req.body.autocalsolResult === null
     ) {
       try {
+        console.log('get autocalsol')
         data_autocalsol = await getComputeData(
           req.body.latitude,
           req.body.longitude,

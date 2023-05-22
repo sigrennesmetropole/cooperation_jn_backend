@@ -186,7 +186,10 @@ app.post(
   [...pdfMiddleware, ...emailValidationMiddleware],
   asyncHandler(async (req: Request & { session: MySessionData }, res: Response)  => {
     console.log("Must be keep alive ");
-    res.json({ message: 'PDF generation and mailing process has been started.' });
+    res.json({ 
+      etat: 'ok',
+      message: 'PDF generation and mailing process has been started.' 
+    });
 
     // CREATE PDF
     const errors = validationResult(req);
