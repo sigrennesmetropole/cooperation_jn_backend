@@ -3,7 +3,6 @@ import { getFooter } from './PdfFooter';
 import { getSunshineInformation } from './components/SunshineInformation';
 import { getConsumptionInformation } from './components/ConsumptionInformation';
 import { getProductionInformationText } from './components/ProductionInformationText';
-import { getImgTest } from './assets/imgtestbase64';
 import {RoofSurfaceModel} from "./type/type";
 
 export function getPage2(
@@ -12,7 +11,8 @@ export function getPage2(
     annualConsumption: string,
     currentNumSolarPanel: number,
     currentPower: number, 
-    currentSurface: number 
+    currentSurface: number ,
+    imgBase64: string
 ){
     const html = `
         <div class="page" style="font-family: DM Sans;">
@@ -46,7 +46,7 @@ export function getPage2(
                 style="padding: 0.75rem;  margin-top: 1.25rem; justify-content:center; align-items:center;"
             >
                 <img 
-                    src="${getImgTest()}" 
+                    src="${imgBase64}" 
                     style="height: 300px; width: 500px; border-radius: 0.375rem"
                 >
             </div>

@@ -1,15 +1,18 @@
 import {
     getChartOptions
 } from './graphOptions'
+import {AutocalsolResult as AutocalsolResultType} from "../type/type";
 
 const fs = require('fs');
 const puppeteer = require('puppeteer');
 
-export async function generateChartImg(){
+export async function generateChartImg(
+    data_autocalsol: AutocalsolResultType,
+){
     const browser = await puppeteer.launch();
     const page = await browser.newPage();
 
-    const { staticOptions, dynamicOptions } = getChartOptions();
+    const { staticOptions, dynamicOptions } = getChartOptions(data_autocalsol);
 
     const staticOptionsJson = JSON.stringify(staticOptions);
     const dynamicOptionsJson = JSON.stringify(dynamicOptions);

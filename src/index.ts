@@ -188,10 +188,11 @@ app.post(
     console.log("Must be keep alive ");
     res.json({ message: 'PDF generation and mailing process has been started.' });
 
-    // Get data autocalsol
+    /* Get data autocalsol */
     console.log('autocalsol')
+    let data_autocalsol
     try {
-      const data_autocalsol = await getComputeData(
+      data_autocalsol = await getComputeData(
         req.body.latitude,
         req.body.longitude,
         req.body.slope,
@@ -203,14 +204,39 @@ app.post(
       res.status(500).json({ error: 'internal server error' });
     }
 
+    /* Get data district */
+    console.log('district')
+    let irisCode = await getIrisCode(
+      req.body.latitude.toString(),
+      req.body.longitude.toString()  
+    )
+    console.log('irisCode', irisCode)
+    let districtDatas = null
+    if (irisCode !== null && irisCode == 0) {
+      districtDatas = await getTotalDistrictDatas(irisCode)
+    } else {
+      irisCode = 0
+    }
+
+    /* CREATE PDF */
+    if(data_autocalsol === undefined || data_autocalsol === null) {
+      res.status(500).json({ error: 'internal server error' });
+      return
+    }
+
     // Your HTML content
     console.log('get pdf')
     const html = await getPdfHtml(
+      // @ts-ignore
+      data_autocalsol,
       req.body.selectedRoof,
       req.body.address,
       req.body.annual_consumption,
       req.body.currentNumSolarPanel,
-      req.body.peak_power
+      req.body.peak_power,
+      districtDatas === null ? 0 : districtDatas?.totalPhotovoltaicSites,
+      districtDatas === null ? 0 : districtDatas?.totalConsumption,
+      req.body.roofImageBase64
     )
     console.log('end html')
 

@@ -6,24 +6,25 @@ import { getPage4 } from './PdfPage4'
 import { getPage5 } from './PdfPage5'
 import { getPage6 } from './PdfPage6'
 import { getPdfStyle } from './PdfStyle'
-import { getautocalsolResultExample } from './assets/autocalsolResultExample'
-import {RoofSurfaceModel} from "./type/type";
+import {RoofSurfaceModel, AutocalsolResult as AutocalsolResultType} from "./type/type";
 
 const fs = require('fs');
 export const SOLAR_PANEL_SURFACE = 1.8 // 1.8 m2 per solar panel
 
 export async function getPdfHtml(
+    data_autocalsol: AutocalsolResultType,
     selectedRoof: RoofSurfaceModel,
     address: string,
     annualConsumption: string,
     currentNumSolarPanel: number,
     currentPower: number, 
+    districtNumberInstallations: number,
+    districtProduction: number,
+    imgRoofBase64: string
 ){
     const currentSurface =currentNumSolarPanel * SOLAR_PANEL_SURFACE
-    const districtNumberInstallations = 177
-    const districtProduction = 1198
 
-    const chartImageBase64 = await generateChartImg();
+    const chartImageBase64 = await generateChartImg(data_autocalsol);
 
     const html =  `           
         <html>
@@ -38,11 +39,11 @@ export async function getPdfHtml(
                     annualConsumption,
                     currentNumSolarPanel,
                     currentPower,
-                    currentSurface
+                    currentSurface,
+                    imgRoofBase64
                 )}
                 ${getPage3(
-                    // @ts-ignore
-                    getautocalsolResultExample(),
+                    data_autocalsol,
                     districtNumberInstallations,
                     districtProduction
                 )}

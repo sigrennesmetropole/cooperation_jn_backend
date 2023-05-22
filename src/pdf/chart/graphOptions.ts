@@ -3,17 +3,18 @@ import {
     calculateIntersectionData,
     generateXAxis,
     generateTickPositions,
-    getProdByHour,
-    getConsoByHour,
 } from './graphService'
+import {AutocalsolResult as AutocalsolResultType} from "../type/type";
 
-export function getChartOptions() {
+export function getChartOptions(
+  data_autocalsol: AutocalsolResultType,
+) {
     const xAxis = generateXAxis()
     const tickPositions = generateTickPositions(xAxis)
     //@ts-ignore
-    const productionData = convertDataForGraph(getProdByHour())
+    const productionData = convertDataForGraph(data_autocalsol.prodByHour)
     //@ts-ignore    
-    const consommationData = convertDataForGraph(getConsoByHour())
+    const consommationData = convertDataForGraph(data_autocalsol.consoByHour)
     const intersectionData = calculateIntersectionData(
       productionData,
       consommationData
