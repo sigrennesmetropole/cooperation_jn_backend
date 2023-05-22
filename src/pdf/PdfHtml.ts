@@ -7,6 +7,7 @@ import { getPage4 } from './PdfPage4'
 import { getPage5 } from './PdfPage5'
 import { getPage6 } from './PdfPage6'
 import { getPdfStyle } from './PdfStyle'
+import { getautocalsolResultExample } from './assets/autocalsolResultExample'
 
 const fs = require('fs');
 
@@ -25,6 +26,8 @@ export async function getPdfHtml(){
     const currentNumSolarPanel = 5
     const currentPower = 7000
     const currentSurface = 40
+    const districtNumberInstallations = 177
+    const districtProduction = 1198
 
     // const chartImageBase64 = await generateChartImg();
 
@@ -43,7 +46,12 @@ export async function getPdfHtml(){
                     currentPower,
                     currentSurface
                 )}
-                ${getPage3()}
+                ${getPage3(
+                    // @ts-ignore
+                    getautocalsolResultExample(),
+                    districtNumberInstallations,
+                    districtProduction
+                )}
                 ${getPage4()}
                 ${getPage5()}
                 ${getPage6()}

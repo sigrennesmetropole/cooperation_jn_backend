@@ -117,5 +117,222 @@ export function getPdfStyle(){
         .p-0 {
             padding: 0px;
         }
+
+        .items-center {
+            align-items: center;
+        }
+
+        .p-0 {
+            padding: 0px;
+        }
+
+        .gap-2 {
+            gap: 0.5rem;
+        }
+
+        .grow {
+            flex-grow: 1;
+        }
+
+        .mt-8 {
+            margin-top: 2rem;
+        }
+
+        .relative {
+            position: relative;
+        }
+
+        .absolute {
+            position: absolute;
+        }
+
+        .left-[26%] {
+            left: 26%;
+        }
+
+        .-top-3 {
+            top: -0.75rem;
+        }
+
+        .w-fit {
+            width: fit-content;
+        }
+
+        .h-[250px] {
+            height: 250px;
+        }
+
+        .w-max-[250px] {
+            max-width: 250px;
+        }
+
+        .px-6 {
+            padding-left: 1.5rem;
+            padding-right: 1.5rem;
+        }
+
+        .py-4 {
+            padding-top: 1rem;
+            padding-bottom: 1rem;
+        }
+
+        .py-1 {
+            padding-top: 0.25rem/* 4px */;
+            padding-bottom: 0.25rem;
+        }
+
+        .text-3xl {
+            font-size: 1.875rem;
+            line-height: 2.25rem;
+        }
+
+        .h-[60px] {
+            height: 60px;
+        }
+
+        .h-[48px] {
+            height: 48px;
+        }
+
+        .w-[160px] {
+            width: 160px;
+        }
+
+        .mt-4 {
+            margin-top: 1rem;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .w-[418px] {
+            width: 418px;
+        }
+
+        .pb-4 {
+            padding-bottom: 1rem;
+        }
+
+        .border {
+            border: 1px solid;
+        }
+
+        .border-r-0 {
+            border-right-width: 0;
+        }
+
+        .border-l-0 {
+            border-left-width: 0;
+        }
+
+        .border-orange-300 {
+            border-color: #F59E0B;
+        }
+
+        .border-green-400 {
+            border-color: #10B981;
+        }
+
+        .border-indigo-300 {
+            border-color: #6366F1;
+        }
+
+        .bg-orange-50 {
+            background-color: #FFF7ED;
+        }
+
+        .bg-green-50 {
+            background-color: #ECFDF5;
+        }
+
+        .bg-violet-50 {
+            background-color: #F3F4F6;
+        }
+
+        .text-amber-600 {
+            color: #D97706;
+        }
+
+        .text-emerald-600 {
+            color: #059669;
+        }
+
+        .text-indigo-600 {
+            color: #4F46E5;
+        }
+
+        .bg-amber-500 {
+            background-color: #F59E0B;
+        }
+
+        .bg-emerald-500 {
+            background-color: #10B981;
+        }
+
+        .bg-indigo-600 {
+            background-color: #4F46E5;
+        }
+
+        .bg-black {
+            background-color: #000000;
+        }
+
+        .text-white {
+            color: #FFFFFF;
+        }
+
+        .rounded-full {
+            border-radius: 9999px;
+        }
+
+        .rounded-lg {
+            border-radius: 0.5rem;
+        }
+
+        .rounded-r-lg {
+            border-top-right-radius: 0.5rem;
+            border-bottom-right-radius: 0.5rem;
+        }
+
+        .rounded-l-lg {
+            border-top-left-radius: 0.5rem;
+            border-bottom-left-radius: 0.5rem;
+        }
+
+        .px-4 {
+            padding-left: 1rem; /* 16px */
+            padding-right: 1rem; /* 16px */
+        }
+        
+        .py-[19px] {
+            padding-top: 19px;
+            padding-bottom: 19px;
+        }
+        
+        .gap-3 {
+            gap: 0.75rem; /* 12px */
+        }
+        
+        .bg-amber-50 {
+            background-color: #FFFBEB;
+        }
+        
+        .border-amber-200 {
+            border-color: #FDE68A;
+        }
+        
+        .text-amber-900 {
+            color: #78350F;
+        }
+        
+        .w-5 {
+            width: 1.25rem; /* 20px */
+        }
+        
+        .h-5 {
+            height: 1.25rem; /* 20px */
+        }
+        
     `
 }
