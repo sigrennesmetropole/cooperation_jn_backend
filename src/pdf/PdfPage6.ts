@@ -14,7 +14,7 @@ export function getPage6(){
             <!-- Content -->
             <div
                 class="flex-column box-white margin-x-30"
-                style="margin-top: 10px;"
+                style="margin-top: 40px;"
             >
                 ${getSolarCoop()}
             </div>
@@ -28,7 +28,9 @@ export function getPage6(){
         
 
             <!-- Footer -->
-            ${getFooter(6)}
+            <div style="margin-top: 150px;">
+                ${getFooter(6)}
+            </div>
         </div>
     `
   return html;

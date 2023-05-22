@@ -51,7 +51,9 @@ export function getPage4(
         
 
             <!-- Footer -->
-            ${getFooter(4)}
+            <div style="margin-top: 140px;">
+                ${getFooter(4)}
+            </div>
         </div>
     `
 

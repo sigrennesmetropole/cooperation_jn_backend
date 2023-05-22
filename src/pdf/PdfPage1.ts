@@ -61,7 +61,9 @@ export function getPage1(){
             </div> 
 
             <!-- Footer -->
-            ${getFooter(1)}
+            <div style="margin-top: 240px;">
+                ${getFooter(1)}
+            </div>
         </div>
     `
   return html;

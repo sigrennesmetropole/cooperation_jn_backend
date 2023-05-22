@@ -13,13 +13,15 @@ export function getPage5(){
             <!-- Content -->
             <div
                 class="flex-column box-white margin-x-30"
-                style="margin-top: 10px;"
+                style="margin-top: 40px;"
             >
                 ${getGoFurther()}
             </div>
 
             <!-- Footer -->
-            ${getFooter(5)}
+            <div style="margin-top: 90px;">
+                ${getFooter(5)}
+            </div>
         </div>
     `
   return html;
