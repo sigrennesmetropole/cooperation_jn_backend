@@ -7,11 +7,12 @@ export function getButtonVisitWebsite(
     <a
         href="${link}"
         target="_blank"
-        class="bg-black shadow-sm rounded-lg gap-3 px-4 py-1 w-fit flex flex-row items-center justify-center"
+        class="bg-black rounded-lg gap-3 px-4 py-4 w-fit flex flex-row items-center justify-center"
     >
         ${getGoToWhite()}
         <span
-            class="font-dm-sans text-white text-base font-bold"
+            class="font-dm-sans text-white text-base font-bold "
+            style="text-decoration: none;"
         >
             Visiter le site
         </span>

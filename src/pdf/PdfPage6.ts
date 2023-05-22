@@ -1,6 +1,7 @@
 import { getHeader } from './PdfHeader';
 import { getFooter } from './PdfFooter';
 import { getSolarCoop } from './components/SolarCoop';
+import { getEnergiesRennes } from './components/EnergiesRennes';
 
 export function getPage6(){
     const html = `
@@ -17,7 +18,14 @@ export function getPage6(){
             >
                 ${getSolarCoop()}
             </div>
+            <div
+                class="flex-column box-white margin-x-30"
+                style="margin-top: 20px;"
+            >
+                ${getEnergiesRennes()}
+            </div>
 
+        
 
             <!-- Footer -->
             ${getFooter(6)}

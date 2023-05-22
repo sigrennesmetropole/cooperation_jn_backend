@@ -27,8 +27,8 @@ export async function getPdfHtml(){
     const currentSurface = 40
     const districtNumberInstallations = 177
     const districtProduction = 1198
-    // const chartImageBase64 = await generateChartImg();
-    const chartImageBase64= 'test'
+    const chartImageBase64 = await generateChartImg();
+
     const html =  `           
         <html>
             <style>

@@ -551,5 +551,6 @@ export function getPdfStyle(){
         .color-black {
             color: #000000;
         }
+
     `
 }
