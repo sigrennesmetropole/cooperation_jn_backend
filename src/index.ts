@@ -159,6 +159,17 @@ const puppeteer = require('puppeteer');
 const fs = require('fs');
 
 app.post(
+  '/api/email-pdf',
+  asyncHandler(async (req: Request & { session: MySessionData }, res: Response)  => {
+    console.log("Must be keep alive ");
+    res.json({ message: 'PDF generation and mailing process has been started.' });
+
+    // CREATE PDF
+
+  })
+);
+
+app.post(
   '/api/pdf',
   [
     body('address').isString().notEmpty().withMessage('address must be a string not empty'),
@@ -184,9 +195,6 @@ app.post(
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
-
-    console.log("Must be keep alive ");
-    res.json({ message: 'PDF generation and mailing process has been started.' });
 
     /* Get data autocalsol */
     console.log('autocalsol')
@@ -254,19 +262,22 @@ app.post(
       await page.emulateMediaType('screen');
       await page.setViewport({ width: 1200, height: 800 })
 
-      // Generate the PDF
+     // Generate the PDF
       const pdfBuffer = await page.pdf({ 
         format: 'A4',
         printBackground: true,     
       });
 
-      // Save the PDF to a file
-      fs.writeFileSync('./output.pdf', pdfBuffer);
+      // Set the content type to application/pdf
+      res.setHeader('Content-Type', 'application/pdf');
+
+      // Send the PDF buffer as a response
+      res.send(pdfBuffer);
 
       // Clean up: close the browser
       await browser.close();
 
-      console.log('finish')
+      console.log('finish');
     } catch (error) {
       console.error("Error in PDF Generation:", error);
     }
