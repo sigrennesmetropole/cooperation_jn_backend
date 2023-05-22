@@ -40,7 +40,7 @@ export function getPage3(
             </div>
 
             <!-- Footer -->
-            <div style="margin-top: 140px;">
+            <div style="margin-top: 180px;">
                 ${getFooter(3)}
             </div>
         </div>

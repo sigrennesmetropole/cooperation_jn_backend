@@ -52,7 +52,7 @@ export function getPage2(
             </div>
 
             <!-- Footer -->
-            <div style="margin-top: 100px;">
+            <div style="margin-top: 70px;">
                 ${getFooter(2)}
             </div>
         </div>
