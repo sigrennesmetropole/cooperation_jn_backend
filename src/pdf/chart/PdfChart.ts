@@ -54,8 +54,6 @@ export async function generateChartImg(
         },
         encoding: 'base64' // this will return base64 string
     });
- 
-    fs.writeFileSync('chart.png', chartImage);
 
     // Clean up: close the browser
     await browser.close();

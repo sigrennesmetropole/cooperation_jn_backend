@@ -56,8 +56,5 @@ export async function getPdfHtml(
             </body>
         </html>
     `;
-
-    // put html into a file
-    fs.writeFileSync('output.text', html);
     return html
 }

@@ -199,17 +199,24 @@ app.post(
     /* Get data autocalsol */
     console.log('autocalsol')
     let data_autocalsol
-    try {
-      data_autocalsol = await getComputeData(
-        req.body.latitude,
-        req.body.longitude,
-        req.body.slope,
-        req.body.azimuth,
-        req.body.annual_consumption,
-        req.body.peak_power
-      );      
-    } catch (error) {
-      res.status(500).json({ error: 'internal server error' });
+    if(
+      req.body.autocalsolResult === undefined
+      || req.body.latitude === null
+    ) {
+      try {
+        data_autocalsol = await getComputeData(
+          req.body.latitude,
+          req.body.longitude,
+          req.body.slope,
+          req.body.azimuth,
+          req.body.annual_consumption,
+          req.body.peak_power
+        );      
+      } catch (error) {
+        res.status(500).json({ error: 'internal server error' });
+      }
+    } else {
+      data_autocalsol = req.body.autocalsolResult
     }
 
     /* Get data district */
