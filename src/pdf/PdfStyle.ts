@@ -176,6 +176,11 @@ export function getPdfStyle(){
             padding-bottom: 1rem;
         }
 
+        .py-2 {
+            padding-top: 0.5rem;
+            padding-bottom: 0.5rem;
+        }
+
         .py-1 {
             padding-top: 0.25rem/* 4px */;
             padding-bottom: 0.25rem;
@@ -218,6 +223,11 @@ export function getPdfStyle(){
             border: 1px solid;
         }
 
+        .flex-1 {
+            flex: 1;
+        }
+
+        
         .border-dashed {
             border-style: dashed;
         }
@@ -320,6 +330,11 @@ export function getPdfStyle(){
             padding-left: 1rem; /* 16px */
             padding-right: 1rem; /* 16px */
         }
+
+        .py-3 {
+            padding-top: 0.75rem; /* 12px */
+            padding-bottom: 0.75rem; /* 12px */
+        }
         
         .py-[19px] {
             padding-top: 19px;
@@ -418,6 +433,123 @@ export function getPdfStyle(){
         .border-teal-700 {
             border-color: #2C7A7B;
         }
+
+        .h-fit {
+            height: fit-content;
+        }
+
+        .border-neutral-300 {
+            border-color: #d1d5db;
+        }
+
+        .px-5 {
+            padding-left: 1.25rem; /* 20px */
+            padding-right: 1.25rem; /* 20px */
+        }
+
+        .py-8 {
+            padding-top: 2rem; /* 32px */
+            padding-bottom: 2rem; /* 32px */
+        }
+
+        .underline {
+            text-decoration: underline;
+        }
+
+        .gap-8 {
+            gap: 2rem; /* 32px */
+        }
+
+        .bg-white {
+            background-color: #ffffff;
+        }
+
+        .shadow-sm {
+            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+        }
+
+        .w-[100%] {
+            width: 100%;
+        }
         
+        .h-fit {
+            height: fit-content;
+        }
+        
+        .gap-6 {
+            gap: 1.5rem; /* 24px */
+        }
+        
+        .rounded-xl {
+            border-radius: 1.5rem; /* 24px */
+        }
+        
+        .py-6 {
+            padding-top: 1.5rem; /* 24px */
+            padding-bottom: 1.5rem; /* 24px */
+        }
+        
+        .px-8 {
+            padding-left: 2rem; /* 32px */
+            padding-right: 2rem; /* 32px */
+        }
+        
+        .mx-auto {
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .bg-slate-100 {
+            background-color: #F1F5F9; /* Adjust this value to your needs */
+        }
+        
+        .p-6 {
+            padding: 1.5rem; /* 24px */
+        }
+        
+        .py-[18px] {
+            padding-top: 18px;
+            padding-bottom: 18px;
+        }
+        
+        .justify-between {
+            justify-content: space-between;
+        }
+        
+        .h-10 {
+            height: 2.5rem; /* 40px */
+        }
+        
+        .w-10 {
+            width: 2.5rem; /* 40px */
+        }
+        
+        .w-[79px] {
+            width: 79px;
+        }
+        
+        .w-[34px] {
+            width: 34px;
+        }
+        
+        .w-3.5 {
+            width: 0.875rem
+        }
+
+        .h-3.5 {
+            height: 0.875rem
+        }
+
+        .mt-1 {
+            margin-top: 0.25rem
+        }
+        
+        .decoration-1 {
+            text-decoration-thickness: 1px;
+        }
+
+        .color-black {
+            color: #000000;
+        }
     `
 }

@@ -39,11 +39,7 @@ export function getPage4(
                 </p>
         
                 <div style="position: relative;">
-                    <img 
-                        src="data:image/png;base64,${chartImageBase64}" 
-                        alt="Chart image"
-                        style="width: 100%; height: auto;"
-                    >
+                   
                     ${getChartLegend()}
                     ${getLegendOverGraph()}
                 </div>
@@ -54,5 +50,11 @@ export function getPage4(
             ${getFooter(4)}
         </div>
     `
+
+    // <img 
+    //     src="data:image/png;base64,${chartImageBase64}" 
+    //     alt="Chart image"
+    //     style="width: 100%; height: auto;"
+    // >
   return html;
 }
