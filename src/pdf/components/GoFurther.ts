@@ -9,9 +9,6 @@ const URL_CHOISIR_MODELE_ECO = "https://www.photovoltaique.info/fr/preparer-un-p
 
 export function getGoFurther(){
     return `
-    <h2 class="font-dm-sans font-bold text-2xl">
-        Plus d'informations pour concrétiser votre projet
-    </h2>
     ${getPhotoVoltaique()}
 
     <div class="flex flex-row gap-8">
