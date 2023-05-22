@@ -30,7 +30,7 @@ app.use(session({
     saveUninitialized: false,
 }));
 
-app.use(express.json());
+app.use(express.json( {limit: '50mb'} ));
 
 // ROUTES API ENEDIS USER
 app.get('/api/enedis/user/url-authorization', (req: Request & { session: MySessionData }, res: Response) => {
@@ -160,12 +160,59 @@ const fs = require('fs');
 
 app.post(
   '/api/pdf',
+  [
+    body('address').isString().notEmpty().withMessage('address must be a string not empty'),
+    body('annual_consumption').isNumeric().withMessage('annual_consumption must be a number'),
+    body('currentNumSolarPanel').isNumeric().notEmpty().withMessage('currentNumSolarPanel must be a number not empty'),
+    body('latitude').isNumeric().withMessage('latitude must be a number'),
+    body('longitude').isNumeric().withMessage('longitude must be a number'),
+    body('slope').isNumeric().withMessage('slope must be a number'),
+    body('azimuth').isNumeric().withMessage('azimuth must be a number'),
+    body('peak_power').isNumeric().withMessage('peak_power must be a number'),
+    body('selectedRoof.surface_id').isNumeric().withMessage('surface_id must be a number'),
+    body('selectedRoof.values').isArray().withMessage('values must be an array'),
+    body('selectedRoof.values.*').isNumeric().withMessage('all values must be numbers'),
+    body('selectedRoof.favorable').isNumeric().withMessage('favorable must be a number'),
+    body('selectedRoof.total').isNumeric().withMessage('total must be a number'),
+    body('selectedRoof.orientation').isString().notEmpty().withMessage('orientation must be a non-empty string'),
+    body('selectedRoof.azimuth').isNumeric().withMessage('azimuth must be a number'),
+    body('selectedRoof.inclinaison').isNumeric().withMessage('inclinaison must be a number'),
+    body('roofImageBase64').isString().withMessage('roofImageBase64 must be a string'),
+  ],
   asyncHandler(async (req: Request & { session: MySessionData }, res: Response)  => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
     console.log("Must be keep alive ");
     res.json({ message: 'PDF generation and mailing process has been started.' });
 
+    // Get data autocalsol
+    console.log('autocalsol')
+    try {
+      const data_autocalsol = await getComputeData(
+        req.body.latitude,
+        req.body.longitude,
+        req.body.slope,
+        req.body.azimuth,
+        req.body.annual_consumption,
+        req.body.peak_power
+      );      
+    } catch (error) {
+      res.status(500).json({ error: 'internal server error' });
+    }
+
     // Your HTML content
-    const html = await getPdfHtml()
+    console.log('get pdf')
+    const html = await getPdfHtml(
+      req.body.selectedRoof,
+      req.body.address,
+      req.body.annual_consumption,
+      req.body.currentNumSolarPanel,
+      req.body.peak_power
+    )
+    console.log('end html')
 
     try {
       // Launch a new browser instance

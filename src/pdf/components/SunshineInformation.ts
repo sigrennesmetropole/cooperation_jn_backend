@@ -39,7 +39,7 @@ export function getSunshineInformation(
                         class="flex-row" 
                         style="gap: 1.5rem;"
                     >
-                        <div class="flex-row gap-2 flex-1"  style="margin:0; padding: 0;">
+                        <div class="flex-row gap-2 flex-3"  style="margin:0; padding: 0;">
                             <p class="font-dm-sans text-sm font-normal">
                                 Orientation
                             </p>
@@ -47,7 +47,7 @@ export function getSunshineInformation(
                                 ${roofSurface.orientation}
                             </p>
                         </div>
-                        <div class="flex-row gap-2 flex-1" >
+                        <div class="flex-row gap-2 flex-2" >
                             <p class="font-dm-sans text-sm font-normal">Inclinaison</p>
                             <p class="font-dm-sans font-bold text-base" style="margin-left: 8px;">
                                 ${roofSurface.inclinaison}°

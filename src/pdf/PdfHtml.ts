@@ -7,26 +7,22 @@ import { getPage5 } from './PdfPage5'
 import { getPage6 } from './PdfPage6'
 import { getPdfStyle } from './PdfStyle'
 import { getautocalsolResultExample } from './assets/autocalsolResultExample'
+import {RoofSurfaceModel} from "./type/type";
 
 const fs = require('fs');
+export const SOLAR_PANEL_SURFACE = 1.8 // 1.8 m2 per solar panel
 
-export async function getPdfHtml(){
-    const selectedRoof = {
-      surface_id: '53123',
-      values: [13.832112, 74.012886, 12.155002, 0],
-      favorable: 10,
-      total: 87,
-      orientation: 'EST',
-      azimuth: 80,
-      inclinaison: 1,
-    }
-    const address= '1 rue de la paix, 75000 Paris'
-    const annualConsumption = '7000'
-    const currentNumSolarPanel = 5
-    const currentPower = 7000
-    const currentSurface = 40
+export async function getPdfHtml(
+    selectedRoof: RoofSurfaceModel,
+    address: string,
+    annualConsumption: string,
+    currentNumSolarPanel: number,
+    currentPower: number, 
+){
+    const currentSurface =currentNumSolarPanel * SOLAR_PANEL_SURFACE
     const districtNumberInstallations = 177
     const districtProduction = 1198
+
     const chartImageBase64 = await generateChartImg();
 
     const html =  `           
