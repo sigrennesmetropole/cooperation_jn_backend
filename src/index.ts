@@ -7,7 +7,8 @@ import {getComputeData} from './services/api-autocalsol';
 import { getIrisCode } from './services/api-iris';
 import {MySessionData} from './interface/MySessionData';
 import { check, validationResult, body } from 'express-validator';
-import { getPdfHtml } from './pdf/PdfHtml';
+import { generateHTMLPdf } from './pdf/PdfService';
+import {sendEmailPdf} from './mail/MailService';
 
 const asyncHandler = require('express-async-handler')
 
@@ -156,137 +157,98 @@ app.get(
 );
 
 const puppeteer = require('puppeteer');
-const fs = require('fs');
+const pdfMiddleware = [
+  body('address').isString().notEmpty().withMessage('address must be a string not empty'),
+  body('annual_consumption').isNumeric().withMessage('annual_consumption must be a number'),
+  body('currentNumSolarPanel').isNumeric().notEmpty().withMessage('currentNumSolarPanel must be a number not empty'),
+  body('latitude').isNumeric().withMessage('latitude must be a number'),
+  body('longitude').isNumeric().withMessage('longitude must be a number'),
+  body('slope').isNumeric().withMessage('slope must be a number'),
+  body('azimuth').isNumeric().withMessage('azimuth must be a number'),
+  body('peak_power').isNumeric().withMessage('peak_power must be a number'),
+  body('selectedRoof.surface_id').isNumeric().withMessage('surface_id must be a number'),
+  body('selectedRoof.values').isArray().withMessage('values must be an array'),
+  body('selectedRoof.values.*').isNumeric().withMessage('all values must be numbers'),
+  body('selectedRoof.favorable').isNumeric().withMessage('favorable must be a number'),
+  body('selectedRoof.total').isNumeric().withMessage('total must be a number'),
+  body('selectedRoof.orientation').isString().notEmpty().withMessage('orientation must be a non-empty string'),
+  body('selectedRoof.azimuth').isNumeric().withMessage('azimuth must be a number'),
+  body('selectedRoof.inclinaison').isNumeric().withMessage('inclinaison must be a number'),
+  body('roofImageBase64').isString().withMessage('roofImageBase64 must be a string'),
+]
+
+const emailValidationMiddleware = [
+  body('email').isEmail().withMessage('Email must be valid')
+]
 
 app.post(
   '/api/email-pdf',
+  [...pdfMiddleware, ...emailValidationMiddleware],
   asyncHandler(async (req: Request & { session: MySessionData }, res: Response)  => {
     console.log("Must be keep alive ");
     res.json({ message: 'PDF generation and mailing process has been started.' });
 
     // CREATE PDF
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return 
+    }
 
+    const html = await generateHTMLPdf(req)
+    if(html === null) {
+      return 
+    }
+
+    try {
+      const browser = await puppeteer.launch();
+      const page = await browser.newPage();
+      await page.setContent(html);
+      await page.emulateMediaType('screen');
+      await page.setViewport({ width: 1200, height: 800 })
+      const pdfBuffer = await page.pdf({ 
+        format: 'A4',
+        printBackground: true,     
+      });
+      sendEmailPdf(pdfBuffer, req.body.email);
+      await browser.close();
+    } catch (error) {
+      console.error("Error in PDF Generation:", error);
+      return res.status(500).json({ error: 'Error in PDF Generation' });
+    }
   })
 );
 
+
 app.post(
   '/api/pdf',
-  [
-    body('address').isString().notEmpty().withMessage('address must be a string not empty'),
-    body('annual_consumption').isNumeric().withMessage('annual_consumption must be a number'),
-    body('currentNumSolarPanel').isNumeric().notEmpty().withMessage('currentNumSolarPanel must be a number not empty'),
-    body('latitude').isNumeric().withMessage('latitude must be a number'),
-    body('longitude').isNumeric().withMessage('longitude must be a number'),
-    body('slope').isNumeric().withMessage('slope must be a number'),
-    body('azimuth').isNumeric().withMessage('azimuth must be a number'),
-    body('peak_power').isNumeric().withMessage('peak_power must be a number'),
-    body('selectedRoof.surface_id').isNumeric().withMessage('surface_id must be a number'),
-    body('selectedRoof.values').isArray().withMessage('values must be an array'),
-    body('selectedRoof.values.*').isNumeric().withMessage('all values must be numbers'),
-    body('selectedRoof.favorable').isNumeric().withMessage('favorable must be a number'),
-    body('selectedRoof.total').isNumeric().withMessage('total must be a number'),
-    body('selectedRoof.orientation').isString().notEmpty().withMessage('orientation must be a non-empty string'),
-    body('selectedRoof.azimuth').isNumeric().withMessage('azimuth must be a number'),
-    body('selectedRoof.inclinaison').isNumeric().withMessage('inclinaison must be a number'),
-    body('roofImageBase64').isString().withMessage('roofImageBase64 must be a string'),
-  ],
+  pdfMiddleware,
   asyncHandler(async (req: Request & { session: MySessionData }, res: Response)  => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
 
-    /* Get data autocalsol */
-    console.log('autocalsol')
-    let data_autocalsol
-    if(
-      req.body.autocalsolResult === undefined
-      || req.body.latitude === null
-    ) {
-      try {
-        data_autocalsol = await getComputeData(
-          req.body.latitude,
-          req.body.longitude,
-          req.body.slope,
-          req.body.azimuth,
-          req.body.annual_consumption,
-          req.body.peak_power
-        );      
-      } catch (error) {
-        res.status(500).json({ error: 'internal server error' });
-      }
-    } else {
-      data_autocalsol = req.body.autocalsolResult
+    const html = await generateHTMLPdf(req)
+    if(html === null) {
+      return res.status(500).json({ error: 'Error in PDF Generation' });
     }
-
-    /* Get data district */
-    console.log('district')
-    let irisCode = await getIrisCode(
-      req.body.latitude.toString(),
-      req.body.longitude.toString()  
-    )
-    console.log('irisCode', irisCode)
-    let districtDatas = null
-    if (irisCode !== null && irisCode == 0) {
-      districtDatas = await getTotalDistrictDatas(irisCode)
-    } else {
-      irisCode = 0
-    }
-
-    /* CREATE PDF */
-    if(data_autocalsol === undefined || data_autocalsol === null) {
-      res.status(500).json({ error: 'internal server error' });
-      return
-    }
-
-    // Your HTML content
-    console.log('get pdf')
-    const html = await getPdfHtml(
-      // @ts-ignore
-      data_autocalsol,
-      req.body.selectedRoof,
-      req.body.address,
-      req.body.annual_consumption,
-      req.body.currentNumSolarPanel,
-      req.body.peak_power,
-      districtDatas === null ? 0 : districtDatas?.totalPhotovoltaicSites,
-      districtDatas === null ? 0 : districtDatas?.totalConsumption,
-      req.body.roofImageBase64
-    )
-    console.log('end html')
 
     try {
-      // Launch a new browser instance
       const browser = await puppeteer.launch();
-
-      // Create a new page in the browser
       const page = await browser.newPage();
-
-      // Set the HTML content of the page
       await page.setContent(html);
-      
-      // Set the page size
       await page.emulateMediaType('screen');
       await page.setViewport({ width: 1200, height: 800 })
-
-     // Generate the PDF
       const pdfBuffer = await page.pdf({ 
         format: 'A4',
         printBackground: true,     
       });
-
-      // Set the content type to application/pdf
       res.setHeader('Content-Type', 'application/pdf');
-
-      // Send the PDF buffer as a response
       res.send(pdfBuffer);
-
-      // Clean up: close the browser
       await browser.close();
-
-      console.log('finish');
     } catch (error) {
       console.error("Error in PDF Generation:", error);
+      return res.status(500).json({ error: 'Error in PDF Generation' });
     }
   })
 );
