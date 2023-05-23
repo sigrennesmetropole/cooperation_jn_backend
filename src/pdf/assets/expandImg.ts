@@ -8,7 +8,7 @@ export function getExpandImg(){
     </g>
     <defs>
     <clipPath id="clip0_969_8844">
-    <rect width="14" height="14" fill="white"/>
+    <rect width="14" height="14" fill="white"/> 
     </clipPath>
     </defs>
     </svg>

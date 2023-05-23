@@ -1,5 +1,5 @@
-import { getImg } from '../ImgService'
 import { getExpandImg } from '../assets/expandImg'
+
 export function getLinkWithIconArrow (
   link: string
 ) {

@@ -31,9 +31,9 @@ export function sendEmailPdf (
   }
 
   transporter.sendMail(mailOptions, function (
-    // @ts-expect-error
+    // @ts-ignore
     error,
-    // @ts-expect-error
+    // @ts-ignore
     info
   ) {
     if (error) {
