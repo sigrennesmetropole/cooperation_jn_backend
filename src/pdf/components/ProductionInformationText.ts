@@ -1,12 +1,12 @@
-import { getInstallationImg } from "../assets/InstallationImg";
-import { getSolarPanelImg } from "../assets/SolarPanelImg";
+import { getInstallationImg } from '../assets/InstallationImg'
+import { getSolarPanelImg } from '../assets/SolarPanelImg'
 
-export function getProductionInformationText(
-    currentNumSolarPanel: number,
-    currentPower: number, 
-    currentSurface: number
-){
-    return `
+export function getProductionInformationText (
+  currentNumSolarPanel: number,
+  currentPower: number,
+  currentSurface: number
+) {
+  return `
         <div class="flex-column box-white" style="margin-top:20px;">
             <div class="flex-row items-center gap-4" style="margin-top: 10px;">
                 ${getInstallationImg()}
@@ -49,5 +49,5 @@ export function getProductionInformationText(
                 </div>
             </div>
         </div>
-    `;
+    `
 }

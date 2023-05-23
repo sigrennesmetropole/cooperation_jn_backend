@@ -53,25 +53,25 @@ function convertTimestamp (timestamp: number): string {
   return `${year}-${month}-${day} ${hour}:${minute}:${second}`
 }
 
-//The consumption and production data are taken over a single day: DATE_PROD_CONSO
-function getFormattedProdAndConso (data: [number, string][]){
-  const dataFilterredOnTheGoodDay: [string, string|number][] = []
+// The consumption and production data are taken over a single day: DATE_PROD_CONSO
+function getFormattedProdAndConso (data: Array<[number, string]>) {
+  const dataFilterredOnTheGoodDay: Array<[string, string | number]> = []
 
   data.forEach((item) => {
     const date = convertTimestamp(item[0])
-    if(date.match('-' + DATE_PROD_CONSO + ' ')){
-      const hours  = date.split(' ')[1]
-      //Half-hour data is not taken into account
-      if(!hours.match(':30:')){
+    if (date.match('-' + DATE_PROD_CONSO + ' ') != null) {
+      const hours = date.split(' ')[1]
+      // Half-hour data is not taken into account
+      if (hours.match(':30:') == null) {
         dataFilterredOnTheGoodDay.push(
           [hours, parseInt(item[1])]
         )
       }
     }
-  });
-  if(dataFilterredOnTheGoodDay.length !== 24){
+  })
+  if (dataFilterredOnTheGoodDay.length !== 24) {
     return []
-  } 
+  }
   return dataFilterredOnTheGoodDay
 }
 
@@ -80,7 +80,7 @@ function formatComputeData (compute: AutocalsolType) {
   const consoByMonth = compute.resultConso.tabConsoMonth
   const prodByHour = getFormattedProdAndConso(compute.resultConso.prodTotale)
   const consoByHour = getFormattedProdAndConso(compute.resultConso.consoPetit)
- 
+
   const consoAnnualInjected = compute.resultConso.energieInjectee / 1000 // Wh to kwH
   const consoAnnualAutoConsumed = compute.resultConso.energieAutoconsommee / 1000 // Wh to kwH
   return {

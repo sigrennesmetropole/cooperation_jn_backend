@@ -1,8 +1,8 @@
-import { getMoonImg } from "../assets/MoonImg"
-import { getSunImg } from "../assets/SunImg"
+import { getMoonImg } from '../assets/MoonImg'
+import { getSunImg } from '../assets/SunImg'
 
-export function getLegendOverGraph(){
-    return `
+export function getLegendOverGraph () {
+  return `
         
           <div class="absolute z-30" style="top: 50px; left: 230px;">
             ${getSunImg()}

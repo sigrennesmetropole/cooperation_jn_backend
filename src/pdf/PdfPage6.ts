@@ -1,10 +1,10 @@
-import { getHeader } from './PdfHeader';
-import { getFooter } from './PdfFooter';
-import { getSolarCoop } from './components/SolarCoop';
-import { getEnergiesRennes } from './components/EnergiesRennes';
+import { getHeader } from './PdfHeader'
+import { getFooter } from './PdfFooter'
+import { getSolarCoop } from './components/SolarCoop'
+import { getEnergiesRennes } from './components/EnergiesRennes'
 
-export function getPage6(){
-    const html = `
+export function getPage6 () {
+  const html = `
         <div class="page" style="font-family: DM Sans;">
             <!-- Header -->
             <div class="margin-x-30">
@@ -33,5 +33,5 @@ export function getPage6(){
             </div>
         </div>
     `
-  return html;
+  return html
 }

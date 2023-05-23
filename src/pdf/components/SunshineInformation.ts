@@ -1,11 +1,11 @@
-import {getPotentialImg} from "../assets/PotentialImg";
-import {RoofSurfaceModel} from "../type/type";
+import { getPotentialImg } from '../assets/PotentialImg'
+import { type RoofSurfaceModel } from '../type/type'
 
-export function getSunshineInformation(
-    adress: string,
-    roofSurface: RoofSurfaceModel
-){
-    const html = `
+export function getSunshineInformation (
+  adress: string,
+  roofSurface: RoofSurfaceModel
+) {
+  const html = `
         <div class="flex-column box-white">
             <div class="flex-row items-center gap-4" style="margin-top: 10px;">
                 ${getPotentialImg()}
@@ -22,7 +22,7 @@ export function getSunshineInformation(
                     <div class="flex-row" style="align-items: padding: 0px;">
                         <div class="flex-column p-0" style="align-items: flex-start;  padding: 0px;  flex-grow: 1; font-family: DM Sans;">
                             <h3 class="font-bold" style=" font-size: 28px; line-height: 1.75rem; margin: 0; padding:0;" >
-                                ${ roofSurface.favorable } m&sup2;
+                                ${roofSurface.favorable} m&sup2;
                             </h3>
                             <p class="text-sm font-medium" style="color: rgb(23,23,23); margin: 0; padding:0;">
                                 de surface favorable 
@@ -58,6 +58,6 @@ export function getSunshineInformation(
             </div>
           
         </div>
-    `;
-    return html;
+    `
+  return html
 }

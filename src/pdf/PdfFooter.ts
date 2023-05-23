@@ -1,9 +1,9 @@
-import { getDivider } from './PdfDivider';
+import { getDivider } from './PdfDivider'
 
-export function getFooter(numPage: number){
-    const divider = getDivider()
+export function getFooter (numPage: number) {
+  const divider = getDivider()
 
-    return `
+  return `
     <div 
         class="flex-row justify-between"
         style="

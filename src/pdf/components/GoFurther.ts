@@ -1,14 +1,14 @@
-import { getPhotoVoltaique } from "./PhotoVoltaique"
-import { getQualiLabelsImg } from "../assets/qualiLabelsImg"
-import { getProfitabilityImg } from "../assets/profitabilityImg"
-import { getLinkWithIconArrow } from "./LinkWithIconArrow";
-import { getImg } from '../ImgService';
+import { getPhotoVoltaique } from './PhotoVoltaique'
+import { getQualiLabelsImg } from '../assets/qualiLabelsImg'
+import { getProfitabilityImg } from '../assets/profitabilityImg'
+import { getLinkWithIconArrow } from './LinkWithIconArrow'
+import { getImg } from '../ImgService'
 
-const URL_SIGNE_QUALITE = "https://www.photovoltaique.info/fr/preparer-un-projet/quelles-demarches-realiser/choisir-son-installateur/#signes_de_qualite"
-const URL_CHOISIR_MODELE_ECO = "https://www.photovoltaique.info/fr/preparer-un-projet/quelles-demarches-realiser/choisir-son-modele-economique/"
+const URL_SIGNE_QUALITE = 'https://www.photovoltaique.info/fr/preparer-un-projet/quelles-demarches-realiser/choisir-son-installateur/#signes_de_qualite'
+const URL_CHOISIR_MODELE_ECO = 'https://www.photovoltaique.info/fr/preparer-un-projet/quelles-demarches-realiser/choisir-son-modele-economique/'
 
-export function getGoFurther(){
-    return `
+export function getGoFurther () {
+  return `
     ${getPhotoVoltaique()}
 
     <div class="flex flex-row gap-8">

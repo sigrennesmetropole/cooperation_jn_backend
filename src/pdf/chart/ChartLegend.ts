@@ -1,5 +1,5 @@
-export function getChartLegend(){
-    return `
+export function getChartLegend () {
+  return `
         <div class="flex-row font-dm-sans mb-4 mt-2" style="margin-left: 20px">
             <div class="font-normal text-sm border-amber-500 border  border-t-0 border-b-0 border-r-0 border-l-4 pl-3">
                 Production

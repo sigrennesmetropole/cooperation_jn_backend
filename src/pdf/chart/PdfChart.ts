@@ -1,23 +1,23 @@
 import {
-    getChartOptions
+  getChartOptions
 } from './graphOptions'
-import {AutocalsolResult as AutocalsolResultType} from "../type/type";
+import { type AutocalsolResult as AutocalsolResultType } from '../type/type'
 
-const fs = require('fs');
-const puppeteer = require('puppeteer');
+const fs = require('fs')
+const puppeteer = require('puppeteer')
 
-export async function generateChartImg(
-    data_autocalsol: AutocalsolResultType,
-){
-    const browser = await puppeteer.launch();
-    const page = await browser.newPage();
+export async function generateChartImg (
+  data_autocalsol: AutocalsolResultType
+) {
+  const browser = await puppeteer.launch()
+  const page = await browser.newPage()
 
-    const { staticOptions, dynamicOptions } = getChartOptions(data_autocalsol);
+  const { staticOptions, dynamicOptions } = getChartOptions(data_autocalsol)
 
-    const staticOptionsJson = JSON.stringify(staticOptions);
-    const dynamicOptionsJson = JSON.stringify(dynamicOptions);
+  const staticOptionsJson = JSON.stringify(staticOptions)
+  const dynamicOptionsJson = JSON.stringify(dynamicOptions)
 
-    const html = `
+  const html = `
         <html>
         <head>
             <script src="https://code.highcharts.com/highcharts.js"></script>
@@ -35,28 +35,28 @@ export async function generateChartImg(
             </script>
         </body>
         </html>
-    `;
+    `
 
-    // Set the HTML content of the page
-    await page.setContent(html);
+  // Set the HTML content of the page
+  await page.setContent(html)
 
-    // Wait for the chart to be created
-    // await page.waitForSelector('#container svg');
-    await page.waitForTimeout(2000);
+  // Wait for the chart to be created
+  // await page.waitForSelector('#container svg');
+  await page.waitForTimeout(2000)
 
-    // Take a screenshot of the chart
-    const chartImage = await page.screenshot({
-        clip: {
-            x: 0,
-            y: 0,
-            width: 800,
-            height: 400
-        },
-        encoding: 'base64' // this will return base64 string
-    });
+  // Take a screenshot of the chart
+  const chartImage = await page.screenshot({
+    clip: {
+      x: 0,
+      y: 0,
+      width: 800,
+      height: 400
+    },
+    encoding: 'base64' // this will return base64 string
+  })
 
-    // Clean up: close the browser
-    await browser.close();
+  // Clean up: close the browser
+  await browser.close()
 
-    return chartImage;
+  return chartImage
 }

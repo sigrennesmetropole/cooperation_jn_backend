@@ -1,12 +1,12 @@
-import { getImg } from '../ImgService';
-import { getButtonVisitWebsite } from './ButtonVisitWebsite';
-import { getInformationGreyImg } from '../assets/informationGreyImg';
+import { getImg } from '../ImgService'
+import { getButtonVisitWebsite } from './ButtonVisitWebsite'
+import { getInformationGreyImg } from '../assets/informationGreyImg'
 
 const ENERGIES_LINK = 'https://energiesdupaysderennes.fr/'
 const VILAINE_LINK = 'https://soleilsurvilaine.centralesvillageoises.fr/'
 
-export function getEnergiesRennes(){
-    return `
+export function getEnergiesRennes () {
+  return `
     <div class="flex-column h-fit bg-white">
         <h2 class="font-dm-sans font-bold text-2xl">
             Contacter des associations locales

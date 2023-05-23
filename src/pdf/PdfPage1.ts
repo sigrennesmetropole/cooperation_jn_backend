@@ -1,9 +1,9 @@
-import { getFooter } from './PdfFooter';
-import { getDivider } from './PdfDivider';
-import { getHomePageImg }   from './assets/PdfHomePageImg';
+import { getFooter } from './PdfFooter'
+import { getDivider } from './PdfDivider'
+import { getHomePageImg } from './assets/PdfHomePageImg'
 
-function getIconSun(){
-    return `
+function getIconSun () {
+  return `
         <svg width="113" height="106" viewBox="0 0 113 106" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
             <rect x="0.188965" y="0.0273438" width="112.568" height="105.946" fill="url(#pattern0)"/>
             <defs>
@@ -16,8 +16,8 @@ function getIconSun(){
     `
 }
 
-export function getPage1(){
-    const html = `
+export function getPage1 () {
+  const html = `
         <div class="page" style="font-family: DM Sans;">
             <!-- Header -->
             <div 
@@ -66,5 +66,5 @@ export function getPage1(){
             </div>
         </div>
     `
-  return html;
+  return html
 }

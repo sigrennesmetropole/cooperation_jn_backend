@@ -1,5 +1,5 @@
-export function getElectricityProductionImg(){
-    return `
+export function getElectricityProductionImg () {
+  return `
     <svg width="736" height="107" viewBox="0 0 736 107" fill="none" xmlns="http://www.w3.org/2000/svg">
 <g clip-path="url(#clip0_2408_16773)">
 <g clip-path="url(#clip1_2408_16773)">

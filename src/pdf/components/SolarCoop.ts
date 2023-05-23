@@ -1,10 +1,10 @@
-import { getImg } from '../ImgService';
-import { getButtonVisitWebsite } from './ButtonVisitWebsite';
+import { getImg } from '../ImgService'
+import { getButtonVisitWebsite } from './ButtonVisitWebsite'
 
 const SOLAR_COOP_LINK = 'https://www.solarcoop.fr/'
 
-export function getSolarCoop(){
-    return `
+export function getSolarCoop () {
+  return `
     <div class="flex-column h-fit bg-white">
         <h2 class="font-dm-sans font-bold text-2xl">
             Être accompagné dans mon projet

@@ -1,9 +1,9 @@
-import { getGoToWhite } from "../assets/goToWhiteImg"
+import { getGoToWhite } from '../assets/goToWhiteImg'
 
-export function getButtonVisitWebsite(
-    link: string
-){
-    return `
+export function getButtonVisitWebsite (
+  link: string
+) {
+  return `
     <a
         href="${link}"
         target="_blank"

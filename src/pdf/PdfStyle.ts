@@ -1,5 +1,5 @@
-export function getPdfStyle(){
-    return `
+export function getPdfStyle () {
+  return `
         .page {
             page-break-after: always;
         }

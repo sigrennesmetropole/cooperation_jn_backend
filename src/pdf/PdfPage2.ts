@@ -1,20 +1,20 @@
-import { getHeader } from './PdfHeader';
-import { getFooter } from './PdfFooter';
-import { getSunshineInformation } from './components/SunshineInformation';
-import { getConsumptionInformation } from './components/ConsumptionInformation';
-import { getProductionInformationText } from './components/ProductionInformationText';
-import {RoofSurfaceModel} from "./type/type";
+import { getHeader } from './PdfHeader'
+import { getFooter } from './PdfFooter'
+import { getSunshineInformation } from './components/SunshineInformation'
+import { getConsumptionInformation } from './components/ConsumptionInformation'
+import { getProductionInformationText } from './components/ProductionInformationText'
+import { type RoofSurfaceModel } from './type/type'
 
-export function getPage2(
-    adress: string,
-    selectedRoof: RoofSurfaceModel,
-    annualConsumption: string,
-    currentNumSolarPanel: number,
-    currentPower: number, 
-    currentSurface: number ,
-    imgBase64: string
-){
-    const html = `
+export function getPage2 (
+  adress: string,
+  selectedRoof: RoofSurfaceModel,
+  annualConsumption: string,
+  currentNumSolarPanel: number,
+  currentPower: number,
+  currentSurface: number,
+  imgBase64: string
+) {
+  const html = `
         <div class="page" style="font-family: DM Sans;">
             <!-- Header -->
             <div class="margin-x-30">
@@ -57,5 +57,5 @@ export function getPage2(
             </div>
         </div>
     `
-  return html;
+  return html
 }

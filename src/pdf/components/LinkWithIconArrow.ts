@@ -1,9 +1,9 @@
-import { getImg } from '../ImgService';
-import {getExpandImg} from '../assets/expandImg'
-export function getLinkWithIconArrow(
-    link: string
-){
-    return `
+import { getImg } from '../ImgService'
+import { getExpandImg } from '../assets/expandImg'
+export function getLinkWithIconArrow (
+  link: string
+) {
+  return `
         <a
             href="${link}"
             target="_blank"
@@ -17,5 +17,4 @@ export function getLinkWithIconArrow(
             </div>
         </a>
     `
-
 }
