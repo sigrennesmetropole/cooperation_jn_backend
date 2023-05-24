@@ -42,8 +42,13 @@ async function getUserAccessToken () {
     timeout: 20000 // 20 secondes
   }
 
-  const response = await axios(config)
-  return response.data
+  try {
+    const response = await axios(config)
+    return response.data
+  } catch (error) {
+    // @ts-ignore
+    throw new Error('Error during get access token: ' + error.message);
+  }
 }
 
 async function getDailyConsumption (access_token: string, prm: string, start: string, end: string) {
@@ -56,8 +61,14 @@ async function getDailyConsumption (access_token: string, prm: string, start: st
     },
     timeout: 30000 // 20 secondes
   }
-  const response = await axios(config)
-  return response.data
+
+  try {
+    const response = await axios(config)
+    return response.data
+  } catch (error) {
+    // @ts-ignore
+    throw new Error('Error during get consumption: ' + error.message);
+  }
 }
 
 function calculateAnnualConsumption (interval_reading: [{ value: string, date: string }]) {
@@ -98,6 +109,7 @@ export async function getAnnualConsumption (req: Request & { session: MySessionD
       reading_type
     }
   } catch (error) {
-    throw new Error('HTTP error')
+    // @ts-ignore
+    throw new Error('Error during get consumption: ' + error.message);
   }
 }

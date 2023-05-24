@@ -31,7 +31,9 @@ export async function getIrisCode (lat: string, lon: string) {
     } else {
       return 0
     }
+
   } catch (error) {
-    console.error('Error fetching data:', error)
+    // @ts-ignore
+    throw new Error('Error get code iris: ' + error.message);
   }
 }
