@@ -5,8 +5,8 @@ export interface AutocalsolType {
   resultConso: {
     tabProdMonth: number[]
     tabConsoMonth: number[]
-    prodTotale: [number, string][]
-    consoPetit: [number, string][]
+    prodTotale: Array<[number, string]>
+    consoPetit: Array<[number, string]>
     energieInjectee: number
     energieAutoconsommee: number
     energieSoutiree: number
