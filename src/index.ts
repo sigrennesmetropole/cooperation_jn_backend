@@ -9,6 +9,7 @@ import { type MySessionData } from './interface/MySessionData'
 import { check, validationResult, body } from 'express-validator'
 import { generateHTMLPdf } from './pdf/PdfService'
 import { sendEmailPdf } from './mail/MailService'
+import cors from 'cors'
 
 const asyncHandler = require('express-async-handler')
 
@@ -17,13 +18,23 @@ dotenv.config()
 
 const app: Express = express()
 
-app.use(function (req, res, next) {
-  res.setHeader('Access-Control-Allow-Origin', req.headers.origin || '*') // Set to the request's origin or use a specific domain
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE')
-  res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type')
-  res.setHeader('Access-Control-Allow-Credentials', 'true') // Allow credentials (cookies) to be sent
-  next()
-})
+app.use(cors({
+  origin: function(origin, callback){
+    let allowedOrigins = process.env.ALLOWED_ORIGINS?.split(',');
+    if(!allowedOrigins){
+      allowedOrigins = ['http://localhost:5173', 'https://solaire.coopterr.rennesmetropole.fr/'];
+    }
+
+    // allow requests with no origin (like mobile apps or curl requests)
+    if(!origin) return callback(null, true);
+    if(allowedOrigins && !allowedOrigins.includes(origin)){
+      const msg = 'The CORS policy for this site does not allow access from the specified Origin.';
+      return callback(new Error(msg), false);
+    }
+    return callback(null, true);
+  },
+  credentials: true,
+}));
 
 app.use(session({
   secret: 'secret-key',
