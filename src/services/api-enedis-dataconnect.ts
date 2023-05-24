@@ -38,7 +38,8 @@ async function getUserAccessToken () {
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded'
     },
-    data
+    data,
+    timeout: 20000 // 20 secondes
   }
 
   const response = await axios(config)
@@ -52,7 +53,8 @@ async function getDailyConsumption (access_token: string, prm: string, start: st
     headers: {
       Authorization: `Bearer ${access_token}`,
       accept: 'application/json'
-    }
+    },
+    timeout: 30000 // 20 secondes
   }
   const response = await axios(config)
   return response.data

@@ -156,7 +156,8 @@ export async function getComputeData (
       'Content-Type': 'application/json',
       Authorization: `Bearer ${getTokenFromEnv()}`
     },
-    data
+    data,
+    timeout: 60000 // 60 secondes
   }
   try {
     const response = await axios(config)
