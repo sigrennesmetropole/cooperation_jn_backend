@@ -9,6 +9,7 @@ import { type MySessionData } from './interface/MySessionData'
 import { check, validationResult, body } from 'express-validator'
 import { generateHTMLPdf } from './pdf/PdfService'
 import { sendEmailPdf } from './mail/MailService'
+import cors from 'cors'
 
 const asyncHandler = require('express-async-handler')
 
@@ -17,13 +18,20 @@ dotenv.config()
 
 const app: Express = express()
 
-app.use(function (req, res, next) {
-  res.setHeader('Access-Control-Allow-Origin', req.headers.origin || '*') // Set to the request's origin or use a specific domain
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE')
-  res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type')
-  res.setHeader('Access-Control-Allow-Credentials', 'true') // Allow credentials (cookies) to be sent
-  next()
-})
+app.use(cors({
+  origin: function(origin, callback){
+    let allowedOrigins = process.env.ALLOWED_ORIGINS?.split(',');
+
+    // allow requests with no origin (like mobile apps or curl requests)
+    if(!origin) return callback(null, true);
+    if(allowedOrigins && !allowedOrigins.includes(origin)){
+      const msg = 'The CORS policy for this site does not allow access from the specified Origin.';
+      return callback(new Error(msg), false);
+    }
+    return callback(null, true);
+  },
+  credentials: true,
+}));
 
 app.use(session({
   secret: 'secret-key',
@@ -35,12 +43,23 @@ app.use(express.json({ limit: '50mb' }))
 
 // ROUTES API ENEDIS USER
 app.get('/api/enedis/user/url-authorization', (req: Request & { session: MySessionData }, res: Response) => {
-  res.json({ url: getUrlUserAuthorization(req) })
+  try {
+    const url = getUrlUserAuthorization(req)
+    res.json({ url: getUrlUserAuthorization(req) })
+  } catch (error) {
+    // @ts-ignore
+    res.status(500).json({ error: error.toString() });
+  }
 })
 
 app.get('/api/enedis/user/prm', (req: Request & { session: MySessionData }, res: Response) => {
-  const prm = req.session.prm
-  res.json({ prm })
+  try {
+    const prm = req.session.prm
+    res.json({ prm })
+  } catch (error) {
+    // @ts-ignore
+    res.status(500).json({ error: error.toString() });
+  }
 })
 
 app.post(
@@ -52,23 +71,33 @@ app.post(
       return res.status(400).json({ errors: errors.array() })
     }
 
-    const prm = req.body.prm as string | undefined
-    if (prm === undefined) {
-      res.status(400).json({ error: 'Missing required body parameters' })
+    try {
+      const prm = req.body.prm as string | undefined
+      if (prm === undefined) {
+        res.status(400).json({ error: 'Missing required body parameters' })
+      }
+      req.session.prm = prm
+      req.session.save()
+      res.json({ prm })
+    } catch (error) {
+      // @ts-ignore
+      res.status(500).json({ error: error.toString() });
     }
-    req.session.prm = prm
-    req.session.save()
-    res.json({ prm })
   }
 )
 
 app.get(
   '/api/enedis/user/annual-consumption',
   asyncHandler(async (req: Request & { session: MySessionData }, res: Response) => {
-    const annual_consumption = await getAnnualConsumption(req)
-    res.json({ consumption: annual_consumption })
+    try {
+      const annual_consumption = await getAnnualConsumption(req)
+      res.json({ consumption: annual_consumption })
+    } catch (error) {
+      // @ts-ignore
+      res.status(500).json({ error: error.toString() });
+    }
   }
-  ))
+))
 
 // ROUTES API ENEDIS DISTRICT
 app.get(
@@ -86,8 +115,13 @@ app.get(
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() })
     }
-    const districtDatas = await getTotalDistrictDatas(req.params.codeIris)
-    res.json(districtDatas)
+    try {
+      const districtDatas = await getTotalDistrictDatas(req.params.codeIris)
+      res.json(districtDatas)
+    } catch (error) {
+      // @ts-ignore
+      res.status(500).json({ error: error.toString() });
+    }
   })
 )
 
@@ -134,7 +168,8 @@ app.get(
         )
         res.json({ compute })
       } catch (error) {
-        res.status(500).json({ error: 'internal server error' })
+        // @ts-ignore
+        res.status(500).json({ error: error.toString() });
       }
     } else {
       res.status(400).json({ error: 'Missing required query parameters' })
@@ -150,8 +185,13 @@ app.get(
     check('lon').isFloat({ min: -180, max: 180 }).toFloat()
   ],
   asyncHandler(async (req: Request & { session: MySessionData }, res: Response) => {
-    const codeIris = await getIrisCode(req.params.lat, req.params.lon)
-    res.json(codeIris)
+    try {
+      const codeIris = await getIrisCode(req.params.lat, req.params.lon)
+      res.json(codeIris)
+    } catch (error) {
+      // @ts-ignore
+      res.status(500).json({ error: error.toString() });
+    }
   })
 )
 
@@ -229,9 +269,15 @@ app.post(
       return res.status(400).json({ errors: errors.array() })
     }
 
-    const html = await generateHTMLPdf(req)
-    if (html === null) {
-      return res.status(500).json({ error: 'Error during PDF Generation' })
+    let html
+    try {
+      html = await generateHTMLPdf(req)
+      if (html === null) {
+        return res.status(500).json({ error: 'Error during PDF Generation' })
+      }
+    } catch (error) {
+      // @ts-ignore
+      res.status(500).json({ error: 'Error during PDF Generation:' + error.toString() });
     }
 
     try {
@@ -248,8 +294,8 @@ app.post(
       res.send(pdfBuffer)
       await browser.close()
     } catch (error) {
-      console.error('Error during PDF Generation:', error)
-      return res.status(500).json({ error: 'Error during PDF Generation' })
+      // @ts-ignore
+      res.status(500).json({ error: 'Error during PDF Generation:' + error.toString() });
     }
   })
 )

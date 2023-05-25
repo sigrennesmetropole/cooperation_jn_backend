@@ -39,7 +39,7 @@ export async function generateHTMLPdf (
   )
   console.log('irisCode', irisCode)
   let districtDatas = null
-  if (irisCode !== null && irisCode == 0) {
+  if (irisCode !== null && irisCode != 0) {
     districtDatas = await getTotalDistrictDatas(irisCode)
   } else {
     irisCode = 0
@@ -61,7 +61,7 @@ export async function generateHTMLPdf (
     req.body.currentNumSolarPanel,
     req.body.peak_power,
     districtDatas === null ? 0 : districtDatas?.totalPhotovoltaicSites,
-    districtDatas === null ? 0 : districtDatas?.totalConsumption,
+    districtDatas === null ? 0 : districtDatas?.totalProduction,
     req.body.roofImageBase64
   )
   console.log('end html')

@@ -13,13 +13,15 @@ async function getDistrictConsumptionData (rows: number, codeIris: string) {
       facet: ['annee', 'code_iris', 'nom_iris', 'code_epci', 'nom_epci', 'code_categorie_consommation'].join(','),
       'refine.nom_epci': 'Rennes Métropole',
       'refine.code_iris': codeIris
-    }
+    },
+    timeout: 20000 // 20 secondes
   }
   try {
     const response = await axios(config)
     return response.data
   } catch (error) {
-    console.error('Error fetching data:', error)
+    // @ts-ignore
+    throw new Error('Error get data district: ' + error.message);
   }
 }
 
@@ -35,13 +37,15 @@ async function getDistrictProductionData (rows: number, codeIris: string) {
       facet: ['annee', 'nom_iris', 'code_iris', 'type_iris', 'nom_epci', 'code_epci', 'domaine_de_tension'].join(','),
       'refine.nom_epci': 'Rennes Métropole',
       'refine.code_iris': codeIris
-    }
+    },
+    timeout: 20000 // 20 secondes
   }
   try {
     const response = await axios(config)
     return response.data
   } catch (error) {
-    console.error('Error fetching data:', error)
+     // @ts-ignore
+     throw new Error('Error get data district: ' + error.message);
   }
 }
 
@@ -110,6 +114,7 @@ export async function getTotalDistrictDatas (codeIris: string) {
       totalPhotovoltaicSites: totalNbPhotovoltaicSites
     }
   } catch (error) {
-    throw new Error('HTTP error')
+    // @ts-ignore
+    throw new Error('Error get data district: ' + error.message);
   }
 }

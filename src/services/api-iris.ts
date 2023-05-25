@@ -17,7 +17,8 @@ export async function getIrisCode (lat: string, lon: string) {
       outputformat: 'json',
       srs: 'EPSG:4326',
       cql_filter: 'INTERSECTS(shape, Point(' + cc48Coords[0] + ' ' + cc48Coords[1] + '))'
-    }
+    },
+    timeout: 20000 // 20 secondes
   }
   try {
     const response = await axios(config)
@@ -30,7 +31,9 @@ export async function getIrisCode (lat: string, lon: string) {
     } else {
       return 0
     }
+
   } catch (error) {
-    console.error('Error fetching data:', error)
+    // @ts-ignore
+    throw new Error('Error get code iris: ' + error.message);
   }
 }
