@@ -9,7 +9,7 @@ export function getUrlUserAuthorization (req: Request & { session: MySessionData
   const url =
         'https://mon-compte-particulier.enedis.fr/dataconnect/v1/oauth2/authorize' +
         '?' +
-        `client_id=${process.env.ENEDIS_CLIENT_ID}` +
+        `client_id=${process.env.ENEDIS_CLIENT_PROD_ID}` +
         `&state=${encodeURIComponent(req.session.state)}` +
         `&duration=${process.env.ENEDIS_CLIENT_DURATION}` + // duration est la durée du consentement que vous souhaitez obtenir : cette durée est à renseigner au format ISO 8601 (exemple : « P6M » pour une durée de 6 mois),
         '&response_type=code'
@@ -17,8 +17,6 @@ export function getUrlUserAuthorization (req: Request & { session: MySessionData
 }
 
 function getUrlFromEnv () {
-  return process.env.ENEDIS_URL_SANDBOX
-  // TODO: when the prod env is set update this function
   if (process.env.ENV === 'dev') {
     return process.env.ENEDIS_URL_SANDBOX
   } else {
@@ -26,11 +24,27 @@ function getUrlFromEnv () {
   }
 }
 
+function getClientId () {
+  if (process.env.ENV === 'dev') {
+    return process.env.ENEDIS_CLIENT_ID
+  } else {
+    return process.env.ENEDIS_CLIENT_PROD_ID
+  }
+}
+
+function getClientSecret () {
+  if (process.env.ENV === 'dev') {
+    return process.env.ENEDIS_CLIENT_SECRET
+  } else {
+    return process.env.ENEDIS_CLIENT_PROD_SECRET
+  }
+}
+
 async function getUserAccessToken () {
   const data = qs.stringify({
     grant_type: 'client_credentials',
-    client_id: process.env.ENEDIS_CLIENT_ID,
-    client_secret: process.env.ENEDIS_CLIENT_SECRET
+    client_id: getClientId(),
+    client_secret: getClientSecret()
   })
   const config = {
     method: 'post' as Method,
@@ -47,7 +61,7 @@ async function getUserAccessToken () {
     return response.data
   } catch (error) {
     // @ts-ignore
-    throw new Error('Error during get access token: ' + error.message);
+    throw new Error('Error during get access token: ' + error.message)
   }
 }
 
@@ -67,7 +81,7 @@ async function getDailyConsumption (access_token: string, prm: string, start: st
     return response.data
   } catch (error) {
     // @ts-ignore
-    throw new Error('Error during get consumption: ' + error.message);
+    throw new Error('Error during get consumption: ' + error.message)
   }
 }
 
@@ -110,6 +124,6 @@ export async function getAnnualConsumption (req: Request & { session: MySessionD
     }
   } catch (error) {
     // @ts-ignore
-    throw new Error('Error during get consumption: ' + error.message);
+    throw new Error('Error during get consumption: ' + error.message)
   }
 }

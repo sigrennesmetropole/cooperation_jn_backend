@@ -19,19 +19,19 @@ dotenv.config()
 const app: Express = express()
 
 app.use(cors({
-  origin: function(origin, callback){
-    let allowedOrigins = process.env.ALLOWED_ORIGINS?.split(',');
+  origin: function (origin, callback) {
+    const allowedOrigins = process.env.ALLOWED_ORIGINS?.split(',')
 
     // allow requests with no origin (like mobile apps or curl requests)
-    if(!origin) return callback(null, true);
-    if(allowedOrigins && !allowedOrigins.includes(origin)){
-      const msg = 'The CORS policy for this site does not allow access from the specified Origin.';
-      return callback(new Error(msg), false);
+    if (!origin) { callback(null, true); return }
+    if ((allowedOrigins != null) && !allowedOrigins.includes(origin)) {
+      const msg = 'The CORS policy for this site does not allow access from the specified Origin.'
+      callback(new Error(msg), false); return
     }
-    return callback(null, true);
+    callback(null, true)
   },
-  credentials: true,
-}));
+  credentials: true
+}))
 
 app.use(session({
   secret: 'secret-key',
@@ -48,7 +48,7 @@ app.get('/api/enedis/user/url-authorization', (req: Request & { session: MySessi
     res.json({ url: getUrlUserAuthorization(req) })
   } catch (error) {
     // @ts-ignore
-    res.status(500).json({ error: error.toString() });
+    res.status(500).json({ error: error.toString() })
   }
 })
 
@@ -58,7 +58,7 @@ app.get('/api/enedis/user/prm', (req: Request & { session: MySessionData }, res:
     res.json({ prm })
   } catch (error) {
     // @ts-ignore
-    res.status(500).json({ error: error.toString() });
+    res.status(500).json({ error: error.toString() })
   }
 })
 
@@ -81,7 +81,7 @@ app.post(
       res.json({ prm })
     } catch (error) {
       // @ts-ignore
-      res.status(500).json({ error: error.toString() });
+      res.status(500).json({ error: error.toString() })
     }
   }
 )
@@ -94,10 +94,10 @@ app.get(
       res.json({ consumption: annual_consumption })
     } catch (error) {
       // @ts-ignore
-      res.status(500).json({ error: error.toString() });
+      res.status(500).json({ error: error.toString() })
     }
   }
-))
+  ))
 
 // ROUTES API ENEDIS DISTRICT
 app.get(
@@ -120,7 +120,7 @@ app.get(
       res.json(districtDatas)
     } catch (error) {
       // @ts-ignore
-      res.status(500).json({ error: error.toString() });
+      res.status(500).json({ error: error.toString() })
     }
   })
 )
@@ -169,7 +169,7 @@ app.get(
         res.json({ compute })
       } catch (error) {
         // @ts-ignore
-        res.status(500).json({ error: error.toString() });
+        res.status(500).json({ error: error.toString() })
       }
     } else {
       res.status(400).json({ error: 'Missing required query parameters' })
@@ -190,7 +190,7 @@ app.get(
       res.json(codeIris)
     } catch (error) {
       // @ts-ignore
-      res.status(500).json({ error: error.toString() });
+      res.status(500).json({ error: error.toString() })
     }
   })
 )
@@ -277,7 +277,7 @@ app.post(
       }
     } catch (error) {
       // @ts-ignore
-      res.status(500).json({ error: 'Error during PDF Generation:' + error.toString() });
+      res.status(500).json({ error: 'Error during PDF Generation:' + error.toString() })
     }
 
     try {
@@ -295,7 +295,7 @@ app.post(
       await browser.close()
     } catch (error) {
       // @ts-ignore
-      res.status(500).json({ error: 'Error during PDF Generation:' + error.toString() });
+      res.status(500).json({ error: 'Error during PDF Generation:' + error.toString() })
     }
   })
 )
