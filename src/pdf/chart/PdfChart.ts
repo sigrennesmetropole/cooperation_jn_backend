@@ -9,7 +9,7 @@ const puppeteer = require('puppeteer')
 export async function generateChartImg (
   data_autocalsol: AutocalsolResultType
 ) {
-  const browser = await puppeteer.launch()
+  const browser = await puppeteer.launch({headless: true, args: ['--no-sandbox']})
   const page = await browser.newPage()
 
   const { staticOptions, dynamicOptions } = getChartOptions(data_autocalsol)
