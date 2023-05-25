@@ -164,7 +164,7 @@ export async function getComputeData (
     const data2 = response.data
     return formatComputeData(data2)
   } catch (error) {
-    // @ts-expect-error
+    // @ts-ignore
     throw new Error('Error during get consumption: ' + error.message)
   }
 }

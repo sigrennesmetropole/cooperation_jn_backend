@@ -47,7 +47,7 @@ app.get('/api/enedis/user/url-authorization', (req: Request & { session: MySessi
     const url = getUrlUserAuthorization(req)
     res.json({ url: getUrlUserAuthorization(req) })
   } catch (error) {
-    // @ts-expect-error
+    // @ts-ignore
     res.status(500).json({ error: error.toString() })
   }
 })
@@ -57,7 +57,7 @@ app.get('/api/enedis/user/prm', (req: Request & { session: MySessionData }, res:
     const prm = req.session.prm
     res.json({ prm })
   } catch (error) {
-    // @ts-expect-error
+    // @ts-ignore
     res.status(500).json({ error: error.toString() })
   }
 })
@@ -80,7 +80,7 @@ app.post(
       req.session.save()
       res.json({ prm })
     } catch (error) {
-      // @ts-expect-error
+      // @ts-ignore
       res.status(500).json({ error: error.toString() })
     }
   }
@@ -93,7 +93,7 @@ app.get(
       const annual_consumption = await getAnnualConsumption(req)
       res.json({ consumption: annual_consumption })
     } catch (error) {
-      // @ts-expect-error
+      // @ts-ignore
       res.status(500).json({ error: error.toString() })
     }
   }
@@ -119,7 +119,7 @@ app.get(
       const districtDatas = await getTotalDistrictDatas(req.params.codeIris)
       res.json(districtDatas)
     } catch (error) {
-      // @ts-expect-error
+      // @ts-ignore
       res.status(500).json({ error: error.toString() })
     }
   })
@@ -168,7 +168,7 @@ app.get(
         )
         res.json({ compute })
       } catch (error) {
-        // @ts-expect-error
+        // @ts-ignore
         res.status(500).json({ error: error.toString() })
       }
     } else {
@@ -189,7 +189,7 @@ app.get(
       const codeIris = await getIrisCode(req.params.lat, req.params.lon)
       res.json(codeIris)
     } catch (error) {
-      // @ts-expect-error
+      // @ts-ignore
       res.status(500).json({ error: error.toString() })
     }
   })
@@ -276,7 +276,7 @@ app.post(
         return res.status(500).json({ error: 'Error during PDF Generation' })
       }
     } catch (error) {
-      // @ts-expect-error
+      // @ts-ignore
       res.status(500).json({ error: 'Error during PDF Generation:' + error.toString() })
     }
 
@@ -294,7 +294,7 @@ app.post(
       res.send(pdfBuffer)
       await browser.close()
     } catch (error) {
-      // @ts-expect-error
+      // @ts-ignore
       res.status(500).json({ error: 'Error during PDF Generation:' + error.toString() })
     }
   })

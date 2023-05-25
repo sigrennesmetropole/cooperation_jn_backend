@@ -11,9 +11,9 @@ export function getChartOptions (
 ) {
   const xAxis = generateXAxis()
   const tickPositions = generateTickPositions(xAxis)
-  // @ts-expect-error
+  // @ts-ignore
   const productionData = convertDataForGraph(data_autocalsol.prodByHour)
-  // @ts-expect-error
+  // @ts-ignore
   const consommationData = convertDataForGraph(data_autocalsol.consoByHour)
   const intersectionData = calculateIntersectionData(
     productionData,
@@ -106,14 +106,14 @@ export function getChartOptions (
       categories: xAxis,
       labels: {
         useHTML: true,
-        // @ts-expect-error
+        // @ts-ignore
         formatter: function () {
-          // @ts-expect-error
+          // @ts-ignore
           if (this.value === '') return ''
-          // @ts-expect-error
+          // @ts-ignore
           return this.value === '12h' || this.value === '0h'
             ? '<div style="width: 2px; height: 15px; background-color: black;" />'
-            : // @ts-expect-error
+            : // @ts-ignore
                     `<span style="font-size: 9px;">${this.value}</span>`
         }
       },

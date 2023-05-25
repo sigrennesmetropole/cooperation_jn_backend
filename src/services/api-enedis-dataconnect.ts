@@ -60,7 +60,7 @@ async function getUserAccessToken () {
     const response = await axios(config)
     return response.data
   } catch (error) {
-    // @ts-expect-error
+    // @ts-ignore
     throw new Error('Error during get access token: ' + error.message)
   }
 }
@@ -80,7 +80,7 @@ async function getDailyConsumption (access_token: string, prm: string, start: st
     const response = await axios(config)
     return response.data
   } catch (error) {
-    // @ts-expect-error
+    // @ts-ignore
     throw new Error('Error during get consumption: ' + error.message)
   }
 }
@@ -123,7 +123,7 @@ export async function getAnnualConsumption (req: Request & { session: MySessionD
       reading_type
     }
   } catch (error) {
-    // @ts-expect-error
+    // @ts-ignore
     throw new Error('Error during get consumption: ' + error.message)
   }
 }

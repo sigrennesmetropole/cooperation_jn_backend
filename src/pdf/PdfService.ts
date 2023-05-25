@@ -4,7 +4,7 @@ import { getTotalDistrictDatas } from './../services/api-enedis-district'
 import { getPdfHtml } from './PdfHtml'
 
 export async function generateHTMLPdf (
-  // @ts-expect-error
+  // @ts-ignore
   req
 ) {
   /* Get data autocalsol */
@@ -53,7 +53,7 @@ export async function generateHTMLPdf (
   // Your HTML content
   console.log('get pdf')
   const html = await getPdfHtml(
-    // @ts-expect-error
+    // @ts-ignore
     data_autocalsol,
     req.body.selectedRoof,
     req.body.address,
