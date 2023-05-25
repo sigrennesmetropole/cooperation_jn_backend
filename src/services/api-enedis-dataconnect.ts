@@ -59,7 +59,7 @@ async function getDailyConsumption (access_token: string, prm: string, start: st
       Authorization: `Bearer ${access_token}`,
       accept: 'application/json'
     },
-    timeout: 30000 // 20 secondes
+    timeout: 30000 // 30 secondes
   }
 
   try {

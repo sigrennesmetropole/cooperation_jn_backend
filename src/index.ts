@@ -21,9 +21,6 @@ const app: Express = express()
 app.use(cors({
   origin: function(origin, callback){
     let allowedOrigins = process.env.ALLOWED_ORIGINS?.split(',');
-    if(!allowedOrigins){
-      allowedOrigins = ['http://localhost:5173', 'https://solaire.coopterr.rennesmetropole.fr/'];
-    }
 
     // allow requests with no origin (like mobile apps or curl requests)
     if(!origin) return callback(null, true);
