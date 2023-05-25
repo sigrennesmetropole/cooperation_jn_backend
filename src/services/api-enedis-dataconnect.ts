@@ -24,7 +24,7 @@ function getUrlFromEnv () {
   }
 }
 
-function getClientId(){
+function getClientId () {
   if (process.env.ENV === 'dev') {
     return process.env.ENEDIS_CLIENT_ID
   } else {
@@ -32,7 +32,7 @@ function getClientId(){
   }
 }
 
-function getClientSecret(){
+function getClientSecret () {
   if (process.env.ENV === 'dev') {
     return process.env.ENEDIS_CLIENT_SECRET
   } else {
@@ -52,11 +52,17 @@ async function getUserAccessToken () {
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded'
     },
-    data
+    data,
+    timeout: 20000 // 20 secondes
   }
 
-  const response = await axios(config)
-  return response.data
+  try {
+    const response = await axios(config)
+    return response.data
+  } catch (error) {
+    // @ts-expect-error
+    throw new Error('Error during get access token: ' + error.message)
+  }
 }
 
 async function getDailyConsumption (access_token: string, prm: string, start: string, end: string) {
@@ -66,10 +72,17 @@ async function getDailyConsumption (access_token: string, prm: string, start: st
     headers: {
       Authorization: `Bearer ${access_token}`,
       accept: 'application/json'
-    }
+    },
+    timeout: 30000 // 30 secondes
   }
-  const response = await axios(config)
-  return response.data
+
+  try {
+    const response = await axios(config)
+    return response.data
+  } catch (error) {
+    // @ts-expect-error
+    throw new Error('Error during get consumption: ' + error.message)
+  }
 }
 
 function calculateAnnualConsumption (interval_reading: [{ value: string, date: string }]) {
@@ -110,6 +123,7 @@ export async function getAnnualConsumption (req: Request & { session: MySessionD
       reading_type
     }
   } catch (error) {
-    throw new Error('HTTP error')
+    // @ts-expect-error
+    throw new Error('Error during get consumption: ' + error.message)
   }
 }
