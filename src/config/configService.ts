@@ -8,8 +8,9 @@ export function getConfigFromKey(key: string) {
     const config = getConfig()
     const keys = key.split('.')
     let obj = config
+
     for (let i = 0; i < keys.length; i++) {
-      if (!config.hasOwnProperty(keys[i])) {
+      if (!obj.hasOwnProperty(keys[i])) {
         return null
       }
       // @ts-ignore

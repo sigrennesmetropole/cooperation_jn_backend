@@ -11,5 +11,8 @@
         "typeConsommateur": "res1",
         "typeCompteur": 1,
         "tarifVente": 0.15
+    },
+    "solar_panel": {
+        "solar_panel_surface": 1.8
     }
 }
