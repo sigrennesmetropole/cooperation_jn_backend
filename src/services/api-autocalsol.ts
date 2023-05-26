@@ -1,5 +1,6 @@
 import axios, { type Method } from 'axios'
 import { type AutocalsolType } from '../model/autocalsol.model'
+import { getConfigFromKey } from '../config/configService'
 
 const DATE_PROD_CONSO = '05-28'
 
@@ -108,18 +109,18 @@ export async function getComputeData (
         inclinaison: slope,
         orientation: azimuth,
         puissanceCrete: peak_power,
-        pr: 0.85,
-        tech: 'crystSi',
-        integration: 'free'
+        pr: getConfigFromKey('autocalsol.pr'),
+        tech: getConfigFromKey('autocalsol.tech'),
+        integration: getConfigFromKey('autocalsol.integration')
       },
       usePuissanceOnduleur: false,
       consommation: {
         typeConsommateur: 'res1',
         formatConso: 'default-conso',
         consoResidentielBase: {
-          typeCompteur: 1,
+          typeCompteur: getConfigFromKey('autocalsol.typeCompteur'),
           qteConso: annual_consumption,
-          tarifVente: 0.15,
+          tarifVente: getConfigFromKey('autocalsol.tarifVente'),
           tabConsommation: null
         }
       }

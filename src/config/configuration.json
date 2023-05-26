@@ -3,5 +3,13 @@
         "diduknow_year": 2030,
         "diduknow_more_energy": 3,
         "diduknow_more_power": 6
+    },
+    "autocalsol": {
+        "pr": 0.85,
+        "tech": "crystSi",
+        "integration": "free",
+        "typeConsommateur": "res1",
+        "typeCompteur": 1,
+        "tarifVente": 0.15
     }
 }
