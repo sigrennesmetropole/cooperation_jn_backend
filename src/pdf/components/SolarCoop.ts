@@ -1,7 +1,6 @@
 import { getImg } from '../ImgService'
 import { getButtonVisitWebsite } from './ButtonVisitWebsite'
-
-const SOLAR_COOP_LINK = 'https://www.solarcoop.fr/'
+import { getConfigFromKey } from '../../config/configService'
 
 export function getSolarCoop () {
   return `
@@ -21,7 +20,12 @@ export function getSolarCoop () {
                     Vous pouvez vous faire accompagner par la structure citoyenne Solarcoop qui vous aidera à trouver la meilleure installation.
                 </p>
 
-                ${getButtonVisitWebsite(SOLAR_COOP_LINK)}
+                ${
+                    getButtonVisitWebsite(
+                        // @ts-ignore
+                        getConfigFromKey('link.solar_coop_link')
+                    )
+                }
             </div>
         </div>
     </div>

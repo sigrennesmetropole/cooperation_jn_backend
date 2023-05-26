@@ -13,6 +13,13 @@
         "tarifVente": 0.15
     },
     "solar_panel": {
-        "solar_panel_surface": 1.8
+        "solar_panel_surface": 1.8,
+        "solar_panel_power": 0.35
+    },
+    "link": {
+        "photovoltaique_link": "https://www.photovoltaique.info/fr/",
+        "solar_coop_link": "https://www.solarcoop.fr/",
+        "energies_link": "https://energiesdupaysderennes.fr/",
+        "vilaine_link": "https://soleilsurvilaine.centralesvillageoises.fr/"
     }
 }
