@@ -10,6 +10,7 @@ import { check, validationResult, body } from 'express-validator'
 import { generateHTMLPdf } from './pdf/PdfService'
 import { sendEmailPdf } from './mail/MailService'
 import cors from 'cors'
+import { getConfig } from './config/configService'
 
 const asyncHandler = require('express-async-handler')
 
@@ -299,6 +300,16 @@ app.post(
     }
   })
 )
+
+app.get('/api/config', (req: Request & { session: MySessionData }, res: Response) => {
+  try {
+    const config = getConfig()
+    res.json({ config })
+  } catch (error) {
+    // @ts-ignore
+    res.status(500).json({ error: error.toString() })
+  }
+})
 
 const port = process.env.PORT || 3000
 app.listen(port, () => {
