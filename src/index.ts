@@ -300,6 +300,20 @@ app.post(
   })
 )
 
+
+app.get(
+  '/api/test',
+  asyncHandler(async (req: Request & { session: MySessionData }, res: Response) => {
+    console.log(process.env.TEST_ENV)
+    res.json({
+      etat: 'ok',
+      message: process.env.TEST_ENV
+    })
+
+  })
+)
+
+
 const port = process.env.PORT || 3000
 app.listen(port, () => {
   console.log(`Running on port ${port}`)
