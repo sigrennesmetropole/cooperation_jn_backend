@@ -28,5 +28,11 @@
         "nb_addresses_organization": 3,
         "nb_addresses_communes": 2,
         "nb_addresses_streets": 5
+    },
+    "distance": {
+        "distance_max_for_selection": 800
+    },
+    "consumption": {
+        "default_consumption": 0
     }
 }
