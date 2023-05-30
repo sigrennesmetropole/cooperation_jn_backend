@@ -302,14 +302,17 @@ app.post(
 
 
 app.get(
-  '/api/test',
+  '/api/testEmail',
   asyncHandler(async (req: Request & { session: MySessionData }, res: Response) => {
-    console.log(process.env.TEST_ENV)
-    res.json({
-      etat: 'ok',
-      message: process.env.TEST_ENV
-    })
-
+    try {
+      sendEmailPdf(
+        null, 
+        'toni.garcia@camptocamp.com'
+      )
+    } catch (error) {
+      // @ts-ignore
+      return res.status(500).json({ error: error.toString() })
+    }
   })
 )
 
