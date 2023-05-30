@@ -5,19 +5,25 @@ export function sendEmailPdf (
   email: string
 ) {
   // EMAIL PDF
-  const transporter = nodemailer.createTransport({
+  const transportOptions: any = {
     host: process.env.EMAIL_HOST,
     port: process.env.EMAIL_PORT,
     secure: true, // use TLS
-    auth: {
-      user: process.env.EMAIL_USER, // generated ethereal user
-      pass: process.env.EMAIL_PASSWORD // generated ethereal password
-    },
     tls: {
       // do not fail on invalid certs
       rejectUnauthorized: false 
     }
-  })
+  }
+
+  // Only include auth if not in production
+  if (process.env.ENV !== "prod") {
+    transportOptions.auth = {
+      user: process.env.EMAIL_USER, // generated ethereal user
+      pass: process.env.EMAIL_PASSWORD // generated ethereal password
+    }
+  }
+
+  const transporter = nodemailer.createTransport(transportOptions)
 
   const mailOptions: any = {
     from: 'testpdf@gmail.com',
