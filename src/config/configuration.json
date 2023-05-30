@@ -21,5 +21,12 @@
         "solar_coop_link": "https://www.solarcoop.fr/",
         "energies_link": "https://energiesdupaysderennes.fr/",
         "vilaine_link": "https://soleilsurvilaine.centralesvillageoises.fr/"
+    },
+    "address": {
+        "size_begin_search": 4,
+        "nb_addresses_rva": 5,
+        "nb_addresses_organization": 3,
+        "nb_addresses_communes": 2,
+        "nb_addresses_streets": 5
     }
 }
