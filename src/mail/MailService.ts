@@ -35,7 +35,7 @@ export function sendEmailPdf (
     // If pdfBuffer is provided, include it in the attachments
     if (pdfBuffer) {
       mailOptions.attachments = [{
-        filename: 'attachment.pdf',
+        filename: 'solarSimulation.pdf',
         content: pdfBuffer
       }]
     }
@@ -47,15 +47,8 @@ export function sendEmailPdf (
       info
     ) {
       if (error) {
-        console.log(error);
-        resolve({
-          message: error.message,
-          all: JSON.stringify(error),
-          host: process.env.EMAIL_HOST,
-          port: process.env.EMAIL_PORT,
-        });
+        reject(error.message);
       } else {
-        console.log('Email sent: ' + info.response);
         resolve(info.response);
       }
     });
