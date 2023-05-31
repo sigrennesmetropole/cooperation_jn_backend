@@ -1,45 +1,56 @@
 const nodemailer = require('nodemailer')
 
 export function sendEmailPdf (
-  pdfBuffer: Buffer,
+  pdfBuffer: Buffer | null,
   email: string
 ) {
-  // EMAIL PDF
-  const transporter = nodemailer.createTransport({
-    host: process.env.EMAIL_HOST,
-    port: process.env.EMAIL_PORT,
-    secure: false, // true for 465, false for other ports
-    auth: {
-      user: process.env.EMAIL_USER, // generated ethereal user
-      pass: process.env.EMAIL_PASSWORD // generated ethereal password
+  return new Promise((resolve, reject) => {
+    // EMAIL PDF
+    const transportOptions: any = {
+      host: process.env.EMAIL_HOST,
+      port: process.env.EMAIL_PORT
     }
-  })
 
-  const mailOptions = {
-    from: 'testpdf@gmail.com',
-    to: email,
-    subject: 'Votre simulation d\'installation photovoltaïque',
-    text: `
-            Bonjour,
-            Veuillez trouver ci joint votre simulation d'installation photovoltaïque.
-            Cordialement
-        `,
-    attachments: [{
-      filename: 'attachment.pdf',
-      content: pdfBuffer
-    }]
-  }
-
-  transporter.sendMail(mailOptions, function (
-    // @ts-ignore
-    error,
-    // @ts-ignore
-    info
-  ) {
-    if (error) {
-      console.log(error)
-    } else {
-      console.log('Email sent: ' + info.response)
+    // Only include auth if not in production
+    if (process.env.ENV !== "prod") {
+      transportOptions.auth = {
+        user: process.env.EMAIL_USER, // generated ethereal user
+        pass: process.env.EMAIL_PASSWORD // generated ethereal password
+      }
     }
-  })
+
+    const transporter = nodemailer.createTransport(transportOptions)
+
+    const mailOptions: any = {
+      from: 'testpdf@gmail.com',
+      to: email,
+      subject: 'Votre simulation d\'installation photovoltaïque',
+      text: `
+              Bonjour,
+              Veuillez trouver ci joint votre simulation d'installation photovoltaïque.
+              Cordialement
+          `
+    }
+
+    // If pdfBuffer is provided, include it in the attachments
+    if (pdfBuffer) {
+      mailOptions.attachments = [{
+        filename: 'solarSimulation.pdf',
+        content: pdfBuffer
+      }]
+    }
+
+    transporter.sendMail(mailOptions, function (
+      // @ts-ignore
+      error,
+      // @ts-ignore
+      info
+    ) {
+      if (error) {
+        reject(error.message);
+      } else {
+        resolve(info.response);
+      }
+    });
+  });
 }
