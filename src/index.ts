@@ -300,28 +300,6 @@ app.post(
   })
 )
 
-
-app.get(
-  '/api/testEmail',
-  asyncHandler(async (req: Request & { session: MySessionData }, res: Response) => {
-    try {
-      const mail = await sendEmailPdf(
-        null, 
-        'toni.garcia@camptocamp.com'
-      )
-      res.json({
-        etat: 'ok',
-        return: JSON.stringify(mail) 
-      })
-    } catch (error) {
-      // @ts-ignore
-      return res.status(500).json({ error: error.toString() })
-    }
-  })
-)
-
-
-
 const port = process.env.PORT || 3000
 app.listen(port, () => {
   console.log(`Running on port ${port}`)
