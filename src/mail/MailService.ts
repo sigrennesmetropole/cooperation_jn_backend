@@ -8,12 +8,7 @@ export function sendEmailPdf (
     // EMAIL PDF
     const transportOptions: any = {
       host: process.env.EMAIL_HOST,
-      port: process.env.EMAIL_PORT,
-      secure: true, // use TLS
-      tls: {
-        // do not fail on invalid certs
-        rejectUnauthorized: false 
-      }
+      port: process.env.EMAIL_PORT
     }
 
     // Only include auth if not in production
