@@ -7,9 +7,9 @@ import { getPage5 } from './PdfPage5'
 import { getPage6 } from './PdfPage6'
 import { getPdfStyle } from './PdfStyle'
 import { type RoofSurfaceModel, type AutocalsolResult as AutocalsolResultType } from './type/type'
+import { getConfigFromKey } from '../config/configService'
 
 const fs = require('fs')
-export const SOLAR_PANEL_SURFACE = 1.8 // 1.8 m2 per solar panel
 
 export async function getPdfHtml (
   data_autocalsol: AutocalsolResultType,
@@ -22,7 +22,8 @@ export async function getPdfHtml (
   districtProduction: number,
   imgRoofBase64: string
 ) {
-  const currentSurface = currentNumSolarPanel * SOLAR_PANEL_SURFACE
+  // @ts-ignore
+  const currentSurface = currentNumSolarPanel *  getConfigFromKey('solar_panel.solar_panel_surface')
 
   const chartImageBase64 = await generateChartImg(data_autocalsol)
 

@@ -1,7 +1,8 @@
 import axios, { type Method } from 'axios'
 import { type AutocalsolType } from '../model/autocalsol.model'
+import { getConfigFromKey } from '../config/configService'
 
-const DATE_PROD_CONSO = '05-28'
+const date_prod_conso = getConfigFromKey('autocalsol.date_prod_conso')
 
 function getUrlFromEnv (): string | undefined {
   return process.env.AUTOCALSOL_URL
@@ -53,13 +54,13 @@ function convertTimestamp (timestamp: number): string {
   return `${year}-${month}-${day} ${hour}:${minute}:${second}`
 }
 
-// The consumption and production data are taken over a single day: DATE_PROD_CONSO
+// The consumption and production data are taken over a single day: date_prod_conso
 function getFormattedProdAndConso (data: Array<[number, string]>) {
   const dataFilterredOnTheGoodDay: Array<[string, string | number]> = []
 
   data.forEach((item) => {
     const date = convertTimestamp(item[0])
-    if (date.match('-' + DATE_PROD_CONSO + ' ') != null) {
+    if (date.match('-' + date_prod_conso + ' ') != null) {
       const hours = date.split(' ')[1]
       // Half-hour data is not taken into account
       if (hours.match(':30:') == null) {
@@ -108,18 +109,18 @@ export async function getComputeData (
         inclinaison: slope,
         orientation: azimuth,
         puissanceCrete: peak_power,
-        pr: 0.85,
-        tech: 'crystSi',
-        integration: 'free'
+        pr: getConfigFromKey('autocalsol.pr'),
+        tech: getConfigFromKey('autocalsol.tech'),
+        integration: getConfigFromKey('autocalsol.integration')
       },
       usePuissanceOnduleur: false,
       consommation: {
         typeConsommateur: 'res1',
         formatConso: 'default-conso',
         consoResidentielBase: {
-          typeCompteur: 1,
+          typeCompteur: getConfigFromKey('autocalsol.typeCompteur'),
           qteConso: annual_consumption,
-          tarifVente: 0.15,
+          tarifVente: getConfigFromKey('autocalsol.tarifVente'),
           tabConsommation: null
         }
       }

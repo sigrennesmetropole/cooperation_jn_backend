@@ -3,11 +3,13 @@ import { getQualiLabelsImg } from '../assets/qualiLabelsImg'
 import { getProfitabilityImg } from '../assets/profitabilityImg'
 import { getLinkWithIconArrow } from './LinkWithIconArrow'
 import { getImg } from '../ImgService'
+import { getConfigFromKey } from '../../config/configService'
 
-const URL_SIGNE_QUALITE = 'https://www.photovoltaique.info/fr/preparer-un-projet/quelles-demarches-realiser/choisir-son-installateur/#signes_de_qualite'
-const URL_CHOISIR_MODELE_ECO = 'https://www.photovoltaique.info/fr/preparer-un-projet/quelles-demarches-realiser/choisir-son-modele-economique/'
 
 export function getGoFurther () {
+  const url_signe_qualite = getConfigFromKey('link.url_signe_qualite')
+  const url_choisir_modele_eco =  getConfigFromKey('link.choisir_modele_eco')
+
   return `
     ${getPhotoVoltaique()}
 
@@ -28,7 +30,10 @@ export function getGoFurther () {
                 <img src="data:image/png;base64,${getImg('qualitEnR.png')}" class="h-10 w-[79px]">
                 <img src="data:image/png;base64,${getImg('qualifelec.png')}" class="h-10 w-[34px]">
             </div>
-            ${getLinkWithIconArrow(URL_SIGNE_QUALITE)}
+            ${getLinkWithIconArrow(
+                // @ts-ignore
+                url_signe_qualite
+            )}
         </div>
         <div class="flex-column gap-6 flex-1 bg-slate-100 rounded-lg p-6 mx-auto">
             <div class="rounded-xl" style="width: 100px">    
@@ -38,7 +43,10 @@ export function getGoFurther () {
                 Connaitre des ordres de grandeur de coûts et de rentabilité d'un
                 projet photovoltaïque
             </h2>
-            ${getLinkWithIconArrow(URL_CHOISIR_MODELE_ECO)}
+            ${getLinkWithIconArrow(
+                // @ts-ignore
+                url_choisir_modele_eco
+            )}
         </div>
     </div>
      

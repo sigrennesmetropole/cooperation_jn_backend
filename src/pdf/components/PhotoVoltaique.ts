@@ -1,7 +1,6 @@
 import { getImg } from '../ImgService'
 import { getButtonVisitWebsite } from './ButtonVisitWebsite'
-
-const PHOTOVOLTAIQUE_LINK = 'https://www.photovoltaique.info/fr/'
+import { getConfigFromKey } from '../../config/configService'
 
 export function getPhotoVoltaique () {
   return `
@@ -19,7 +18,12 @@ export function getPhotoVoltaique () {
                 le photovoltaïque.
             </p>
 
-            ${getButtonVisitWebsite(PHOTOVOLTAIQUE_LINK)}
+            ${
+                getButtonVisitWebsite(
+                    // @ts-ignore
+                    getConfigFromKey('link.photovoltaique_link')
+                )
+            }
         </div>
     </div>
     `

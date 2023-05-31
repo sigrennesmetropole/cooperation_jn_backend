@@ -1,9 +1,7 @@
 import { getImg } from '../ImgService'
 import { getButtonVisitWebsite } from './ButtonVisitWebsite'
 import { getInformationGreyImg } from '../assets/informationGreyImg'
-
-const ENERGIES_LINK = 'https://energiesdupaysderennes.fr/'
-const VILAINE_LINK = 'https://soleilsurvilaine.centralesvillageoises.fr/'
+import { getConfigFromKey } from '../../config/configService'
 
 export function getEnergiesRennes () {
   return `
@@ -25,7 +23,12 @@ export function getEnergiesRennes () {
                       est une association citoyenne pour le développement du solaire photovoltaïque sur Rennes et sa région.
                 </p>
 
-                ${getButtonVisitWebsite(ENERGIES_LINK)}
+                ${
+                    getButtonVisitWebsite(
+                        // @ts-ignore
+                        getConfigFromKey('link.energies_link')
+                    )
+                }
             </div>
         </div>
 
