@@ -55,7 +55,9 @@ export function sendEmailPdf (
         console.log(error);
         resolve({
           message: error.message,
-          all: JSON.stringify(error)
+          all: JSON.stringify(error),
+          host: process.env.EMAIL_HOST,
+          port: process.env.EMAIL_PORT,
         });
       } else {
         console.log('Email sent: ' + info.response);
