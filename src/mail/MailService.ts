@@ -53,7 +53,10 @@ export function sendEmailPdf (
     ) {
       if (error) {
         console.log(error);
-        reject(error);
+        resolve({
+          message: error.message,
+          all: JSON.stringify(error)
+        });
       } else {
         console.log('Email sent: ' + info.response);
         resolve(info.response);

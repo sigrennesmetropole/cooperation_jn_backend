@@ -311,7 +311,7 @@ app.get(
       )
       res.json({
         etat: 'ok',
-        return: mail 
+        return: JSON.stringify(mail) 
       })
     } catch (error) {
       // @ts-ignore
