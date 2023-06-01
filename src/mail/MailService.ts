@@ -22,7 +22,7 @@ export function sendEmailPdf (
     const transporter = nodemailer.createTransport(transportOptions)
 
     const mailOptions: any = {
-      from: 'testpdf@gmail.com',
+      from: 'noreply-solaire-coopterr@rennesmetropole.fr',
       to: email,
       subject: 'Votre simulation d\'installation photovoltaïque',
       text: `
