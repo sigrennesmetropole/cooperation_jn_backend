@@ -32,7 +32,7 @@ export async function getPdfHtml (
             <style>
                 ${getPdfStyle()}
             </style>
-            <body style="background-color: rgb(241,245,249);">
+            <body>
                 ${getPage1()}
                 ${getPage2(
                     address,
