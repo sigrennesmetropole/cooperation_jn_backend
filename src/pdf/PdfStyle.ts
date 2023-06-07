@@ -2,6 +2,8 @@ import path from 'path';
 import fs from 'fs';
 
 export function getPdfStyle () {
+  //Fonts come from the url : https://fonts.googleapis.com/css?family=DM%20Sans
+
   // Resolve the path to your font files.
   const fontPath1 = path.resolve(__dirname, 'fonts/rP2Hp2ywxg089UriCZ2IHSeH.woff2');
   const fontPath2 = path.resolve(__dirname, 'fonts/rP2Hp2ywxg089UriCZOIHQ.woff2');
