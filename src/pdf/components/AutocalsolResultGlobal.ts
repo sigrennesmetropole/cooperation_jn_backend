@@ -57,7 +57,7 @@ export function getAutocalsolResultGlobal (
             <div class="mt-8 font-dm-sans relative">
                 <div
                     class="bg-emerald-500 px-6 py-1 rounded-full w-fit absolute -top-3 "
-                    style="left: 12%;"
+                    style="left: 12%; z-index: 100;"
                 >
                     <span class="text-white text-base font-bold"> Autoconsommation </span>
                 </div>
