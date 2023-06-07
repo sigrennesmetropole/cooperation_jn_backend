@@ -11,6 +11,7 @@ import { generateHTMLPdf } from './pdf/PdfService'
 import { sendEmailPdf } from './mail/MailService'
 import cors from 'cors'
 import { getConfig } from './config/configService'
+import { getConsultationInformations } from './services/api-consultations'
 
 const asyncHandler = require('express-async-handler')
 
@@ -315,3 +316,18 @@ const port = process.env.PORT || 3000
 app.listen(port, () => {
   console.log(`Running on port ${port}`)
 })
+
+// ROUTES API CAP COLLECTIF : CONSULTATIONS INFORMATIONS
+app.get(
+  '/api/consultations',
+  asyncHandler(async (req: Request & { session: MySessionData }, res: Response) => {
+    try {
+      const consultationsInformations = await getConsultationInformations()
+      res.json({ informations: consultationsInformations })
+    } catch (error) {
+      // @ts-ignore
+      res.status(500).json({ error: error.toString() })
+    }
+  }
+  )
+)
