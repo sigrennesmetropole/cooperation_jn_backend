@@ -323,7 +323,7 @@ app.get(
   asyncHandler(async (req: Request & { session: MySessionData }, res: Response) => {
     try {
       const consultationsInformations = await getConsultationInformations()
-      res.json({ informations: consultationsInformations })
+      res.json(consultationsInformations)
     } catch (error) {
       // @ts-ignore
       res.status(500).json({ error: error.toString() })
