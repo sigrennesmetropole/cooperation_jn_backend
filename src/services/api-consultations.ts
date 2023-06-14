@@ -1,11 +1,11 @@
 import axios, { type Method } from 'axios'
 
-function getProjectUrl (): string | undefined {
-    return process.env.CAP_COLLECTIF_URL
+function getProjectsUrl (): string | undefined {
+    return process.env.FABRIQUE_CITOYENNE_URL
   }
 
 // function getThemeId (): string | undefined {
-//     return process.env.CAP_COLLECTIF_THEME_ID
+//     return process.env.FABRIQUE_CITOYENNE_THEME_ID
 // }
 
 function cleanGraphQlData(response: any) {
@@ -68,7 +68,6 @@ function cleanGraphQlData(response: any) {
 //     headers: {
 //       'Content-Type': 'application/graphql',
 //       'Accept': 'application/vnd.cap-collectif.preview+json'
-//       // Authorization: `Bearer xxx`
 //     },
 //     data
 //   }
@@ -151,14 +150,13 @@ async function getProjectFullInformations(projectId: string) {
         }
         `
 
-  const url = `${getProjectUrl()}`
+  const url = `${getProjectsUrl()}`
   const config = {
     method: 'post' as Method,
     url,
     headers: {
       'Content-Type': 'application/graphql',
       'Accept': 'application/vnd.cap-collectif.preview+json'
-      // Authorization: `Bearer xxx`
     },
     data
   }
@@ -176,14 +174,22 @@ export async function getConsultationInformations () {
 
     // const projectsBasicInformations: any[] = await getProjectsBasicInformations(getThemeId())
 
+    // This is a simulation of results given by the first api call on CapCollectif url. Do not remove for now.
+    // const projectsBasicInformations: any[] = [{
+    //     id:'UHJvamVjdDo2ZGZjMzc3Mi05MDBhLTExZWQtODBlMC0wMjQyYWMxMTAwMDk=',
+    //     title:'Concertation guidée TRAMBUS',
+    //     url:'https://demo3.cap-collectif.com/project/concertation-guidee-trambus/questionnaire/contribution-requalification-de-la-rue-chicogne'
+    // },{
+    //     id:'UHJvamVjdDowNmYwNmZmYS05MGNmLTExZWQtODBlMC0wMjQyYWMxMTAwMDk=',
+    //     title:'Boite à idées TRAMBUS',
+    //     url:'https://demo3.cap-collectif.com/project/boite-a-idees-trambus/presentation/le-trambus-quest-ce-que-cest'
+    // }]
+
+    // This is a simulation of results given by the first api call on FabriqueCitoyenne url. Do not remove for now.
     const projectsBasicInformations: any[] = [{
-        id:'UHJvamVjdDo2ZGZjMzc3Mi05MDBhLTExZWQtODBlMC0wMjQyYWMxMTAwMDk=',
-        title:'Concertation guidée TRAMBUS',
-        url:'https://demo3.cap-collectif.com/project/concertation-guidee-trambus/questionnaire/contribution-requalification-de-la-rue-chicogne'
-    },{
-        id:'UHJvamVjdDowNmYwNmZmYS05MGNmLTExZWQtODBlMC0wMjQyYWMxMTAwMDk=',
-        title:'Boite à idées TRAMBUS',
-        url:'https://demo3.cap-collectif.com/project/boite-a-idees-trambus/presentation/le-trambus-quest-ce-que-cest'
+        id:'UHJvamVjdDo4YTg1MWQyOS01MDdlLTExZWQtYWZjMy0wMjQyYWMxMTAwMDI=',
+        title:'Trambus',
+        url:'https://fabriquecitoyenne.fr/project/trambus/presentation/presentation'
     }]
 
     if(projectsBasicInformations.length >= 0) {
