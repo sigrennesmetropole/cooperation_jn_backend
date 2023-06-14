@@ -1,23 +1,93 @@
 import axios, { type Method } from 'axios'
 
-function getProjectId (): string | undefined {
-  return process.env.CAP_COLLECTIF_PROJECT_ID
-}
-
 function getProjectUrl (): string | undefined {
-    return process.env.CAP_COLLECTIF_PROJECT_URL
+    return process.env.CAP_COLLECTIF_URL
   }
 
-export async function getConsultationInformations () {
-// récupération de la données sur un projet à patir de son id
+// function getThemeId (): string | undefined {
+//     return process.env.CAP_COLLECTIF_THEME_ID
+// }
+
+function cleanGraphQlData(response: any) {
+    const data = response.data.data.node
+
+    let state = "open"
+    if(data.steps.every((s: { state: string }) => s.state == "CLOSED")) {
+        state = "closed"
+    }
+
+    const arrayDate: string [] = data.steps.filter((s: { timeRange: any | undefined }) => s.timeRange !== undefined).map((s: { timeRange: { endAt: string } }) => s.timeRange.endAt.split(" ")[0])
+
+    const sortedDates = arrayDate.sort((a, b) => {
+        const dateA: number = Date.parse(a);
+        const dateB: number = Date.parse(b);
+      
+        return dateB - dateA;
+      })
+   let displaySortedDates = sortedDates[0].split("-")
+   let date_end = displaySortedDates[2] + "/" + displaySortedDates[1] + "/" + displaySortedDates[0]
+
+   return {
+        id: data.id,
+        img: data.cover.url,
+        title: data.title,
+        status: state,
+        date_end: date_end,
+        location: "Non renseigné",
+        content: "Non renseigné",
+        nb_comments: data.contributions.totalCount,
+        nb_likes: data.votes.totalCount,
+        nb_persons: data.contributors.totalCount,
+        url: data.url
+    }
+}
+
+// Api call to get the projects from the theme id
+
+// async function getProjectsBasicInformations(themeId: string | undefined) {
+//     const data = `
+//       {
+//         projects(theme: ${themeId}) {
+//           totalCount
+//           edges {
+//             node {
+//               id
+//               title
+//               url
+//               }
+//             }
+//           }
+//         }
+//       }
+//       `
+
+//   const url = `${getProjectUrl()}`
+//   const config = {
+//     method: 'post' as Method,
+//     url,
+//     headers: {
+//       'Content-Type': 'application/graphql',
+//       'Accept': 'application/vnd.cap-collectif.preview+json'
+//       // Authorization: `Bearer xxx`
+//     },
+//     data
+//   }
+//   try {
+//     const response = await axios(config)
+//     return response.data.data
+//   } catch (error) {
+//     return []
+//   } 
+// }
+
+async function getProjectFullInformations(projectId: string) {
     const data =
         `
         {
-            node(id: "${getProjectId()}") {
+            node(id: "${projectId}") {
                 ... on Project {
                     id
                     title
-                    publishedAt
                     url
                     contributors {
                         totalCount
@@ -32,48 +102,55 @@ export async function getConsultationInformations () {
                         url
                     }
                     steps {
-                        state
                         __typename
+                        ... on QuestionnaireStep {
+                          id
+                          title
+                          state
+                          timeRange {
+                            endAt
+                          }
+                        }
+                        ... on SelectionStep {
+                          id
+                          title
+                          state
+                          timeRange {
+                            endAt
+                          }
+                        }
+                        ... on CollectStep {
+                          id
+                          title
+                          state
+                          timeRange {
+                            endAt
+                          }
+                        }
+                        ... on PresentationStep {
+                          id
+                          title
+                          state
+                        }
+                        ... on ConsultationStep {
+                          id
+                          title
+                          state
+                          timeRange {
+                            endAt
+                          }
+                        }
+                        ... on OtherStep {
+                          id
+                          title
+                          state
+                        }
                     }
                 }
             }
         }
         `
 
-    // récupération sur tous les projets => chercher comment regrouper les projets de TramBus
-    // const data = `
-    //   {
-    //     projects(first: 24, orderBy: {field: PUBLISHED_AT, direction: DESC}) {
-    //       totalCount
-    //       edges {
-    //         node {
-    //           id
-    //           title
-    //           publishedAt
-    //           url
-    //           contributors {
-    //             totalCount
-    //           }
-    //           votes {
-    //             totalCount
-    //           }
-    //           contributions {
-    //             totalCount
-    //           }
-    //           cover {
-    //             url
-    //           }
-    //           steps {
-    //             state
-    //             timeRange {
-    //               endAt
-    //             }
-    //           }
-    //         }
-    //       }
-    //     }
-    //   }
-    //   `
   const url = `${getProjectUrl()}`
   const config = {
     method: 'post' as Method,
@@ -90,34 +167,35 @@ export async function getConsultationInformations () {
     const cleanData = cleanGraphQlData(response)
     return cleanData
   } catch (error) {
-    // @ts-expect-error
-    throw new Error('Error during get consultations: ' + error.message)
-  }
+    return null
+  } 
 }
 
-function cleanGraphQlData(response: any) {
-    const data = response.data.data.node
+export async function getConsultationInformations () {
+    const projectsInformations: any[] = []
 
-    // Statut du projet en focntion du statut de ses steps A REVOIR
-    let state = "inAnalysis"
-    if(data.steps.every((s: { state: string }) => s.state == "CLOSED")) {
-        state = "closed"
-    }
-    else if(data.steps.every((s: { state: string }) => s.state == "OPENED")) {
-        state = "open"
-    }
+    // const projectsBasicInformations: any[] = await getProjectsBasicInformations(getThemeId())
 
-    return [{
-        id: data.id,
-        img: data.cover.url,
-        title: data.title,
-        status: state,
-        date_end: "01/01/2001",
-        location: "fix me",
-        content: "no content",
-        nb_comments: data.contributions.totalCount,
-        nb_likes: data.votes.totalCount,
-        nb_persons: data.contributors.totalCount,
-        link: data.url
+    const projectsBasicInformations: any[] = [{
+        id:'UHJvamVjdDo2ZGZjMzc3Mi05MDBhLTExZWQtODBlMC0wMjQyYWMxMTAwMDk=',
+        title:'Concertation guidée TRAMBUS',
+        url:'https://demo3.cap-collectif.com/project/concertation-guidee-trambus/questionnaire/contribution-requalification-de-la-rue-chicogne'
+    },{
+        id:'UHJvamVjdDowNmYwNmZmYS05MGNmLTExZWQtODBlMC0wMjQyYWMxMTAwMDk=',
+        title:'Boite à idées TRAMBUS',
+        url:'https://demo3.cap-collectif.com/project/boite-a-idees-trambus/presentation/le-trambus-quest-ce-que-cest'
     }]
-}
+
+    if(projectsBasicInformations.length >= 0) {
+        for (let project of projectsBasicInformations) {
+            const projectInformation = await getProjectFullInformations(project.id)
+            if(projectInformation) {
+                projectsInformations.push(projectInformation)
+            }
+            else {
+                projectsInformations.push(project)
+            }
+        }
+    }
+    return projectsInformations
+  }
