@@ -5,6 +5,7 @@ import { getUrlUserAuthorization, getAnnualConsumption } from './services/api-en
 import { getTotalDistrictDatas } from './services/api-enedis-district'
 import { getComputeData } from './services/api-autocalsol'
 import { getIrisCode } from './services/api-iris'
+import { getAddressReverse } from './services/api-address'
 import { type MySessionData } from './interface/MySessionData'
 import { check, validationResult, body } from 'express-validator'
 import { generateHTMLPdf } from './pdf/PdfService'
@@ -310,6 +311,25 @@ app.get('/api/config', (req: Request & { session: MySessionData }, res: Response
     res.status(500).json({ error: error.toString() })
   }
 })
+
+app.get(
+  '/api/address-reverse/:lat/:lon',
+  [
+    check('lat').isFloat({ min: -90, max: 90 }).toFloat(),
+    check('lon').isFloat({ min: -180, max: 180 }).toFloat()
+  ],
+  asyncHandler(async (req: Request & { session: MySessionData }, res: Response) => {
+    try {
+      const address = await getAddressReverse(req.params.lat, req.params.lon)
+      res.json(address)
+    } catch (error) {
+      // @ts-ignore
+      res.status(500).json({ 
+        error: 'Récupération d\'adresse échouée, mais position obtenue. Vous pouvez continuer la simulation.' 
+      })
+    }
+  })
+)
 
 const port = process.env.PORT || 3000
 app.listen(port, () => {
