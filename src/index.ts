@@ -199,7 +199,6 @@ app.get(
 
 const puppeteer = require('puppeteer')
 const pdfMiddleware = [
-  body('address').isString().notEmpty().withMessage('address must be a string not empty'),
   body('annual_consumption').isNumeric().withMessage('annual_consumption must be a number'),
   body('currentNumSolarPanel').isNumeric().notEmpty().withMessage('currentNumSolarPanel must be a number not empty'),
   body('latitude').isNumeric().withMessage('latitude must be a number'),
@@ -324,9 +323,7 @@ app.get(
       res.json(address)
     } catch (error) {
       // @ts-ignore
-      res.status(500).json({ 
-        error: 'Récupération d\'adresse échouée, mais position obtenue. Vous pouvez continuer la simulation.' 
-      })
+      res.status(500).json({ error: error.toString() })
     }
   })
 )
