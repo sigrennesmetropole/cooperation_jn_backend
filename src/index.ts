@@ -12,6 +12,8 @@ import { generateHTMLPdf } from './pdf/PdfService'
 import { sendEmailPdf } from './mail/MailService'
 import cors from 'cors'
 import { getConfig } from './config/configService'
+import { getSiteMeasurement } from './services/api-exem'
+import { getSitesMeasurement } from './services/api-exem'
 
 const asyncHandler = require('express-async-handler')
 
@@ -321,6 +323,39 @@ app.get(
     try {
       const address = await getAddressReverse(req.params.lat, req.params.lon)
       res.json(address)
+    } catch (error) {
+      // @ts-ignore
+      res.status(500).json({ error: error.toString() })
+    }
+  })
+)
+
+// ROUTES API REAL TIME MESUREMENT
+
+app.get(
+  '/api/sitemeasurement/:id',
+  [
+    check('id')
+      .isString()
+      .isLength({ min: 1 })
+  ],
+  asyncHandler(async (req: Request & { session: MySessionData }, res: Response) => {
+    try {
+      const sitemeasurement = await getSiteMeasurement(req.params.id)
+      res.json(sitemeasurement)
+    } catch (error) {
+      // @ts-ignore
+      res.status(500).json({ error: error.toString() })
+    }
+  })
+)
+
+app.get(
+  '/api/sitesmeasurement',
+  asyncHandler(async (req: Request & { session: MySessionData }, res: Response) => {
+    try {
+      const sitesmeasurement = await getSitesMeasurement()
+      res.json(sitesmeasurement)
     } catch (error) {
       // @ts-ignore
       res.status(500).json({ error: error.toString() })
