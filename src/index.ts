@@ -13,7 +13,7 @@ import { sendEmailPdf } from './mail/MailService'
 import cors from 'cors'
 import { getConfig } from './config/configService'
 import { getSiteMeasurement } from './services/api-exem'
-import { getSitesMeasurement } from './services/api-exem'
+import { getModifiedSitesMeasurement } from './services/api-exem'
 
 const asyncHandler = require('express-async-handler')
 
@@ -354,7 +354,7 @@ app.get(
   '/api/sitesmeasurement',
   asyncHandler(async (req: Request & { session: MySessionData }, res: Response) => {
     try {
-      const sitesmeasurement = await getSitesMeasurement()
+      const sitesmeasurement = await getModifiedSitesMeasurement()
       res.json(sitesmeasurement)
     } catch (error) {
       // @ts-ignore
