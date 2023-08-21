@@ -29,7 +29,7 @@ app.use(cors({
     // allow requests with no origin (like mobile apps or curl requests)
     if (!origin) { callback(null, true); return }
     if ((allowedOrigins != null) && !allowedOrigins.includes(origin)) {
-      const msg = 'The CORS policy for this site does not allow access from the specified Origin.'
+      const msg = "The CORS policy for this site does not allow access from the specified Origin: " + origin
       callback(new Error(msg), false); return
     }
     callback(null, true)
