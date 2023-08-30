@@ -331,12 +331,13 @@ app.get(
 
 // RVA
 app.get(
-  '/api/rva/fulladdress/:fulladdress',
+  '/api/rva/fulladdress',
   [],
   asyncHandler(
     async (req: Request & { session: MySessionData }, res: Response) => {
       try {
-        const addresses = await apiRvaService.fetchFullAddresses(req.params.fulladdress)
+        console.log(req.query.q)
+        const addresses = await apiRvaService.fetchFullAddresses(req.query.q as string)
         res.json(addresses)
       } catch (error) {
         // @ts-expect-error
