@@ -1,4 +1,4 @@
-const fetch = require('node-fetch')
+import axios, { type Method } from 'axios'
 
 class ApiSitesorgService {
   // Documention of API : https://api-sitesorg.sig.rennesmetropole.fr/doc/api
@@ -15,14 +15,17 @@ class ApiSitesorgService {
 
   async sendRequest (url: string): Promise<any> {
     const apiKey = this.getApiKey()
-    const response = await fetch(url, {
-      method: 'GET',
+    const config = {
+      method: 'get' as Method,
+      url,
+      timeout: 20000, // 20 seconds
       headers: {
         'x-api-key': apiKey
       }
-    })
-    const data = await response.json()
-    return data
+    }
+
+    const response = await axios(config)
+    return response.data
   }
 
   async fetchOrganizations (search: string): Promise<any> {
