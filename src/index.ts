@@ -14,6 +14,8 @@ import { apiRvaService } from './services/api-rva'
 import { apiSitesorgService } from './services/api-siteorg'
 import cors from 'cors'
 import { getConfig } from './config/configService'
+import { getSiteMeasurement } from './services/api-exem'
+import { getModifiedSitesMeasurement } from './services/api-exem'
 
 const asyncHandler = require('express-async-handler')
 
@@ -25,11 +27,11 @@ const app: Express = express()
 app.use(cors({
   origin: function (origin, callback) {
     const allowedOrigins = process.env.ALLOWED_ORIGINS?.split(',')
-
+    console.log("allowedOrigins: ", allowedOrigins)
     // allow requests with no origin (like mobile apps or curl requests)
     if (!origin) { callback(null, true); return }
     if ((allowedOrigins != null) && !allowedOrigins.includes(origin)) {
-      const msg = 'The CORS policy for this site does not allow access from the specified Origin.'
+      const msg = "The CORS policy for this site does not allow access from the specified Origin: " + origin
       callback(new Error(msg), false); return
     }
     callback(null, true)
@@ -426,6 +428,38 @@ app.get(
       }
     }
   )
+)
+// ROUTES API REAL TIME MESUREMENT
+
+app.get(
+  '/api/sitemeasurement/:id',
+  [
+    check('id')
+      .isString()
+      .isLength({ min: 1 })
+  ],
+  asyncHandler(async (req: Request & { session: MySessionData }, res: Response) => {
+    try {
+      const sitemeasurement = await getSiteMeasurement(req.params.id)
+      res.json(sitemeasurement)
+    } catch (error) {
+      // @ts-ignore
+      res.status(500).json({ error: error.toString() })
+    }
+  })
+)
+
+app.get(
+  '/api/sitesmeasurement',
+  asyncHandler(async (req: Request & { session: MySessionData }, res: Response) => {
+    try {
+      const sitesmeasurement = await getModifiedSitesMeasurement()
+      res.json(sitesmeasurement)
+    } catch (error) {
+      // @ts-ignore
+      res.status(500).json({ error: error.toString() })
+    }
+  })
 )
 
 const port = process.env.PORT || 3000
