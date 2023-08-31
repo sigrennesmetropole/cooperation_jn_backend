@@ -1,4 +1,4 @@
-const fetch = require('node-fetch')
+import axios, { type Method } from 'axios'
 
 interface ApiData {
   rva: {
@@ -28,7 +28,6 @@ interface AddressRva {
   y: string
   zipcode: string
 }
-
 
 interface AddressCommune {
   insee: string
@@ -77,8 +76,15 @@ class ApiRvaService {
     if (displayInsee) {
       url += '&insee=all'
     }
-    const response = await fetch(url)
-    const data: ApiData = await response.json() as ApiData
+
+    const config = {
+      method: 'get' as Method,
+      url,
+      timeout: 20000 // 20 seconds
+    }
+
+    const response = await axios(config)
+    const data: ApiData = response.data
     return data
   }
 
