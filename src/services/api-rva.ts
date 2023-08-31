@@ -56,13 +56,21 @@ interface AddressStreet {
 class ApiRvaService {
   // Documention of API : https://api-rva.sig.rennesmetropole.fr/documentation.php
 
+  getApiKey (): string {
+    if (process.env.ENV === 'dev') {
+      return process.env.RVA_API_KEY as string
+    } else {
+      return process.env.RVA_PROD_API_KEY as string
+    }
+  }
+
   async fetchAddress (
     search: string,
     filter: string,
     displayInsee: boolean = false
   ): Promise<ApiData> {
     const baseUrl = 'https://api-rva.sig.rennesmetropole.fr/'
-    const apiKey = 'b44535986cf3abf2428d'
+    const apiKey = this.getApiKey()
     let url =
         baseUrl +
         `?key=${apiKey}&version=1.0&format=json&epsg=4326&cmd=${filter}&query=${search}`
