@@ -336,8 +336,39 @@ app.get(
   asyncHandler(
     async (req: Request & { session: MySessionData }, res: Response) => {
       try {
-        console.log(req.query.q)
         const addresses = await apiRvaService.fetchFullAddresses(req.query.q as string)
+        res.json(addresses)
+      } catch (error) {
+        // @ts-expect-error
+        res.status(500).json({ error: error.toString() })
+      }
+    }
+  )
+)
+
+app.get(
+  '/api/rva/communes',
+  [],
+  asyncHandler(
+    async (req: Request & { session: MySessionData }, res: Response) => {
+      try {
+        const communes = await apiRvaService.fetchCommunes(req.query.q as string)
+        res.json(communes)
+      } catch (error) {
+        // @ts-expect-error
+        res.status(500).json({ error: error.toString() })
+      }
+    }
+  )
+)
+
+app.get(
+  '/api/rva/streets',
+  [],
+  asyncHandler(
+    async (req: Request & { session: MySessionData }, res: Response) => {
+      try {
+        const addresses = await apiRvaService.fetchStreets(req.query.q as string)
         res.json(addresses)
       } catch (error) {
         // @ts-expect-error
