@@ -29,12 +29,6 @@ interface AddressRva {
   zipcode: string
 }
 
-// interface AddressOrganization {
-//   id: number
-//   x?: number
-//   y?: number
-//   addr: string
-// }
 
 interface AddressCommune {
   insee: string

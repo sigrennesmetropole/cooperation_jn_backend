@@ -11,6 +11,7 @@ import { check, validationResult, body } from 'express-validator'
 import { generateHTMLPdf } from './pdf/PdfService'
 import { sendEmailPdf } from './mail/MailService'
 import { apiRvaService } from './services/api-rva'
+import { apiSitesorgService } from './services/api-siteorg'
 import cors from 'cors'
 import { getConfig } from './config/configService'
 
@@ -368,8 +369,57 @@ app.get(
   asyncHandler(
     async (req: Request & { session: MySessionData }, res: Response) => {
       try {
-        const addresses = await apiRvaService.fetchStreets(req.query.q as string)
-        res.json(addresses)
+        const streets = await apiRvaService.fetchStreets(req.query.q as string)
+        res.json(streets)
+      } catch (error) {
+        // @ts-expect-error
+        res.status(500).json({ error: error.toString() })
+      }
+    }
+  )
+)
+
+// Site Org
+app.get(
+  '/api/siteorg/organizations',
+  [],
+  asyncHandler(
+    async (req: Request & { session: MySessionData }, res: Response) => {
+      try {
+        const organizations = await apiSitesorgService.fetchOrganizations(req.query.q as string)
+        res.json(organizations)
+      } catch (error) {
+        // @ts-expect-error
+        res.status(500).json({ error: error.toString() })
+      }
+    }
+  )
+)
+
+app.get(
+  '/api/siteorg/organization/:id',
+  [],
+  asyncHandler(
+    async (req: Request & { session: MySessionData }, res: Response) => {
+      try {
+        const organization = await apiSitesorgService.fetchOrganizationById(req.params.id as unknown as number)
+        res.json(organization)
+      } catch (error) {
+        // @ts-expect-error
+        res.status(500).json({ error: error.toString() })
+      }
+    }
+  )
+)
+
+app.get(
+  '/api/siteorg/site/:id',
+  [],
+  asyncHandler(
+    async (req: Request & { session: MySessionData }, res: Response) => {
+      try {
+        const site = await apiSitesorgService.fetchSiteById(req.params.id as unknown as number)
+        res.json(site)
       } catch (error) {
         // @ts-expect-error
         res.status(500).json({ error: error.toString() })
