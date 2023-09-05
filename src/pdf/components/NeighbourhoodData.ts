@@ -14,10 +14,25 @@ export function getNeighbourhoodData (
         class="flex-row px-4 py-[19px] gap-3 bg-amber-50 border border-amber-200 font-dm-sans text-amber-900 rounded-lg font-normal text-sm"
         style="margin-top: 30px;"
     >
-        <div 
+        <div
             class="w-5 h-5 my-auto"
             style="margin-top: auto; margin-bottom: auto;"
-        > 
+        >
+            ${getWarningImg()}
+        </div>
+        <p>
+        La représentation de la production s'appuie sur l'ensoleillement d'une
+        journée d'été passée. Il ne s'agit pas d'une production idéale.
+        </p>
+    </div>
+    <div
+        class="flex-row px-4 py-[19px] gap-3 bg-amber-50 border border-amber-200 font-dm-sans text-amber-900 rounded-lg font-normal text-sm"
+        style="margin-top: 30px;"
+    >
+        <div
+            class="w-5 h-5 my-auto"
+            style="margin-top: auto; margin-bottom: auto;"
+        >
             ${getWarningImg()}
         </div>
         <p>
