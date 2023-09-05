@@ -468,20 +468,10 @@ app.get(
     try {
       const env = {
         env: process.env.ENV,
-        SITEORG_API_KEY: '',
-        RVA_API_KEY: ''
-      }
-
-      if (process.env.ENV === 'dev') {
-        env.SITEORG_API_KEY = process.env.SITEORG_API_KEY as string
-      } else {
-        env.SITEORG_API_KEY = process.env.SITEORG_PROD_API_KEY as string
-      }
-
-      if (process.env.ENV === 'dev') {
-        env.RVA_API_KEY = process.env.RVA_API_KEY as string
-      } else {
-        env.RVA_API_KEY = process.env.RVA_PROD_API_KEY as string
+        SITEORG_API_KEY: process.env.SITEORG_API_KEY,
+        RVA_API_KEY: process.env.RVA_API_KEY,
+        SITEORG_PROD_API_KEY: process.env.SITEORG_PROD_API_KEY,
+        RVA_PROD_API_KEY: process.env.RVA_PROD_API_KEY
       }
       res.json(env)
     } catch (error) {
