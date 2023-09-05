@@ -462,24 +462,24 @@ app.get(
   })
 )
 
-app.get(
-  '/api/check-env',
-  asyncHandler(async (req: Request & { session: MySessionData }, res: Response) => {
-    try {
-      const env = {
-        env: process.env.ENV,
-        SITEORG_API_KEY: process.env.SITEORG_API_KEY,
-        RVA_API_KEY: process.env.RVA_API_KEY,
-        SITEORG_PROD_API_KEY: process.env.SITEORG_PROD_API_KEY,
-        RVA_PROD_API_KEY: process.env.RVA_PROD_API_KEY
-      }
-      res.json(env)
-    } catch (error) {
-      // @ts-ignore
-      res.status(500).json({ error: error.toString() })
-    }
-  })
-)
+// app.get(
+//   '/api/check-env',
+//   asyncHandler(async (req: Request & { session: MySessionData }, res: Response) => {
+//     try {
+//       const env = {
+//         env: process.env.ENV,
+//         SITEORG_API_KEY: process.env.SITEORG_API_KEY,
+//         RVA_API_KEY: process.env.RVA_API_KEY,
+//         SITEORG_PROD_API_KEY: process.env.SITEORG_PROD_API_KEY,
+//         RVA_PROD_API_KEY: process.env.RVA_PROD_API_KEY
+//       }
+//       res.json(env)
+//     } catch (error) {
+//       // @ts-ignore
+//       res.status(500).json({ error: error.toString() })
+//     }
+//   })
+// )
 
 const port = process.env.PORT || 3000
 app.listen(port, () => {
