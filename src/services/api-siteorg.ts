@@ -9,7 +9,7 @@ class ApiSitesorgService {
     if (process.env.ENV === 'dev') {
       return process.env.SITEORG_API_KEY as string
     } else {
-      return process.env.SITEORG_PROD_API_KEY as string
+      return process.env.SITEORG_API_KEY as string
     }
   }
 
