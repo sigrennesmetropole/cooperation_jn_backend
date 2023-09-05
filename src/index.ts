@@ -10,6 +10,8 @@ import { type MySessionData } from './interface/MySessionData'
 import { check, validationResult, body } from 'express-validator'
 import { generateHTMLPdf } from './pdf/PdfService'
 import { sendEmailPdf } from './mail/MailService'
+import { apiRvaService } from './services/api-rva'
+import { apiSitesorgService } from './services/api-siteorg'
 import cors from 'cors'
 import { getConfig } from './config/configService'
 import { getSiteMeasurement } from './services/api-exem'
@@ -51,7 +53,7 @@ app.get('/api/enedis/user/url-authorization', (req: Request & { session: MySessi
     const url = getUrlUserAuthorization(req)
     res.json({ url: getUrlUserAuthorization(req) })
   } catch (error) {
-    // @ts-ignore
+    // @ts-expect-error
     res.status(500).json({ error: error.toString() })
   }
 })
@@ -61,7 +63,7 @@ app.get('/api/enedis/user/prm', (req: Request & { session: MySessionData }, res:
     const prm = req.session.prm
     res.json({ prm })
   } catch (error) {
-    // @ts-ignore
+    // @ts-expect-error
     res.status(500).json({ error: error.toString() })
   }
 })
@@ -84,7 +86,7 @@ app.post(
       req.session.save()
       res.json({ prm })
     } catch (error) {
-      // @ts-ignore
+      // @ts-expect-error
       res.status(500).json({ error: error.toString() })
     }
   }
@@ -97,7 +99,7 @@ app.get(
       const annual_consumption = await getAnnualConsumption(req)
       res.json({ consumption: annual_consumption })
     } catch (error) {
-      // @ts-ignore
+      // @ts-expect-error
       res.status(500).json({ error: error.toString() })
     }
   }
@@ -123,7 +125,7 @@ app.get(
       const districtDatas = await getTotalDistrictDatas(req.params.codeIris)
       res.json(districtDatas)
     } catch (error) {
-      // @ts-ignore
+      // @ts-expect-error
       res.status(500).json({ error: error.toString() })
     }
   })
@@ -172,7 +174,7 @@ app.get(
         )
         res.json({ compute })
       } catch (error) {
-        // @ts-ignore
+        // @ts-expect-error
         res.status(500).json({ error: error.toString() })
       }
     } else {
@@ -193,7 +195,7 @@ app.get(
       const codeIris = await getIrisCode(req.params.lat, req.params.lon)
       res.json(codeIris)
     } catch (error) {
-      // @ts-ignore
+      // @ts-expect-error
       res.status(500).json({ error: error.toString() })
     }
   })
@@ -245,7 +247,7 @@ app.post(
     }
 
     try {
-      const browser = await puppeteer.launch({headless: true, args: ['--no-sandbox']})
+      const browser = await puppeteer.launch({ headless: true, args: ['--no-sandbox'] })
       const page = await browser.newPage()
       await page.setContent(html)
       await page.emulateMediaType('screen')
@@ -279,12 +281,12 @@ app.post(
         return res.status(500).json({ error: 'Error during PDF Generation' })
       }
     } catch (error) {
-      // @ts-ignore
+      // @ts-expect-error
       res.status(500).json({ error: 'Error during PDF Generation:' + error.toString() })
     }
 
     try {
-      const browser = await puppeteer.launch({headless: true, args: ['--no-sandbox']})
+      const browser = await puppeteer.launch({ headless: true, args: ['--no-sandbox'] })
       const page = await browser.newPage()
       await page.setContent(html)
       await page.emulateMediaType('screen')
@@ -297,7 +299,7 @@ app.post(
       res.send(pdfBuffer)
       await browser.close()
     } catch (error) {
-      // @ts-ignore
+      // @ts-expect-error
       res.status(500).json({ error: 'Error during PDF Generation:' + error.toString() })
     }
   })
@@ -308,7 +310,7 @@ app.get('/api/config', (req: Request & { session: MySessionData }, res: Response
     const config = getConfig()
     res.json({ config })
   } catch (error) {
-    // @ts-ignore
+    // @ts-expect-error
     res.status(500).json({ error: error.toString() })
   }
 })
@@ -324,12 +326,109 @@ app.get(
       const address = await getAddressReverse(req.params.lat, req.params.lon)
       res.json(address)
     } catch (error) {
-      // @ts-ignore
+      // @ts-expect-error
       res.status(500).json({ error: error.toString() })
     }
   })
 )
 
+// RVA
+app.get(
+  '/api/rva/fulladdress',
+  [],
+  asyncHandler(
+    async (req: Request & { session: MySessionData }, res: Response) => {
+      try {
+        const addresses = await apiRvaService.fetchFullAddresses(req.query.q as string)
+        res.json(addresses)
+      } catch (error) {
+        // @ts-expect-error
+        res.status(500).json({ error: error.toString() })
+      }
+    }
+  )
+)
+
+app.get(
+  '/api/rva/communes',
+  [],
+  asyncHandler(
+    async (req: Request & { session: MySessionData }, res: Response) => {
+      try {
+        const communes = await apiRvaService.fetchCommunes(req.query.q as string)
+        res.json(communes)
+      } catch (error) {
+        // @ts-expect-error
+        res.status(500).json({ error: error.toString() })
+      }
+    }
+  )
+)
+
+app.get(
+  '/api/rva/streets',
+  [],
+  asyncHandler(
+    async (req: Request & { session: MySessionData }, res: Response) => {
+      try {
+        const streets = await apiRvaService.fetchStreets(req.query.q as string)
+        res.json(streets)
+      } catch (error) {
+        // @ts-expect-error
+        res.status(500).json({ error: error.toString() })
+      }
+    }
+  )
+)
+
+// Site Org
+app.get(
+  '/api/siteorg/organizations',
+  [],
+  asyncHandler(
+    async (req: Request & { session: MySessionData }, res: Response) => {
+      try {
+        const organizations = await apiSitesorgService.fetchOrganizations(req.query.q as string)
+        res.json(organizations)
+      } catch (error) {
+        // @ts-expect-error
+        res.status(500).json({ error: error.toString() })
+      }
+    }
+  )
+)
+
+app.get(
+  '/api/siteorg/organization/:id',
+  [],
+  asyncHandler(
+    async (req: Request & { session: MySessionData }, res: Response) => {
+      try {
+        const organization = await apiSitesorgService.fetchOrganizationById(req.params.id as unknown as number)
+        res.json(organization)
+      } catch (error) {
+        // @ts-expect-error
+        res.status(500).json({ error: error.toString() })
+      }
+    }
+  )
+)
+
+app.get(
+  '/api/siteorg/site/:id',
+  [],
+  asyncHandler(
+    async (req: Request & { session: MySessionData }, res: Response) => {
+      try {
+        const site = await apiSitesorgService.fetchSiteById(req.params.id as unknown as number)
+        res.json(site)
+      } catch (error) {
+        // @ts-expect-error
+        res.status(500).json({ error: error.toString() })
+      }
+    }
+  )
+)
 // ROUTES API REAL TIME MESUREMENT
 
 app.get(
