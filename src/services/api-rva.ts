@@ -59,7 +59,7 @@ class ApiRvaService {
     if (process.env.ENV === 'dev') {
       return process.env.RVA_API_KEY as string
     } else {
-      return process.env.RVA_PROD_API_KEY as string
+      return process.env.RVA_API_KEY as string
     }
   }
 
