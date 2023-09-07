@@ -11,7 +11,7 @@
         "typeConsommateur": "res1",
         "typeCompteur": 1,
         "tarifVente": 0.15,
-        "date_prod_conso": "05-09"
+        "date_prod_conso": "2012-07-26"
     },
     "solar_panel": {
         "solar_panel_surface": 1.8,
