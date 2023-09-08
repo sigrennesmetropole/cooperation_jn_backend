@@ -18,15 +18,15 @@ export function getPage4 (
             <!-- Content -->
             <div
                 class="flex-column box-white margin-x-30"
-                style="margin-top: 100px;"
+                style="margin-top: 40px;"
             >
                 <div class="flex-row items-center gap-4" style="margin-top: 10px;">
                     ${getEconomiesImg()}
                     <span class="font-bold text-2xl" style="margin-top: 20px;">
                         Votre production d'énergie
-                    </span> 
+                    </span>
                 </div>
-        
+
                 <span class="font-bold text-xl" style="margin-top: 40px">
                     Comment réduire au maximum sa facture d'électricité ?
                 </span>
@@ -37,10 +37,10 @@ export function getPage4 (
                     de consommation, par exemple mettre en route vos appareils électriques
                     en journée au moment de la production photovoltaïque.
                 </p>
-        
+
                 <div style="position: relative;">
-                    <img 
-                        src="data:image/png;base64,${chartImageBase64}" 
+                    <img
+                        src="data:image/png;base64,${chartImageBase64}"
                         alt="Chart image"
                         style="width: 100%; height: auto;"
                     >
@@ -48,10 +48,10 @@ export function getPage4 (
                     ${getLegendOverGraph()}
                 </div>
             </div>
-        
+
 
             <!-- Footer -->
-            <div style="margin-top: 140px;">
+            <div style="margin-top: 170px;">
                 ${getFooter(4)}
             </div>
         </div>

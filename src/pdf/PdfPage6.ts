@@ -25,10 +25,10 @@ export function getPage6 () {
                 ${getEnergiesRennes()}
             </div>
 
-        
+
 
             <!-- Footer -->
-            <div style="margin-top: 150px;">
+            <div style="margin-top: 140px;">
                 ${getFooter(6)}
             </div>
         </div>
