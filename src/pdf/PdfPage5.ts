@@ -19,7 +19,7 @@ export function getPage5 () {
             </div>
 
             <!-- Footer -->
-            <div style="margin-top: 90px;">
+            <div style="margin-top: 80px;">
                 ${getFooter(5)}
             </div>
         </div>
