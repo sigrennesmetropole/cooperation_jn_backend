@@ -20,13 +20,13 @@ export function getPage3 (
             <!-- Content -->
             <div
                 class="flex-column box-white margin-x-30"
-                style="margin-top: 100px;"
+                style="margin-top: 40px;"
             >
                 <div class="flex-row items-center gap-4" style="margin-top: 10px;">
                     ${getEconomiesImg()}
                     <span class="font-bold text-2xl" style="margin-top: 20px;">
                         Votre production d'énergie
-                    </span> 
+                    </span>
                 </div>
                 ${getAutocalsolResultGlobal(
                     autocalsolResult
@@ -40,7 +40,7 @@ export function getPage3 (
             </div>
 
             <!-- Footer -->
-            <div style="margin-top: 180px;">
+            <div style="margin-top: 100px;">
                 ${getFooter(3)}
             </div>
         </div>
