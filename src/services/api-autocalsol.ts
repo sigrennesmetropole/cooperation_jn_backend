@@ -60,7 +60,7 @@ function getFormattedProdAndConso (data: Array<[number, string]>) {
 
   data.forEach((item) => {
     const date = convertTimestamp(item[0])
-    if (date.match('-' + date_prod_conso + ' ') != null) {
+    if (date.startsWith(date_prod_conso + ' ')) {
       const hours = date.split(' ')[1]
       // Half-hour data is not taken into account
       if (hours.match(':30:') == null) {
