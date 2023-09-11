@@ -23,11 +23,11 @@ export async function getPdfHtml (
   imgRoofBase64: string
 ) {
   // @ts-ignore
-  const currentSurface = currentNumSolarPanel *  getConfigFromKey('solar_panel.solar_panel_surface')
+  const currentSurface = currentNumSolarPanel * getConfigFromKey('solar_panel.solar_panel_surface')
 
   const chartImageBase64 = await generateChartImg(data_autocalsol)
 
-  const html = `           
+  const html = `
         <html>
             <style>
                 ${getPdfStyle()}
