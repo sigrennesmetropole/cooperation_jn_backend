@@ -1,4 +1,4 @@
-import nodemailer from "nodemailer";
+import nodemailer, { SentMessageInfo } from "nodemailer";
 
 export async function sendEmailPdf(pdfBuffer: Buffer | null, email: string) {
   return await new Promise((resolve, reject) => {
@@ -39,12 +39,15 @@ export async function sendEmailPdf(pdfBuffer: Buffer | null, email: string) {
       ];
     }
 
-    transporter.sendMail(mailOptions, function (error: Error, info) {
-      if (error) {
-        reject(error.message);
-      } else {
-        resolve(info.response);
+    transporter.sendMail(
+      mailOptions,
+      function (error: Error | null, info: SentMessageInfo) {
+        if (error) {
+          reject(error.message);
+        } else {
+          resolve(info.response);
+        }
       }
-    });
+    );
   });
 }

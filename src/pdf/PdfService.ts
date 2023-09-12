@@ -2,8 +2,9 @@ import { getComputeData } from "./../services/api-autocalsol";
 import { getIrisCode } from "./../services/api-iris";
 import { getTotalDistrictDatas } from "./../services/api-enedis-district";
 import { getPdfHtml } from "./PdfHtml";
+import { Request } from "express";
 
-export async function generateHTMLPdf(req) {
+export async function generateHTMLPdf(req: Request) {
   /* Get data autocalsol */
   let data_autocalsol;
   if (
