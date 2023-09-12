@@ -1,17 +1,14 @@
-import { getComputeData } from './../services/api-autocalsol'
-import { getIrisCode } from './../services/api-iris'
-import { getTotalDistrictDatas } from './../services/api-enedis-district'
-import { getPdfHtml } from './PdfHtml'
+import { getComputeData } from "./../services/api-autocalsol";
+import { getIrisCode } from "./../services/api-iris";
+import { getTotalDistrictDatas } from "./../services/api-enedis-district";
+import { getPdfHtml } from "./PdfHtml";
 
-export async function generateHTMLPdf (
-  // @ts-expect-error
-  req
-) {
+export async function generateHTMLPdf(req) {
   /* Get data autocalsol */
-  let data_autocalsol
+  let data_autocalsol;
   if (
     req.body.autocalsolResult === undefined ||
-      req.body.autocalsolResult === null
+    req.body.autocalsolResult === null
   ) {
     try {
       data_autocalsol = await getComputeData(
@@ -21,34 +18,33 @@ export async function generateHTMLPdf (
         req.body.azimuth,
         req.body.annual_consumption,
         req.body.peak_power
-      )
+      );
     } catch (error) {
-      return null
+      return null;
     }
   } else {
-    data_autocalsol = req.body.autocalsolResult
+    data_autocalsol = req.body.autocalsolResult;
   }
 
   /* Get data district */
   let irisCode = await getIrisCode(
     req.body.latitude.toString(),
     req.body.longitude.toString()
-  )
-  let districtDatas = null
+  );
+  let districtDatas = null;
   if (irisCode !== null && irisCode != 0) {
-    districtDatas = await getTotalDistrictDatas(irisCode)
+    districtDatas = await getTotalDistrictDatas(irisCode);
   } else {
-    irisCode = 0
+    irisCode = 0;
   }
 
   /* CREATE PDF */
   if (data_autocalsol === undefined || data_autocalsol === null) {
-    return null
+    return null;
   }
 
   // Your HTML content
   const html = await getPdfHtml(
-    // @ts-expect-error
     data_autocalsol,
     req.body.selectedRoof,
     req.body.address,
@@ -58,6 +54,6 @@ export async function generateHTMLPdf (
     districtDatas === null ? 0 : districtDatas?.totalPhotovoltaicSites,
     districtDatas === null ? 0 : districtDatas?.totalProduction,
     req.body.roofImageBase64
-  )
-  return html
+  );
+  return html;
 }

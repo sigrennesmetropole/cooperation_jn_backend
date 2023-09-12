@@ -12,8 +12,6 @@ import {
 } from "./type/type";
 import { getConfigFromKey } from "../config/configService";
 
-const fs = require("fs");
-
 export async function getPdfHtml(
   data_autocalsol: AutocalsolResultType,
   selectedRoof: RoofSurfaceModel,
@@ -26,7 +24,8 @@ export async function getPdfHtml(
   imgRoofBase64: string
 ) {
   const currentSurface =
-    currentNumSolarPanel * getConfigFromKey("solar_panel.solar_panel_surface");
+    currentNumSolarPanel *
+    Number(getConfigFromKey("solar_panel.solar_panel_surface"));
 
   const chartImageBase64 = await generateChartImg(data_autocalsol);
 

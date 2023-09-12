@@ -1,13 +1,10 @@
-import { getHeader } from './PdfHeader'
-import { getFooter } from './PdfFooter'
-import { getEconomiesImg } from './assets/EconomiesImg'
-import { getChartLegend } from './chart/ChartLegend'
-import { getLegendOverGraph } from './chart/LegendOverGraph'
+import { getHeader } from "./PdfHeader";
+import { getFooter } from "./PdfFooter";
+import { getEconomiesImg } from "./assets/EconomiesImg";
+import { getChartLegend } from "./chart/ChartLegend";
+import { getLegendOverGraph } from "./chart/LegendOverGraph";
 
-export function getPage4 (
-  // @ts-expect-error
-  chartImageBase64
-) {
+export function getPage4(chartImageBase64: string) {
   const html = `
         <div class="page" style="font-family: DM Sans;">
             <!-- Header -->
@@ -55,7 +52,7 @@ export function getPage4 (
                 ${getFooter(4)}
             </div>
         </div>
-    `
+    `;
 
-  return html
+  return html;
 }

@@ -13,7 +13,7 @@ export function getConfigFromKey (key: string) {
     if (!obj.hasOwnProperty(keys[i])) {
       return null
     }
-    // @ts-expect-error
+
     obj = obj[keys[i]]
   }
   return obj

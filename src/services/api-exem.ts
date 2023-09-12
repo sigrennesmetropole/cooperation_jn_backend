@@ -15,9 +15,8 @@ export async function getSiteMeasurement (id: string) {
     const response = await axios(config)
     const measurement: any = response.data.find((objet: { id: string }) => objet.id === id)
     return measurement
-    
-  } catch (error) {
-    // @ts-ignore
+
+  } catch (error: any) {
     throw new Error('Error get site measurement: ' + error.message)
   }
 }
@@ -36,8 +35,7 @@ export async function getSitesMeasurement () {
   try {
     const response = await axios(config)
     return response.data
-  } catch (error) {
-    // @ts-expect-error
+  } catch (error: any) {
     throw new Error('Error get sites measurement: ' + error.message)
   }
 }
@@ -66,7 +64,7 @@ function getConformity (value: number) {
   } else if (value > 28) {
     return 'non-conforming'
   } else {
-
+    return ''
   }
 }
 
@@ -102,8 +100,7 @@ export async function getModifiedSitesMeasurement () {
     })
 
     return finalSitesMeasurement
-  } catch (error) {
-    // @ts-ignore
+  } catch (error: any) {
     throw new Error('Error get sites measurement: ' + error.message)
   }
 }
