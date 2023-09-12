@@ -5,7 +5,7 @@ import { getChartLegend } from './chart/ChartLegend'
 import { getLegendOverGraph } from './chart/LegendOverGraph'
 
 export function getPage4 (
-  // @ts-ignore
+  // @ts-expect-error
   chartImageBase64
 ) {
   const html = `

@@ -20,7 +20,7 @@ async function getDistrictConsumptionData (rows: number, codeIris: string) {
     const response = await axios(config)
     return response.data
   } catch (error) {
-    // @ts-ignore
+    // @ts-expect-error
     throw new Error('Error get data district: ' + error.message)
   }
 }
@@ -44,7 +44,7 @@ async function getDistrictProductionData (rows: number, codeIris: string) {
     const response = await axios(config)
     return response.data
   } catch (error) {
-    // @ts-ignore
+    // @ts-expect-error
     throw new Error('Error get data district: ' + error.message)
   }
 }
@@ -114,7 +114,7 @@ export async function getTotalDistrictDatas (codeIris: string) {
       totalPhotovoltaicSites: totalNbPhotovoltaicSites
     }
   } catch (error) {
-    // @ts-ignore
+    // @ts-expect-error
     throw new Error('Error get data district: ' + error.message)
   }
 }

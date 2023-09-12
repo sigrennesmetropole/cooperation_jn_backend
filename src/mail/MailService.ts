@@ -1,10 +1,10 @@
 const nodemailer = require('nodemailer')
 
-export function sendEmailPdf (
+export async function sendEmailPdf (
   pdfBuffer: Buffer | null,
   email: string
 ) {
-  return new Promise((resolve, reject) => {
+  return await new Promise((resolve, reject) => {
     // EMAIL PDF
     const transportOptions: any = {
       host: process.env.EMAIL_HOST,
@@ -12,7 +12,7 @@ export function sendEmailPdf (
     }
 
     // Only include auth if not in production
-    if (process.env.ENV !== "prod") {
+    if (process.env.ENV !== 'prod') {
       transportOptions.auth = {
         user: process.env.EMAIL_USER, // generated ethereal user
         pass: process.env.EMAIL_PASSWORD // generated ethereal password
@@ -33,7 +33,7 @@ export function sendEmailPdf (
     }
 
     // If pdfBuffer is provided, include it in the attachments
-    if (pdfBuffer) {
+    if (pdfBuffer != null) {
       mailOptions.attachments = [{
         filename: 'solarSimulation.pdf',
         content: pdfBuffer
@@ -41,16 +41,16 @@ export function sendEmailPdf (
     }
 
     transporter.sendMail(mailOptions, function (
-      // @ts-ignore
+      // @ts-expect-error
       error,
-      // @ts-ignore
+      // @ts-expect-error
       info
     ) {
       if (error) {
-        reject(error.message);
+        reject(error.message)
       } else {
-        resolve(info.response);
+        resolve(info.response)
       }
-    });
-  });
+    })
+  })
 }

@@ -32,7 +32,7 @@ export async function getIrisCode (lat: string, lon: string) {
       return 0
     }
   } catch (error) {
-    // @ts-ignore
+    // @ts-expect-error
     throw new Error('Error get code iris: ' + error.message)
   }
 }
