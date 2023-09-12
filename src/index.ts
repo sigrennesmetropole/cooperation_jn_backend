@@ -138,7 +138,7 @@ app.get(
     async (req: Request & { session: MySessionData }, res: Response) => {
       const errors = validationResult(req);
       if (!errors.isEmpty()) {
-        return res.status(400).json({ errors: errors.array() });
+        res.status(400).json({ errors: errors.array() });
       }
       try {
         const districtDatas = await getTotalDistrictDatas(req.params.codeIris);
@@ -169,11 +169,12 @@ app.get(
       .withMessage("Invalid annual consumption"),
     check("peak_power").isFloat({ min: 0 }).withMessage("Invalid peak power"),
   ],
+
   asyncHandler(
     async (req: Request & { session: MySessionData }, res: Response) => {
       const errors = validationResult(req);
       if (!errors.isEmpty()) {
-        return res.status(400).json({ errors: errors.array() });
+        res.status(400).json({ errors: errors.array() });
       }
 
       const latitude = req.query.latitude as string | undefined;
@@ -315,7 +316,7 @@ app.post(
         await browser.close();
       } catch (error: any) {
         console.error("Error during PDF Generation:", error);
-        return res.status(500).json({ error: "Error during PDF Generation" });
+        res.status(500).json({ error: "Error during PDF Generation" });
       }
     }
   )
@@ -328,14 +329,14 @@ app.post(
     async (req: Request & { session: MySessionData }, res: Response) => {
       const errors = validationResult(req);
       if (!errors.isEmpty()) {
-        return res.status(400).json({ errors: errors.array() });
+        res.status(400).json({ errors: errors.array() });
       }
 
       let html: string | null = "";
       try {
         html = await generateHTMLPdf(req);
         if (html === null) {
-          return res.status(500).json({ error: "Error during PDF Generation" });
+          res.status(500).json({ error: "Error during PDF Generation" });
         }
       } catch (error: any) {
         res
