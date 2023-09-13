@@ -1,18 +1,18 @@
-import { getHeader } from './PdfHeader'
-import { getFooter } from './PdfFooter'
-import { getSunshineInformation } from './components/SunshineInformation'
-import { getConsumptionInformation } from './components/ConsumptionInformation'
-import { getProductionInformationText } from './components/ProductionInformationText'
-import { type RoofSurfaceModel } from './type/type'
+import { getHeader } from "./PdfHeader";
+import { getFooter } from "./PdfFooter";
+import { getSunshineInformation } from "./components/SunshineInformation";
+import { getConsumptionInformation } from "./components/ConsumptionInformation";
+import { getProductionInformationText } from "./components/ProductionInformationText";
+import { type RoofSurfaceModel } from "./type/type";
 
-export function getPage2 (
+export function getPage2(
   adress: string,
   selectedRoof: RoofSurfaceModel,
   annualConsumption: string,
   currentNumSolarPanel: number,
   currentPower: number,
   currentSurface: number,
-  imgBase64: string
+  imgBase64: string,
 ) {
   const html = `
         <div class="page" style="font-family: DM Sans;">
@@ -24,19 +24,14 @@ export function getPage2 (
             <!-- Content -->
             <div class="margin-x-30 flex-row gap-4" style="font-family: DM Sans; margin-top: 40px;">
                 <div style="flex: 1;">
-                    ${getSunshineInformation(
-                        adress,
-                        selectedRoof
-                    )}
-                    ${getConsumptionInformation(
-                        annualConsumption
-                    )}
+                    ${getSunshineInformation(adress, selectedRoof)}
+                    ${getConsumptionInformation(annualConsumption)}
                 </div>
                 <div style="flex: 1;">
                     ${getProductionInformationText(
-                        currentNumSolarPanel,
-                        currentPower,
-                        currentSurface
+                      currentNumSolarPanel,
+                      currentPower,
+                      currentSurface,
                     )}
                 </div>
             </div>
@@ -56,6 +51,6 @@ export function getPage2 (
                 ${getFooter(2)}
             </div>
         </div>
-    `
-  return html
+    `;
+  return html;
 }
