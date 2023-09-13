@@ -34,7 +34,6 @@ export async function generateChartImg(data_autocalsol: AutocalsolResultType) {
         </body>
         </html>
     `;
-  console.log(html)
   // Set the HTML content of the page
   await page.setContent(html);
 

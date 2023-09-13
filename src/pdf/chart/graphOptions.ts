@@ -13,7 +13,7 @@ export function getChartOptions(data_autocalsol: AutocalsolResultType) {
   const consommationData = convertDataForGraph(data_autocalsol.consoByHour);
   const intersectionData = calculateIntersectionData(
     productionData,
-    consommationData
+    consommationData,
   );
 
   const staticOptions = {
@@ -106,7 +106,7 @@ export function getChartOptions(data_autocalsol: AutocalsolResultType) {
           return `if (this.value === "") return "";
           return this.value === "12h" || this.value === "0h"
             ? '<div style="width: 2px; height: 15px; background-color: black;" />'
-            : '<span style="font-size: 9px;">\${this.value}</span>';`
+            : '<span style="font-size: 9px;">\${this.value}</span>';`;
         },
       },
       rotation: 0,
