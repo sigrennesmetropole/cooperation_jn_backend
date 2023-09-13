@@ -1,13 +1,13 @@
-import { getWarningImg } from '../assets/WarningImg'
+import { getWarningImg } from "../assets/WarningImg";
 
-function keepDecimals (float: number, numberOfDecimals: number) {
-  const roundFloat = float.toFixed(numberOfDecimals)
-  return roundFloat
+function keepDecimals(float: number, numberOfDecimals: number) {
+  const roundFloat = float.toFixed(numberOfDecimals);
+  return roundFloat;
 }
 
-export function getNeighbourhoodData (
+export function getNeighbourhoodData(
   districtNumberInstallations: number,
-  districtProduction: number
+  districtProduction: number,
 ) {
   return `
     <div
@@ -47,5 +47,5 @@ export function getNeighbourhoodData (
         </span>
         </p>
     </div>
-    `
+    `;
 }

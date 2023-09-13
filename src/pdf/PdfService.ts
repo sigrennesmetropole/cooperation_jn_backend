@@ -18,7 +18,7 @@ export async function generateHTMLPdf(req: Request) {
         req.body.slope,
         req.body.azimuth,
         req.body.annual_consumption,
-        req.body.peak_power
+        req.body.peak_power,
       );
     } catch (error) {
       return null;
@@ -30,7 +30,7 @@ export async function generateHTMLPdf(req: Request) {
   /* Get data district */
   let irisCode = await getIrisCode(
     req.body.latitude.toString(),
-    req.body.longitude.toString()
+    req.body.longitude.toString(),
   );
   let districtDatas = null;
   if (irisCode !== null && irisCode != 0) {
@@ -54,7 +54,7 @@ export async function generateHTMLPdf(req: Request) {
     req.body.peak_power,
     districtDatas === null ? 0 : districtDatas?.totalPhotovoltaicSites,
     districtDatas === null ? 0 : districtDatas?.totalProduction,
-    req.body.roofImageBase64
+    req.body.roofImageBase64,
   );
   return html;
 }

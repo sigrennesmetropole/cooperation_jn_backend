@@ -4,14 +4,14 @@ on:
     inputs:
       env:
         type: choice
-        description: 'Env to deploy'
+        description: "Env to deploy"
         required: true
         options:
           - dev
       tag:
-        description: 'Tag of the image you want to deploy'
+        description: "Tag of the image you want to deploy"
         required: true
-        default: 'latest'
+        default: "latest"
   push:
     branches:
       - main

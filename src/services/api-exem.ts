@@ -1,106 +1,111 @@
-import axios, { type Method } from 'axios'
+import axios, { type Method } from "axios";
 
-export async function getSiteMeasurement (id: string) {
-
-  const baseUrl = 'https://external-api.exem.fr/sites'
-  const api_key = 'AIzaSyCCq6wUPLEBATfwUbcRU9bCsGmnp0IOJCU'
-  const url = baseUrl + `?api_key=${api_key}`
-
-  const config = {
-    method: 'get' as Method,
-    url,
-    timeout: 20000 // 20 secondes
-  }
-  try {
-    const response = await axios(config)
-    const measurement: any = response.data.find((objet: { id: string }) => objet.id === id)
-    return measurement
-
-  } catch (error: any) {
-    throw new Error('Error get site measurement: ' + error.message)
-  }
-}
-
-export async function getSitesMeasurement () {
-
-  const baseUrl = 'https://external-api.exem.fr/sites'
-  const api_key = 'AIzaSyCCq6wUPLEBATfwUbcRU9bCsGmnp0IOJCU'
-  const url = baseUrl + `?api_key=${api_key}`
+export async function getSiteMeasurement(id: string) {
+  const baseUrl = "https://external-api.exem.fr/sites";
+  const api_key = "AIzaSyCCq6wUPLEBATfwUbcRU9bCsGmnp0IOJCU";
+  const url = baseUrl + `?api_key=${api_key}`;
 
   const config = {
-    method: 'get' as Method,
+    method: "get" as Method,
     url,
-    timeout: 20000 // 20 secondes
-  }
+    timeout: 20000, // 20 secondes
+  };
   try {
-    const response = await axios(config)
-    return response.data
+    const response = await axios(config);
+    const measurement: any = response.data.find(
+      (objet: { id: string }) => objet.id === id,
+    );
+    return measurement;
   } catch (error: any) {
-    throw new Error('Error get sites measurement: ' + error.message)
+    throw new Error("Error get site measurement: " + error.message);
   }
 }
 
-function convertTimeStamp (timestampInSeconds: any) {
-  const timestampInMilliseconds = timestampInSeconds * 1000
+export async function getSitesMeasurement() {
+  const baseUrl = "https://external-api.exem.fr/sites";
+  const api_key = "AIzaSyCCq6wUPLEBATfwUbcRU9bCsGmnp0IOJCU";
+  const url = baseUrl + `?api_key=${api_key}`;
 
-  const dateObj = new Date(timestampInMilliseconds)
-
-  const day = String(dateObj.getDate()).padStart(2, '0')
-  const month = String(dateObj.getMonth() + 1).padStart(2, '0')
-  const year = dateObj.getFullYear()
-
-  const hours = String(dateObj.getHours()).padStart(2, '0')
-  const minutes = String(dateObj.getMinutes()).padStart(2, '0')
-
-  const newDate = `${day}.${month}.${year} à ${hours}h${minutes}`
-  return newDate
+  const config = {
+    method: "get" as Method,
+    url,
+    timeout: 20000, // 20 secondes
+  };
+  try {
+    const response = await axios(config);
+    return response.data;
+  } catch (error: any) {
+    throw new Error("Error get sites measurement: " + error.message);
+  }
 }
 
-function getConformity (value: number) {
+function convertTimeStamp(timestampInSeconds: any) {
+  const timestampInMilliseconds = timestampInSeconds * 1000;
+
+  const dateObj = new Date(timestampInMilliseconds);
+
+  const day = String(dateObj.getDate()).padStart(2, "0");
+  const month = String(dateObj.getMonth() + 1).padStart(2, "0");
+  const year = dateObj.getFullYear();
+
+  const hours = String(dateObj.getHours()).padStart(2, "0");
+  const minutes = String(dateObj.getMinutes()).padStart(2, "0");
+
+  const newDate = `${day}.${month}.${year} à ${hours}h${minutes}`;
+  return newDate;
+}
+
+function getConformity(value: number) {
   if (value <= 6) {
-    return 'conform'
+    return "conform";
   } else if (value > 6 && value < 28) {
-    return 'under surveillance'
+    return "under surveillance";
   } else if (value > 28) {
-    return 'non-conforming'
+    return "non-conforming";
   } else {
-    return ''
+    return "";
   }
 }
 
-function transformAddress (address: string) {
-  const street = address.split(',', 1)[0]
-  return street
+function transformAddress(address: string) {
+  const street = address.split(",", 1)[0];
+  return street;
 }
 
-export async function getModifiedSitesMeasurement () {
+export async function getModifiedSitesMeasurement() {
   try {
-    const sitesMeasurement = await getSitesMeasurement()
+    const sitesMeasurement = await getSitesMeasurement();
 
-    const newDateSitesMeasurement = sitesMeasurement.map((object: { lastCom: any }) => {
-      return {
-        ...object,
-        lastCom: convertTimeStamp(object.lastCom)
-      }
-    })
+    const newDateSitesMeasurement = sitesMeasurement.map(
+      (object: { lastCom: any }) => {
+        return {
+          ...object,
+          lastCom: convertTimeStamp(object.lastCom),
+        };
+      },
+    );
 
-    const conformitySitesMeasurement = newDateSitesMeasurement.map((object: { latest_value: number }) => {
-      const conformity = getConformity(object.latest_value)
-      return {
-        ...object,
-        conformity
-      }
-    })
+    const conformitySitesMeasurement = newDateSitesMeasurement.map(
+      (object: { latest_value: number }) => {
+        const conformity = getConformity(object.latest_value);
+        return {
+          ...object,
+          conformity,
+        };
+      },
+    );
 
-    const finalSitesMeasurement = conformitySitesMeasurement.map((object: { address: string }) => {
-      return {
-        ...object,
-        address: transformAddress(object.address)
-      }
-    })
+    const finalSitesMeasurement = conformitySitesMeasurement.map(
+      (object: { address: string }) => {
+        return {
+          ...object,
+          address: transformAddress(object.address),
+        };
+      },
+    );
 
-    return finalSitesMeasurement
+    return finalSitesMeasurement;
   } catch (error: any) {
-    throw new Error('Error get sites measurement: ' + error.message)
+    throw new Error("Error get sites measurement: " + error.message);
   }
 }

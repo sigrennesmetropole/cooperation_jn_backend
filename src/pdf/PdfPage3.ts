@@ -1,14 +1,14 @@
-import { getHeader } from './PdfHeader'
-import { getFooter } from './PdfFooter'
-import { getEconomiesImg } from './assets/EconomiesImg'
-import { getAutocalsolResultGlobal } from './components/AutocalsolResultGlobal'
-import { getNeighbourhoodData } from './components/NeighbourhoodData'
-import { type AutocalsolResult } from './type/type'
+import { getHeader } from "./PdfHeader";
+import { getFooter } from "./PdfFooter";
+import { getEconomiesImg } from "./assets/EconomiesImg";
+import { getAutocalsolResultGlobal } from "./components/AutocalsolResultGlobal";
+import { getNeighbourhoodData } from "./components/NeighbourhoodData";
+import { type AutocalsolResult } from "./type/type";
 
-export function getPage3 (
+export function getPage3(
   autocalsolResult: AutocalsolResult,
   districtNumberInstallations: number,
-  districtProduction: number
+  districtProduction: number,
 ) {
   const html = `
         <div class="page" style="font-family: DM Sans;">
@@ -28,15 +28,11 @@ export function getPage3 (
                         Votre production d'énergie
                     </span>
                 </div>
-                ${getAutocalsolResultGlobal(
-                    autocalsolResult
+                ${getAutocalsolResultGlobal(autocalsolResult)}
+                ${getNeighbourhoodData(
+                  districtNumberInstallations,
+                  districtProduction,
                 )}
-                ${
-                    getNeighbourhoodData(
-                        districtNumberInstallations,
-                        districtProduction
-                    )
-                }
             </div>
 
             <!-- Footer -->
@@ -44,6 +40,6 @@ export function getPage3 (
                 ${getFooter(3)}
             </div>
         </div>
-    `
-  return html
+    `;
+  return html;
 }

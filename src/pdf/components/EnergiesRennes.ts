@@ -1,21 +1,23 @@
-import { getImg } from '../ImgService'
-import { getButtonVisitWebsite } from './ButtonVisitWebsite'
-import { getInformationGreyImg } from '../assets/informationGreyImg'
-import { getConfigFromKey } from '../../config/configService'
+import { getImg } from "../ImgService";
+import { getButtonVisitWebsite } from "./ButtonVisitWebsite";
+import { getInformationGreyImg } from "../assets/informationGreyImg";
+import { getConfigFromKey } from "../../config/configService";
 
-export function getEnergiesRennes () {
+export function getEnergiesRennes() {
   return `
     <div class="flex-column h-fit bg-white">
         <h2 class="font-dm-sans font-bold text-2xl">
             Contacter des associations locales
         </h2>
 
-        <div class="flex-row gap-8"> 
+        <div class="flex-row gap-8">
             <div
                 class="
                 flex-row flex-1 h-[fit] border border-neutral-300 rounded-lg px-5 py-8"
             >
-                <img src="data:image/png;base64,${getImg('energiesRennes.png')}" style="margin-left: 80px" >
+                <img src="data:image/png;base64,${getImg(
+                  "energiesRennes.png",
+                )}" style="margin-left: 80px" >
             </div>
             <div class="flex-column flex-1 h-fit">
                 <p class="font-dm-sans text-base font-normal">
@@ -23,12 +25,7 @@ export function getEnergiesRennes () {
                       est une association citoyenne pour le développement du solaire photovoltaïque sur Rennes et sa région.
                 </p>
 
-                ${
-                    getButtonVisitWebsite(
-                        // @ts-ignore
-                        getConfigFromKey('link.energies_link')
-                    )
-                }
+                ${getButtonVisitWebsite(getConfigFromKey("link.energies_link"))}
             </div>
         </div>
 
@@ -49,5 +46,5 @@ export function getEnergiesRennes () {
             </p>
         </div>
     </div>
-    `
+    `;
 }

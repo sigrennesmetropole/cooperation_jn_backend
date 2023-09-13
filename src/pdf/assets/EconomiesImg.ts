@@ -1,4 +1,4 @@
-export function getEconomiesImg () {
+export function getEconomiesImg() {
   return `
     <svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path d="M44.3512 9.50605C44.3512 9.78215 44.1273 10.006 43.8512 10.006C43.5751 10.006 43.3512 9.78215 43.3512 9.50605V6.24035C43.3539 5.58675 44.3483 5.58635 44.3512 6.24035V9.50605Z" fill="black"/>
@@ -26,5 +26,5 @@ export function getEconomiesImg () {
 <circle cx="41.5" cy="46.5" r="4.5" stroke="#DD3627" stroke-width="1.5"/>
 </svg>
 
-    `
+    `;
 }

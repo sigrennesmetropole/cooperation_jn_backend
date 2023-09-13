@@ -1,4 +1,4 @@
-export function getConsumptionInformation (annualConsumption: string) {
+export function getConsumptionInformation(annualConsumption: string) {
   return `
     <div
         class="flex-column box-white"
@@ -9,5 +9,5 @@ export function getConsumptionInformation (annualConsumption: string) {
             ${annualConsumption} kWh/an
         </p>
     </div>
-    `
+    `;
 }

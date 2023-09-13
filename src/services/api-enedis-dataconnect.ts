@@ -4,7 +4,7 @@ import axios, { type Method } from "axios";
 import qs from "qs";
 
 export function getUrlUserAuthorization(
-  req: Request & { session: MySessionData }
+  req: Request & { session: MySessionData },
 ) {
   req.session.state = (Math.random() + 1).toString(36).substring(7);
   req.session.save();
@@ -70,14 +70,14 @@ async function getDailyConsumption(
   access_token: string,
   prm: string,
   start: string,
-  end: string
+  end: string,
 ) {
   const config = {
     method: "get" as Method,
     url: `${getUrlFromEnv()}/metering_data_dc/v5/daily_consumption?start=${encodeURIComponent(
-      start
+      start,
     )}&end=${encodeURIComponent(end)}&usage_point_id=${encodeURIComponent(
-      prm
+      prm,
     )}`,
     headers: {
       Authorization: `Bearer ${access_token}`,
@@ -95,7 +95,7 @@ async function getDailyConsumption(
 }
 
 function calculateAnnualConsumption(
-  interval_reading: [{ value: string; date: string }]
+  interval_reading: [{ value: string; date: string }],
 ) {
   let annualConsumption = 0;
   interval_reading.forEach((item) => {
@@ -105,7 +105,7 @@ function calculateAnnualConsumption(
 }
 
 export async function getAnnualConsumption(
-  req: Request & { session: MySessionData }
+  req: Request & { session: MySessionData },
 ) {
   const prm = req.session.prm;
   if (prm === undefined) {
@@ -120,14 +120,14 @@ export async function getAnnualConsumption(
       access_token,
       prm,
       start,
-      end
+      end,
     );
     if (
       consumption_response.meter_reading === undefined ||
       consumption_response.meter_reading.interval_reading === undefined
     ) {
       throw new Error(
-        "consumption_response.meter_reading.interval_reading undefined"
+        "consumption_response.meter_reading.interval_reading undefined",
       );
     }
     const interval_reading =
@@ -135,7 +135,7 @@ export async function getAnnualConsumption(
     const annualConsumption = calculateAnnualConsumption(interval_reading);
     if (consumption_response.meter_reading.reading_type === undefined) {
       throw new Error(
-        "consumption_response.meter_reading.reading_type undefined"
+        "consumption_response.meter_reading.reading_type undefined",
       );
     }
     const reading_type = consumption_response.meter_reading.reading_type;

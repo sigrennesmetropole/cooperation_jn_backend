@@ -1,8 +1,6 @@
-import { getExpandImg } from '../assets/expandImg'
+import { getExpandImg } from "../assets/expandImg";
 
-export function getLinkWithIconArrow (
-  link: string
-) {
+export function getLinkWithIconArrow(link: string) {
   return `
         <a
             href="${link}"
@@ -16,5 +14,5 @@ export function getLinkWithIconArrow (
                 ${getExpandImg()}
             </div>
         </a>
-    `
+    `;
 }

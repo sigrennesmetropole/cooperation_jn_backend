@@ -1,8 +1,8 @@
-import { getHeader } from './PdfHeader'
-import { getFooter } from './PdfFooter'
-import { getGoFurther } from './components/GoFurther'
+import { getHeader } from "./PdfHeader";
+import { getFooter } from "./PdfFooter";
+import { getGoFurther } from "./components/GoFurther";
 
-export function getPage5 () {
+export function getPage5() {
   const html = `
         <div class="page" style="font-family: DM Sans;">
             <!-- Header -->
@@ -23,6 +23,6 @@ export function getPage5 () {
                 ${getFooter(5)}
             </div>
         </div>
-    `
-  return html
+    `;
+  return html;
 }
