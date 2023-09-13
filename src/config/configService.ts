@@ -12,8 +12,9 @@ export function getConfigFromKey(key: string) {
   for (let i = 0; i < keys.length; i++) {
     if (obj.hasOwnProperty(keys[i])) {
       obj = obj[keys[i]];
+    } else {
+      return null;
     }
-    return null;
   }
   return obj;
 }
