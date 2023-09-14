@@ -25,7 +25,7 @@ import asyncHandler from "express-async-handler";
 // Load environment variables from .env file
 dotenv.config();
 
-const app: Express = express();
+export const app: Express = express();
 
 app.use(
   cors({
@@ -46,7 +46,7 @@ app.use(
       callback(null, true);
     },
     credentials: true,
-  }),
+  })
 );
 
 app.use(
@@ -54,7 +54,7 @@ app.use(
     secret: "secret-key",
     resave: false,
     saveUninitialized: false,
-  }),
+  })
 );
 
 app.use(express.json({ limit: "50mb" }));
@@ -68,7 +68,7 @@ app.get(
     } catch (error: any) {
       res.status(500).json({ error: error.toString() });
     }
-  },
+  }
 );
 
 app.get(
@@ -80,7 +80,7 @@ app.get(
     } catch (error: any) {
       res.status(500).json({ error: error.toString() });
     }
-  },
+  }
 );
 
 app.post(
@@ -106,7 +106,7 @@ app.post(
     } catch (error: any) {
       res.status(500).json({ error: error.toString() });
     }
-  },
+  }
 );
 
 app.get(
@@ -119,8 +119,8 @@ app.get(
       } catch (error: any) {
         res.status(500).json({ error: error.toString() });
       }
-    },
-  ),
+    }
+  )
 );
 
 // ROUTES API ENEDIS DISTRICT
@@ -146,8 +146,8 @@ app.get(
       } catch (error: any) {
         res.status(500).json({ error: error.toString() });
       }
-    },
-  ),
+    }
+  )
 );
 
 // ROUTES API AUTOCALSOL
@@ -201,7 +201,7 @@ app.get(
             slope,
             azimuth,
             annual_consumption,
-            peak_power,
+            peak_power
           );
           res.json({ compute });
         } catch (error: any) {
@@ -210,8 +210,8 @@ app.get(
       } else {
         res.status(400).json({ error: "Missing required query parameters" });
       }
-    },
-  ),
+    }
+  )
 );
 
 // ROUTES API CODE IRIS NEIGHBOURHOOD
@@ -229,8 +229,8 @@ app.get(
       } catch (error: any) {
         res.status(500).json({ error: error.toString() });
       }
-    },
-  ),
+    }
+  )
 );
 
 import puppeteer from "puppeteer";
@@ -318,8 +318,8 @@ app.post(
         console.error("Error during PDF Generation:", error);
         res.status(500).json({ error: "Error during PDF Generation" });
       }
-    },
-  ),
+    }
+  )
 );
 
 app.post(
@@ -367,8 +367,8 @@ app.post(
           .status(500)
           .json({ error: "Error during PDF Generation:" + error.toString() });
       }
-    },
-  ),
+    }
+  )
 );
 
 app.get(
@@ -380,7 +380,7 @@ app.get(
     } catch (error: any) {
       res.status(500).json({ error: error.toString() });
     }
-  },
+  }
 );
 
 app.get(
@@ -397,8 +397,8 @@ app.get(
       } catch (error: any) {
         res.status(500).json({ error: error.toString() });
       }
-    },
-  ),
+    }
+  )
 );
 
 // RVA
@@ -409,14 +409,14 @@ app.get(
     async (req: Request & { session: MySessionData }, res: Response) => {
       try {
         const addresses = await apiRvaService.fetchFullAddresses(
-          req.query.q as string,
+          req.query.q as string
         );
         res.json(addresses);
       } catch (error: any) {
         res.status(500).json({ error: error.toString() });
       }
-    },
-  ),
+    }
+  )
 );
 
 app.get(
@@ -426,14 +426,14 @@ app.get(
     async (req: Request & { session: MySessionData }, res: Response) => {
       try {
         const communes = await apiRvaService.fetchCommunes(
-          req.query.q as string,
+          req.query.q as string
         );
         res.json(communes);
       } catch (error: any) {
         res.status(500).json({ error: error.toString() });
       }
-    },
-  ),
+    }
+  )
 );
 
 app.get(
@@ -447,8 +447,8 @@ app.get(
       } catch (error: any) {
         res.status(500).json({ error: error.toString() });
       }
-    },
-  ),
+    }
+  )
 );
 
 // Site Org
@@ -459,14 +459,14 @@ app.get(
     async (req: Request & { session: MySessionData }, res: Response) => {
       try {
         const organizations = await apiSitesorgService.fetchOrganizations(
-          req.query.q as string,
+          req.query.q as string
         );
         res.json(organizations);
       } catch (error: any) {
         res.status(500).json({ error: error.toString() });
       }
-    },
-  ),
+    }
+  )
 );
 
 app.get(
@@ -476,14 +476,14 @@ app.get(
     async (req: Request & { session: MySessionData }, res: Response) => {
       try {
         const organization = await apiSitesorgService.fetchOrganizationById(
-          req.params.id as unknown as number,
+          req.params.id as unknown as number
         );
         res.json(organization);
       } catch (error: any) {
         res.status(500).json({ error: error.toString() });
       }
-    },
-  ),
+    }
+  )
 );
 
 app.get(
@@ -493,14 +493,14 @@ app.get(
     async (req: Request & { session: MySessionData }, res: Response) => {
       try {
         const site = await apiSitesorgService.fetchSiteById(
-          req.params.id as unknown as number,
+          req.params.id as unknown as number
         );
         res.json(site);
       } catch (error: any) {
         res.status(500).json({ error: error.toString() });
       }
-    },
-  ),
+    }
+  )
 );
 // ROUTES API REAL TIME MESUREMENT
 
@@ -515,8 +515,8 @@ app.get(
       } catch (error: any) {
         res.status(500).json({ error: error.toString() });
       }
-    },
-  ),
+    }
+  )
 );
 
 app.get(
@@ -529,8 +529,8 @@ app.get(
       } catch (error: any) {
         res.status(500).json({ error: error.toString() });
       }
-    },
-  ),
+    }
+  )
 );
 
 // app.get(
