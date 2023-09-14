@@ -66,7 +66,7 @@ class ApiRvaService {
   async fetchAddress(
     search: string,
     filter: string,
-    displayInsee = false,
+    displayInsee = false
   ): Promise<ApiData> {
     const baseUrl = "https://api-rva.sig.rennesmetropole.fr/";
     const apiKey = this.getApiKey();

@@ -4,7 +4,7 @@ import { getSolarPanelImg } from "../assets/SolarPanelImg";
 export function getProductionInformationText(
   currentNumSolarPanel: number,
   currentPower: number,
-  currentSurface: number,
+  currentSurface: number
 ): string {
   return `
         <div class="flex-column box-white" style="margin-top:20px;">
@@ -46,7 +46,7 @@ export function getProductionInformationText(
                         Surface de l’installation photovoltaïque
                     </span>
                     <span class="font-bold text-base"> ${currentSurface.toFixed(
-                      2,
+                      2
                     )}m&sup2; </span>
                 </div>
             </div>

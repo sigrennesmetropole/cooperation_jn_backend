@@ -9,7 +9,7 @@ export function getPhotoVoltaique() {
             class="flex-row flex-1 justify-center h-[fit] border border-neutral-300 rounded-lg px-5 py-8"
         >
             <img src="data:image/png;base64,${getImg(
-              "photovoltaiqueImg.png",
+              "photovoltaiqueImg.png"
             )}" >
         </div>
         <div class="flex-column flex-1 h-fit">
@@ -21,7 +21,7 @@ export function getPhotoVoltaique() {
             </p>
 
             ${getButtonVisitWebsite(
-              getConfigFromKey("link.photovoltaique_link"),
+              getConfigFromKey("link.photovoltaique_link")
             )}
         </div>
     </div>

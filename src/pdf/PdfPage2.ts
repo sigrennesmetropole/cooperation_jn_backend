@@ -12,7 +12,7 @@ export function getPage2(
   currentNumSolarPanel: number,
   currentPower: number,
   currentSurface: number,
-  imgBase64: string,
+  imgBase64: string
 ) {
   const html = `
         <div class="page" style="font-family: DM Sans;">
@@ -31,7 +31,7 @@ export function getPage2(
                     ${getProductionInformationText(
                       currentNumSolarPanel,
                       currentPower,
-                      currentSurface,
+                      currentSurface
                     )}
                 </div>
             </div>

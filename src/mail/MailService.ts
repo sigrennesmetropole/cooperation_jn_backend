@@ -47,7 +47,7 @@ export async function sendEmailPdf(pdfBuffer: Buffer | null, email: string) {
         } else {
           resolve(info.response);
         }
-      },
+      }
     );
   });
 }

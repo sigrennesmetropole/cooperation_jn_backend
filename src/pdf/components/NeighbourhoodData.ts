@@ -7,7 +7,7 @@ function keepDecimals(float: number, numberOfDecimals: number) {
 
 export function getNeighbourhoodData(
   districtNumberInstallations: number,
-  districtProduction: number,
+  districtProduction: number
 ) {
   return `
     <div
