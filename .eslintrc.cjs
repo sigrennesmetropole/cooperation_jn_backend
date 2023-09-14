@@ -11,14 +11,16 @@ module.exports = {
   overrides: [
     {
       files: ["cypress/e2e/**.{cy,spec}.{js,ts,jsx,tsx}"],
-      extends: ["plugin:cypress/recommended"],
+      extends: [
+        "eslint:recommended",
+        "eslint-config-typescript",
+        "eslint-config-prettier",
+      ],
     },
   ],
   parser: "@typescript-eslint/parser",
   parserOptions: {
-    ecmaVersion: "2021",
-    sourceType: "module",
-    project: ["./tsconfig.json"],
+    ecmaVersion: "latest",
   },
   plugins: ["@typescript-eslint"],
   rules: {

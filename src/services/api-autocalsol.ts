@@ -96,7 +96,7 @@ export async function getComputeData(
   slope: number,
   azimuth: number,
   annual_consumption: number,
-  peak_power: number,
+  peak_power: number
 ) {
   const data = {
     values: {

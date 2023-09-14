@@ -21,7 +21,7 @@ export async function getPdfHtml(
   currentPower: number,
   districtNumberInstallations: number,
   districtProduction: number,
-  imgRoofBase64: string,
+  imgRoofBase64: string
 ) {
   const currentSurface =
     currentNumSolarPanel *
@@ -43,12 +43,12 @@ export async function getPdfHtml(
                   currentNumSolarPanel,
                   currentPower,
                   currentSurface,
-                  imgRoofBase64,
+                  imgRoofBase64
                 )}
                 ${getPage3(
                   data_autocalsol,
                   districtNumberInstallations,
-                  districtProduction,
+                  districtProduction
                 )}
                 ${getPage4(chartImageBase64)}
                 ${getPage5()}

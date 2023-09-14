@@ -57,7 +57,7 @@ export function convertDataForGraph(data: Array<[string, number]>) {
 
 export function calculateIntersectionData(
   productionData: number[],
-  consommationData: number[],
+  consommationData: number[]
 ) {
   return productionData.map((value, index) => {
     return Math.min(value, consommationData[index]);

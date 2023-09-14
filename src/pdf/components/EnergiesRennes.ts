@@ -16,7 +16,7 @@ export function getEnergiesRennes() {
                 flex-row flex-1 h-[fit] border border-neutral-300 rounded-lg px-5 py-8"
             >
                 <img src="data:image/png;base64,${getImg(
-                  "energiesRennes.png",
+                  "energiesRennes.png"
                 )}" style="margin-left: 80px" >
             </div>
             <div class="flex-column flex-1 h-fit">

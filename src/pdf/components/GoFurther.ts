@@ -26,13 +26,13 @@ export function getGoFurther() {
                 style=" padding-top: 18px; padding-bottom: 18px;"
             >
                 <img src="data:image/png;base64,${getImg(
-                  "qualibat.avif",
+                  "qualibat.avif"
                 )}" class="h-10 w-10">
                 <img src="data:image/png;base64,${getImg(
-                  "qualitEnR.png",
+                  "qualitEnR.png"
                 )}" class="h-10 w-[79px]">
                 <img src="data:image/png;base64,${getImg(
-                  "qualifelec.png",
+                  "qualifelec.png"
                 )}" class="h-10 w-[34px]">
             </div>
             ${getLinkWithIconArrow(url_signe_qualite)}

@@ -21,7 +21,7 @@ export function getSolarCoop() {
                 </p>
 
                 ${getButtonVisitWebsite(
-                  getConfigFromKey("link.solar_coop_link"),
+                  getConfigFromKey("link.solar_coop_link")
                 )}
             </div>
         </div>

@@ -5,7 +5,7 @@ import { app } from "../app";
 describe("Test Address Reverse API", () => {
   it("returns 200", async () => {
     const res = await request(app).get(
-      "/api/address-reverse/48.109084953055884/-1.692617319569419",
+      "/api/address-reverse/48.109084953055884/-1.692617319569419"
     );
 
     expect(res.statusCode).toEqual(200);

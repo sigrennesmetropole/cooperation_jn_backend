@@ -13,7 +13,7 @@ export function getChartOptions(data_autocalsol: AutocalsolResultType) {
   const consommationData = convertDataForGraph(data_autocalsol.consoByHour);
   const intersectionData = calculateIntersectionData(
     productionData,
-    consommationData,
+    consommationData
   );
 
   const staticOptions = {

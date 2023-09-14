@@ -69,7 +69,7 @@ async function getAllDistrictDatas(callback: any, codeIris: string) {
   if (nbHits > nbGettedData) {
     const totalDistrictData = await callback(
       parseInt(districtData.nhits),
-      codeIris,
+      codeIris
     );
     return totalDistrictData;
   } else {
@@ -90,7 +90,7 @@ function filterDataByYear(data: any) {
   const years = records.map((r: { annee: string }) => verifiedYear(r.annee));
   const recentYear = Math.max(...years);
   const recordsOfRecentYear = records.filter(
-    (r: { annee: string }) => parseInt(r.annee) == recentYear,
+    (r: { annee: string }) => parseInt(r.annee) == recentYear
   );
   return recordsOfRecentYear;
 }
@@ -106,7 +106,7 @@ function addRecordsOfRecentYear(key: string, recordOfRecentYear: any) {
   const correctedRecords = records.filter((r: number) => r != undefined);
   const totalRecords = correctedRecords.reduce(
     (accumulator: number, currentValue: number) => accumulator + currentValue,
-    0,
+    0
   );
   return totalRecords;
 }
@@ -115,30 +115,30 @@ export async function getTotalDistrictDatas(codeIris: string) {
   try {
     const consumptionData = await getAllDistrictDatas(
       getDistrictConsumptionData,
-      codeIris,
+      codeIris
     );
     const consumptionRecordsOfRecentYear = filterDataByYear(consumptionData);
     const consumptionKey = "conso_totale_mwh";
     const totalConsumptions = addRecordsOfRecentYear(
       consumptionKey,
-      consumptionRecordsOfRecentYear,
+      consumptionRecordsOfRecentYear
     );
 
     const productionData = await getAllDistrictDatas(
       getDistrictProductionData,
-      codeIris,
+      codeIris
     );
     const productionRecordsOfRecentYear = filterDataByYear(productionData);
     const productionKey = "energie_produite_annuelle_photovoltaique_enedis_mwh";
     const totalProductions = addRecordsOfRecentYear(
       productionKey,
-      productionRecordsOfRecentYear,
+      productionRecordsOfRecentYear
     );
 
     const nbPhotovoltaicSites = "nb_sites_photovoltaique_enedis";
     const totalNbPhotovoltaicSites = addRecordsOfRecentYear(
       nbPhotovoltaicSites,
-      productionRecordsOfRecentYear,
+      productionRecordsOfRecentYear
     );
 
     const irisName = getIrisName(consumptionData);

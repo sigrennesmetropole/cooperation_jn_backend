@@ -3,7 +3,7 @@ import { type RoofSurfaceModel } from "../type/type";
 
 export function getSunshineInformation(
   adress: string,
-  roofSurface: RoofSurfaceModel,
+  roofSurface: RoofSurfaceModel
 ) {
   const html = `
         <div class="flex-column box-white">

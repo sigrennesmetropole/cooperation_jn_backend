@@ -8,7 +8,7 @@ import { type AutocalsolResult } from "./type/type";
 export function getPage3(
   autocalsolResult: AutocalsolResult,
   districtNumberInstallations: number,
-  districtProduction: number,
+  districtProduction: number
 ) {
   const html = `
         <div class="page" style="font-family: DM Sans;">
@@ -31,7 +31,7 @@ export function getPage3(
                 ${getAutocalsolResultGlobal(autocalsolResult)}
                 ${getNeighbourhoodData(
                   districtNumberInstallations,
-                  districtProduction,
+                  districtProduction
                 )}
             </div>
 

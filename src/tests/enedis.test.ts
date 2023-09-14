@@ -16,7 +16,7 @@ describe("Test Enedis API", () => {
     const res = await request(app).get("/api/enedis/district/!@!@#!#!");
     expect(res.statusCode).toEqual(400);
     expect(res.body.errors[0].msg).toEqual(
-      "CodeIris can only contain alphanumeric characters",
+      "CodeIris can only contain alphanumeric characters"
     );
   });
 });

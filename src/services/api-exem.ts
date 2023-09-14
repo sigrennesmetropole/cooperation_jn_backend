@@ -13,7 +13,7 @@ export async function getSiteMeasurement(id: string) {
   try {
     const response = await axios(config);
     const measurement: any = response.data.find(
-      (objet: { id: string }) => objet.id === id,
+      (objet: { id: string }) => objet.id === id
     );
     return measurement;
   } catch (error: any) {
@@ -82,7 +82,7 @@ export async function getModifiedSitesMeasurement() {
           ...object,
           lastCom: convertTimeStamp(object.lastCom),
         };
-      },
+      }
     );
 
     const conformitySitesMeasurement = newDateSitesMeasurement.map(
@@ -92,7 +92,7 @@ export async function getModifiedSitesMeasurement() {
           ...object,
           conformity,
         };
-      },
+      }
     );
 
     const finalSitesMeasurement = conformitySitesMeasurement.map(
@@ -101,7 +101,7 @@ export async function getModifiedSitesMeasurement() {
           ...object,
           address: transformAddress(object.address),
         };
-      },
+      }
     );
 
     return finalSitesMeasurement;

@@ -6,7 +6,7 @@ export async function getIrisCode(lat: string, lon: string) {
 
   proj4.defs(
     "EPSG:3948",
-    "+proj=lcc +lat_0=48 +lon_0=3 +lat_1=47.25 +lat_2=48.75 +x_0=1700000 +y_0=7200000 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs +type=crs",
+    "+proj=lcc +lat_0=48 +lon_0=3 +lat_1=47.25 +lat_2=48.75 +x_0=1700000 +y_0=7200000 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs +type=crs"
   );
   const cc48Coords = proj4(proj4.WGS84, "EPSG:3948", [
     parseFloat(lon),
