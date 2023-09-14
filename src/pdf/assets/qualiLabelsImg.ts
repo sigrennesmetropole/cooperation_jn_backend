@@ -71,5 +71,5 @@ export function getQualiLabelsImg() {
 </defs>
 </svg>
 
-    `;
+    `
 }

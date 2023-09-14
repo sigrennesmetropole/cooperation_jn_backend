@@ -1,5 +1,5 @@
-import { getMoonImg } from "../assets/MoonImg";
-import { getSunImg } from "../assets/SunImg";
+import { getMoonImg } from '../assets/MoonImg'
+import { getSunImg } from '../assets/SunImg'
 
 export function getLegendOverGraph() {
   return `
@@ -21,5 +21,5 @@ export function getLegendOverGraph() {
             style="height: 205px; top: 95px; left: 550px;"
           ></div>
  
-    `;
+    `
 }

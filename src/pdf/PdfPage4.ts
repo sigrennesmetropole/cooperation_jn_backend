@@ -1,8 +1,8 @@
-import { getHeader } from "./PdfHeader";
-import { getFooter } from "./PdfFooter";
-import { getEconomiesImg } from "./assets/EconomiesImg";
-import { getChartLegend } from "./chart/ChartLegend";
-import { getLegendOverGraph } from "./chart/LegendOverGraph";
+import { getHeader } from './PdfHeader'
+import { getFooter } from './PdfFooter'
+import { getEconomiesImg } from './assets/EconomiesImg'
+import { getChartLegend } from './chart/ChartLegend'
+import { getLegendOverGraph } from './chart/LegendOverGraph'
 
 export function getPage4(chartImageBase64: string) {
   const html = `
@@ -52,7 +52,7 @@ export function getPage4(chartImageBase64: string) {
                 ${getFooter(4)}
             </div>
         </div>
-    `;
+    `
 
-  return html;
+  return html
 }

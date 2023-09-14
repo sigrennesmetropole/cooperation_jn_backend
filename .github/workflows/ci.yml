@@ -5,7 +5,7 @@ env:
 on:
   push:
     tags:
-      - "*"
+      - '*'
     branches:
       - main
   pull_request:
@@ -28,7 +28,7 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 16
-          cache: "npm"
+          cache: 'npm'
       - uses: jgierer12/npm-auth-gpr@v1
         with:
           token: ${{ secrets.GITHUB_TOKEN }}

@@ -26,5 +26,5 @@ export function getEconomiesImg() {
 <circle cx="41.5" cy="46.5" r="4.5" stroke="#DD3627" stroke-width="1.5"/>
 </svg>
 
-    `;
+    `
 }

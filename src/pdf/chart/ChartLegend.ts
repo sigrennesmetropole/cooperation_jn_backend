@@ -16,5 +16,5 @@ export function getChartLegend() {
                 <span class="font-normal text-sm ml-3"> Revente </span>
             </div>
         </div>
-    `;
+    `
 }

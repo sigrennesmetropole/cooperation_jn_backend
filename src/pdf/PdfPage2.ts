@@ -1,9 +1,9 @@
-import { getHeader } from "./PdfHeader";
-import { getFooter } from "./PdfFooter";
-import { getSunshineInformation } from "./components/SunshineInformation";
-import { getConsumptionInformation } from "./components/ConsumptionInformation";
-import { getProductionInformationText } from "./components/ProductionInformationText";
-import { type RoofSurfaceModel } from "./type/type";
+import { getHeader } from './PdfHeader'
+import { getFooter } from './PdfFooter'
+import { getSunshineInformation } from './components/SunshineInformation'
+import { getConsumptionInformation } from './components/ConsumptionInformation'
+import { getProductionInformationText } from './components/ProductionInformationText'
+import { type RoofSurfaceModel } from './type/type'
 
 export function getPage2(
   adress: string,
@@ -51,6 +51,6 @@ export function getPage2(
                 ${getFooter(2)}
             </div>
         </div>
-    `;
-  return html;
+    `
+  return html
 }

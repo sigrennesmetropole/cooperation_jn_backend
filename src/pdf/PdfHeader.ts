@@ -1,10 +1,10 @@
-import { getDivider } from "./PdfDivider";
+import { getDivider } from './PdfDivider'
 
 export function getHeader(numPage: number) {
-  const divider = getDivider();
-  let textHeader = "Votre simulation d’installation photovoltaïque";
+  const divider = getDivider()
+  let textHeader = 'Votre simulation d’installation photovoltaïque'
   if ([5, 6].includes(numPage)) {
-    textHeader = "Plus d’information pour concrétiser votre projet";
+    textHeader = 'Plus d’information pour concrétiser votre projet'
   }
   return `
         <div 
@@ -20,5 +20,5 @@ export function getHeader(numPage: number) {
                 ${textHeader}
             </span>
         </div>
-    `;
+    `
 }

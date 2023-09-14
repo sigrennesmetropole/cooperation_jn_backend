@@ -1,9 +1,9 @@
-import { getHeader } from "./PdfHeader";
-import { getFooter } from "./PdfFooter";
-import { getEconomiesImg } from "./assets/EconomiesImg";
-import { getAutocalsolResultGlobal } from "./components/AutocalsolResultGlobal";
-import { getNeighbourhoodData } from "./components/NeighbourhoodData";
-import { type AutocalsolResult } from "./type/type";
+import { getHeader } from './PdfHeader'
+import { getFooter } from './PdfFooter'
+import { getEconomiesImg } from './assets/EconomiesImg'
+import { getAutocalsolResultGlobal } from './components/AutocalsolResultGlobal'
+import { getNeighbourhoodData } from './components/NeighbourhoodData'
+import { type AutocalsolResult } from './type/type'
 
 export function getPage3(
   autocalsolResult: AutocalsolResult,
@@ -40,6 +40,6 @@ export function getPage3(
                 ${getFooter(3)}
             </div>
         </div>
-    `;
-  return html;
+    `
+  return html
 }

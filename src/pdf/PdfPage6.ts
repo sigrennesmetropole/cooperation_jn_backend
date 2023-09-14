@@ -1,7 +1,7 @@
-import { getHeader } from "./PdfHeader";
-import { getFooter } from "./PdfFooter";
-import { getSolarCoop } from "./components/SolarCoop";
-import { getEnergiesRennes } from "./components/EnergiesRennes";
+import { getHeader } from './PdfHeader'
+import { getFooter } from './PdfFooter'
+import { getSolarCoop } from './components/SolarCoop'
+import { getEnergiesRennes } from './components/EnergiesRennes'
 
 export function getPage6() {
   const html = `
@@ -32,6 +32,6 @@ export function getPage6() {
                 ${getFooter(6)}
             </div>
         </div>
-    `;
-  return html;
+    `
+  return html
 }
