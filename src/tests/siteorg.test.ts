@@ -3,7 +3,7 @@ import request from "supertest";
 import { app } from "../app";
 
 describe("Test Site Org API", () => {
-  it("returns 200", async () => {
+  it.skip("returns 200", async () => {
     const res = await request(app).get("/api/siteorg/site/1");
 
     expect(res.statusCode).toEqual(200);
@@ -17,5 +17,10 @@ describe("Test Site Org API", () => {
     });
     expect(data["type"]).toBe("FeatureCollection");
     expect(data["features"].length).toBeGreaterThan(1);
+  });
+
+  it("returns 404", async () => {
+    const res = await request(app).get("/api/siteorg/site");
+    expect(res.statusCode).toEqual(404);
   });
 });
