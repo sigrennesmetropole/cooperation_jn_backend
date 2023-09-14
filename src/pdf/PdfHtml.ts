@@ -1,16 +1,16 @@
-import { generateChartImg } from "./chart/PdfChart";
-import { getPage1 } from "./PdfPage1";
-import { getPage2 } from "./PdfPage2";
-import { getPage3 } from "./PdfPage3";
-import { getPage4 } from "./PdfPage4";
-import { getPage5 } from "./PdfPage5";
-import { getPage6 } from "./PdfPage6";
-import { getPdfStyle } from "./PdfStyle";
+import { generateChartImg } from './chart/PdfChart'
+import { getPage1 } from './PdfPage1'
+import { getPage2 } from './PdfPage2'
+import { getPage3 } from './PdfPage3'
+import { getPage4 } from './PdfPage4'
+import { getPage5 } from './PdfPage5'
+import { getPage6 } from './PdfPage6'
+import { getPdfStyle } from './PdfStyle'
 import {
   type RoofSurfaceModel,
   type AutocalsolResult as AutocalsolResultType,
-} from "./type/type";
-import { getConfigFromKey } from "../config/configService";
+} from './type/type'
+import { getConfigFromKey } from '../config/configService'
 
 export async function getPdfHtml(
   data_autocalsol: AutocalsolResultType,
@@ -25,9 +25,9 @@ export async function getPdfHtml(
 ) {
   const currentSurface =
     currentNumSolarPanel *
-    Number(getConfigFromKey("solar_panel.solar_panel_surface"));
+    Number(getConfigFromKey('solar_panel.solar_panel_surface'))
 
-  const chartImageBase64 = await generateChartImg(data_autocalsol);
+  const chartImageBase64 = await generateChartImg(data_autocalsol)
 
   const html = `
         <html>
@@ -56,6 +56,6 @@ export async function getPdfHtml(
 
             </body>
         </html>
-    `;
-  return html;
+    `
+  return html
 }

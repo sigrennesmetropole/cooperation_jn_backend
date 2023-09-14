@@ -1,7 +1,7 @@
-import { getDivider } from "./PdfDivider";
+import { getDivider } from './PdfDivider'
 
 export function getFooter(numPage: number) {
-  const divider = getDivider();
+  const divider = getDivider()
 
   return `
     <div
@@ -27,5 +27,5 @@ export function getFooter(numPage: number) {
             </span>
         </div>
     </div>
-    `;
+    `
 }

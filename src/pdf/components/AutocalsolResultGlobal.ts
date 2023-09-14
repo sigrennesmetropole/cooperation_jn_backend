@@ -1,15 +1,15 @@
-import { type AutocalsolResult } from "../type/type";
-import { getElectricityProductionImg } from "../assets/electricityProductionImg";
-import { getEqualCircle } from "../assets/equalCircleImg";
-import { getPlusCircle } from "../assets/plusCircleImg";
+import { type AutocalsolResult } from '../type/type'
+import { getElectricityProductionImg } from '../assets/electricityProductionImg'
+import { getEqualCircle } from '../assets/equalCircleImg'
+import { getPlusCircle } from '../assets/plusCircleImg'
 
 export function getAutocalsolResultGlobal(autocalsolResult: AutocalsolResult) {
   const production = Math.round(
     autocalsolResult.consoAnnualInjected +
       autocalsolResult.consoAnnualAutoConsumed
-  );
-  const autoConsumed = Math.round(autocalsolResult.consoAnnualAutoConsumed);
-  const injected = Math.round(autocalsolResult.consoAnnualInjected);
+  )
+  const autoConsumed = Math.round(autocalsolResult.consoAnnualAutoConsumed)
+  const injected = Math.round(autocalsolResult.consoAnnualInjected)
 
   const html = `
     <div class="flex-column items-center" style="margin-top: 20px;">
@@ -116,6 +116,6 @@ export function getAutocalsolResultGlobal(autocalsolResult: AutocalsolResult) {
           </div>
         </div>
     </div>
-    `;
-  return html;
+    `
+  return html
 }

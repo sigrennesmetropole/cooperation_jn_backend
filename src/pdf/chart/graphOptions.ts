@@ -3,43 +3,43 @@ import {
   calculateIntersectionData,
   generateXAxis,
   generateTickPositions,
-} from "./graphService";
-import { type AutocalsolResult as AutocalsolResultType } from "../type/type";
+} from './graphService'
+import { type AutocalsolResult as AutocalsolResultType } from '../type/type'
 
 export function getChartOptions(data_autocalsol: AutocalsolResultType) {
-  const xAxis = generateXAxis();
-  const tickPositions = generateTickPositions(xAxis);
-  const productionData = convertDataForGraph(data_autocalsol.prodByHour);
-  const consommationData = convertDataForGraph(data_autocalsol.consoByHour);
+  const xAxis = generateXAxis()
+  const tickPositions = generateTickPositions(xAxis)
+  const productionData = convertDataForGraph(data_autocalsol.prodByHour)
+  const consommationData = convertDataForGraph(data_autocalsol.consoByHour)
   const intersectionData = calculateIntersectionData(
     productionData,
     consommationData
-  );
+  )
 
   const staticOptions = {
     chart: {
-      type: "areaspline",
+      type: 'areaspline',
       width: 730, // set the width of the chart
       height: 400,
       marginLeft: 30,
     },
     title: {
-      text: "Production et consommation journalière",
+      text: 'Production et consommation journalière',
     },
     legend: {
       enabled: false,
     },
     yAxis: {
       title: {
-        text: "Energie (kWh)",
-        align: "high",
+        text: 'Energie (kWh)',
+        align: 'high',
         rotation: 0,
         offset: 0,
         y: -20,
         x: 70,
         style: {
-          fontSize: "11px",
-          fontWeight: "bold",
+          fontSize: '11px',
+          fontWeight: 'bold',
         },
       },
       labels: {
@@ -68,24 +68,24 @@ export function getChartOptions(data_autocalsol: AutocalsolResultType) {
     },
     series: [
       {
-        name: "Consommation",
+        name: 'Consommation',
         data: consommationData,
-        color: "#D1FAE5",
-        lineColor: "#0F766E",
+        color: '#D1FAE5',
+        lineColor: '#0F766E',
         fillOpacity: 0.6,
       },
       {
-        name: "Production",
-        lineColor: "#F59E0B",
-        color: "#4F46E5",
+        name: 'Production',
+        lineColor: '#F59E0B',
+        color: '#4F46E5',
         data: productionData,
         fillOpacity: 0.7,
         lineWidth: 4,
       },
       {
-        name: "Intersection",
+        name: 'Intersection',
         data: intersectionData,
-        color: "#10B981",
+        color: '#10B981',
         lineWidth: 0,
         fillOpacity: 1,
       },
@@ -95,7 +95,7 @@ export function getChartOptions(data_autocalsol: AutocalsolResultType) {
         y: -50, // Add a margin above the credits by moving it 20 pixels up from the bottom
       },
     },
-  };
+  }
 
   const dynamicOptions = {
     xAxis: {
@@ -106,14 +106,14 @@ export function getChartOptions(data_autocalsol: AutocalsolResultType) {
           return `if (this.value === "") return "";
           return this.value === "12h" || this.value === "0h"
             ? '<div style="width: 2px; height: 15px; background-color: black;" />'
-            : '<span style="font-size: 9px;">\${this.value}</span>';`;
+            : '<span style="font-size: 9px;">\${this.value}</span>';`
         },
       },
       rotation: 0,
       tickPositions,
       tickInterval: 1,
     },
-  };
+  }
 
-  return { staticOptions, dynamicOptions };
+  return { staticOptions, dynamicOptions }
 }

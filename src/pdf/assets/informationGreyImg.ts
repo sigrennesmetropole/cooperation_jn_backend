@@ -13,5 +13,5 @@ export function getInformationGreyImg() {
 </defs>
 </svg>
 
-    `;
+    `
 }

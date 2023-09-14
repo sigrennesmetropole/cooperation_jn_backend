@@ -65,5 +65,5 @@ export function getElectricityProductionImg() {
 </clipPath>
 </defs>
 </svg>
-`;
+`
 }

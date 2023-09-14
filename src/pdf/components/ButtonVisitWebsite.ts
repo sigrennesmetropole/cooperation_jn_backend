@@ -1,4 +1,4 @@
-import { getGoToWhite } from "../assets/goToWhiteImg";
+import { getGoToWhite } from '../assets/goToWhiteImg'
 
 export function getButtonVisitWebsite(link: string) {
   return `
@@ -16,5 +16,5 @@ export function getButtonVisitWebsite(link: string) {
             Visiter le site
         </span>
     </a>
-    `;
+    `
 }

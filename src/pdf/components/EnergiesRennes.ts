@@ -1,7 +1,7 @@
-import { getImg } from "../ImgService";
-import { getButtonVisitWebsite } from "./ButtonVisitWebsite";
-import { getInformationGreyImg } from "../assets/informationGreyImg";
-import { getConfigFromKey } from "../../config/configService";
+import { getImg } from '../ImgService'
+import { getButtonVisitWebsite } from './ButtonVisitWebsite'
+import { getInformationGreyImg } from '../assets/informationGreyImg'
+import { getConfigFromKey } from '../../config/configService'
 
 export function getEnergiesRennes() {
   return `
@@ -16,7 +16,7 @@ export function getEnergiesRennes() {
                 flex-row flex-1 h-[fit] border border-neutral-300 rounded-lg px-5 py-8"
             >
                 <img src="data:image/png;base64,${getImg(
-                  "energiesRennes.png"
+                  'energiesRennes.png'
                 )}" style="margin-left: 80px" >
             </div>
             <div class="flex-column flex-1 h-fit">
@@ -25,7 +25,7 @@ export function getEnergiesRennes() {
                       est une association citoyenne pour le développement du solaire photovoltaïque sur Rennes et sa région.
                 </p>
 
-                ${getButtonVisitWebsite(getConfigFromKey("link.energies_link"))}
+                ${getButtonVisitWebsite(getConfigFromKey('link.energies_link'))}
             </div>
         </div>
 
@@ -46,5 +46,5 @@ export function getEnergiesRennes() {
             </p>
         </div>
     </div>
-    `;
+    `
 }

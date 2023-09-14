@@ -13,5 +13,5 @@ export function getExpandImg() {
     </defs>
     </svg>
 
-    `;
+    `
 }

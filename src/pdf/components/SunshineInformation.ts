@@ -1,5 +1,5 @@
-import { getPotentialImg } from "../assets/PotentialImg";
-import { type RoofSurfaceModel } from "../type/type";
+import { getPotentialImg } from '../assets/PotentialImg'
+import { type RoofSurfaceModel } from '../type/type'
 
 export function getSunshineInformation(
   adress: string,
@@ -58,6 +58,6 @@ export function getSunshineInformation(
             </div>
           
         </div>
-    `;
-  return html;
+    `
+  return html
 }

@@ -12,5 +12,5 @@ export function getWarningImg() {
     </clipPath>
     </defs>
     </svg>
-    `;
+    `
 }

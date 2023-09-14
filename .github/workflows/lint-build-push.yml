@@ -2,7 +2,7 @@ name: Lint, Build & Deploy
 on:
   push:
     tags:
-      - "*"
+      - '*'
     branches:
       - main
   pull_request:

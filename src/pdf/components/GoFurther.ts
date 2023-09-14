@@ -1,13 +1,13 @@
-import { getPhotoVoltaique } from "./PhotoVoltaique";
-import { getQualiLabelsImg } from "../assets/qualiLabelsImg";
-import { getProfitabilityImg } from "../assets/profitabilityImg";
-import { getLinkWithIconArrow } from "./LinkWithIconArrow";
-import { getImg } from "../ImgService";
-import { getConfigFromKey } from "../../config/configService";
+import { getPhotoVoltaique } from './PhotoVoltaique'
+import { getQualiLabelsImg } from '../assets/qualiLabelsImg'
+import { getProfitabilityImg } from '../assets/profitabilityImg'
+import { getLinkWithIconArrow } from './LinkWithIconArrow'
+import { getImg } from '../ImgService'
+import { getConfigFromKey } from '../../config/configService'
 
 export function getGoFurther() {
-  const url_signe_qualite = getConfigFromKey("link.url_signe_qualite");
-  const url_choisir_modele_eco = getConfigFromKey("link.choisir_modele_eco");
+  const url_signe_qualite = getConfigFromKey('link.url_signe_qualite')
+  const url_choisir_modele_eco = getConfigFromKey('link.choisir_modele_eco')
 
   return `
     ${getPhotoVoltaique()}
@@ -26,13 +26,13 @@ export function getGoFurther() {
                 style=" padding-top: 18px; padding-bottom: 18px;"
             >
                 <img src="data:image/png;base64,${getImg(
-                  "qualibat.avif"
+                  'qualibat.avif'
                 )}" class="h-10 w-10">
                 <img src="data:image/png;base64,${getImg(
-                  "qualitEnR.png"
+                  'qualitEnR.png'
                 )}" class="h-10 w-[79px]">
                 <img src="data:image/png;base64,${getImg(
-                  "qualifelec.png"
+                  'qualifelec.png'
                 )}" class="h-10 w-[34px]">
             </div>
             ${getLinkWithIconArrow(url_signe_qualite)}
@@ -49,5 +49,5 @@ export function getGoFurther() {
         </div>
     </div>
 
-    `;
+    `
 }

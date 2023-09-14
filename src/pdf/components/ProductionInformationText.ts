@@ -1,5 +1,5 @@
-import { getInstallationImg } from "../assets/InstallationImg";
-import { getSolarPanelImg } from "../assets/SolarPanelImg";
+import { getInstallationImg } from '../assets/InstallationImg'
+import { getSolarPanelImg } from '../assets/SolarPanelImg'
 
 export function getProductionInformationText(
   currentNumSolarPanel: number,
@@ -51,5 +51,5 @@ export function getProductionInformationText(
                 </div>
             </div>
         </div>
-    `;
+    `
 }

@@ -1,4 +1,4 @@
-import { getExpandImg } from "../assets/expandImg";
+import { getExpandImg } from '../assets/expandImg'
 
 export function getLinkWithIconArrow(link: string) {
   return `
@@ -14,5 +14,5 @@ export function getLinkWithIconArrow(link: string) {
                 ${getExpandImg()}
             </div>
         </a>
-    `;
+    `
 }

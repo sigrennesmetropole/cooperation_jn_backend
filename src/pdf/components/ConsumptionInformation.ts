@@ -9,5 +9,5 @@ export function getConsumptionInformation(annualConsumption: string) {
             ${annualConsumption} kWh/an
         </p>
     </div>
-    `;
+    `
 }

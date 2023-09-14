@@ -1,12 +1,12 @@
-import { getComputeData } from "./../services/api-autocalsol";
-import { getIrisCode } from "./../services/api-iris";
-import { getTotalDistrictDatas } from "./../services/api-enedis-district";
-import { getPdfHtml } from "./PdfHtml";
-import { Request } from "express";
+import { getComputeData } from './../services/api-autocalsol'
+import { getIrisCode } from './../services/api-iris'
+import { getTotalDistrictDatas } from './../services/api-enedis-district'
+import { getPdfHtml } from './PdfHtml'
+import { Request } from 'express'
 
 export async function generateHTMLPdf(req: Request) {
   /* Get data autocalsol */
-  let data_autocalsol;
+  let data_autocalsol
   if (
     req.body.autocalsolResult === undefined ||
     req.body.autocalsolResult === null
@@ -19,29 +19,29 @@ export async function generateHTMLPdf(req: Request) {
         req.body.azimuth,
         req.body.annual_consumption,
         req.body.peak_power
-      );
+      )
     } catch (error) {
-      return null;
+      return null
     }
   } else {
-    data_autocalsol = req.body.autocalsolResult;
+    data_autocalsol = req.body.autocalsolResult
   }
 
   /* Get data district */
   let irisCode = await getIrisCode(
     req.body.latitude.toString(),
     req.body.longitude.toString()
-  );
-  let districtDatas = null;
+  )
+  let districtDatas = null
   if (irisCode !== null && irisCode != 0) {
-    districtDatas = await getTotalDistrictDatas(irisCode);
+    districtDatas = await getTotalDistrictDatas(irisCode)
   } else {
-    irisCode = 0;
+    irisCode = 0
   }
 
   /* CREATE PDF */
   if (data_autocalsol === undefined || data_autocalsol === null) {
-    return null;
+    return null
   }
 
   // Your HTML content
@@ -55,6 +55,6 @@ export async function generateHTMLPdf(req: Request) {
     districtDatas === null ? 0 : districtDatas?.totalPhotovoltaicSites,
     districtDatas === null ? 0 : districtDatas?.totalProduction,
     req.body.roofImageBase64
-  );
-  return html;
+  )
+  return html
 }

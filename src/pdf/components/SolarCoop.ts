@@ -1,6 +1,6 @@
-import { getImg } from "../ImgService";
-import { getButtonVisitWebsite } from "./ButtonVisitWebsite";
-import { getConfigFromKey } from "../../config/configService";
+import { getImg } from '../ImgService'
+import { getButtonVisitWebsite } from './ButtonVisitWebsite'
+import { getConfigFromKey } from '../../config/configService'
 
 export function getSolarCoop() {
   return `
@@ -13,7 +13,7 @@ export function getSolarCoop() {
             <div
                 class="flex-row flex-1 justify-center h-[fit] border border-neutral-300 rounded-lg px-5 py-8"
             >
-                <img src="data:image/png;base64,${getImg("solarCoop.png")}" >
+                <img src="data:image/png;base64,${getImg('solarCoop.png')}" >
             </div>
             <div class="flex-column flex-1 h-fit">
                 <p class="font-dm-sans text-base font-normal">
@@ -21,10 +21,10 @@ export function getSolarCoop() {
                 </p>
 
                 ${getButtonVisitWebsite(
-                  getConfigFromKey("link.solar_coop_link")
+                  getConfigFromKey('link.solar_coop_link')
                 )}
             </div>
         </div>
     </div>
-    `;
+    `
 }

@@ -39,5 +39,5 @@ export function getProfitabilityImg() {
 </defs>
 </svg>
 
-    `;
+    `
 }
