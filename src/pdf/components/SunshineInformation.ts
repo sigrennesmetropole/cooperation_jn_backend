@@ -1,7 +1,7 @@
 import { getPotentialImg } from '../assets/PotentialImg'
 import { type RoofSurfaceModel } from '../type/type'
 
-export function getSunshineInformation (
+export function getSunshineInformation(
   adress: string,
   roofSurface: RoofSurfaceModel
 ) {

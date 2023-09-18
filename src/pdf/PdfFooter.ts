@@ -1,6 +1,6 @@
 import { getDivider } from './PdfDivider'
 
-export function getFooter (numPage: number) {
+export function getFooter(numPage: number) {
   const divider = getDivider()
 
   return `

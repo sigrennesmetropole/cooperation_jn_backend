@@ -1,4 +1,4 @@
-export function getEqualCircle () {
+export function getEqualCircle() {
   return `
         <svg width="44" height="44" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
         <rect x="0.5" y="0.5" width="43" height="43" rx="21.5" fill="white"/>

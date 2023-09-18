@@ -1,4 +1,4 @@
-export function getHomePageImg () {
+export function getHomePageImg() {
   return `
         <svg width="700" height="344" viewBox="0 0 700 344" fill="none" xmlns="http://www.w3.org/2000/svg">
         <g clip-path="url(#clip0_2831_18004)">

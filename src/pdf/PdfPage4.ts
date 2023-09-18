@@ -4,10 +4,7 @@ import { getEconomiesImg } from './assets/EconomiesImg'
 import { getChartLegend } from './chart/ChartLegend'
 import { getLegendOverGraph } from './chart/LegendOverGraph'
 
-export function getPage4 (
-  // @ts-ignore
-  chartImageBase64
-) {
+export function getPage4(chartImageBase64: string) {
   const html = `
         <div class="page" style="font-family: DM Sans;">
             <!-- Header -->

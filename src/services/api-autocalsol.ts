@@ -4,19 +4,15 @@ import { getConfigFromKey } from '../config/configService'
 
 const date_prod_conso = getConfigFromKey('autocalsol.date_prod_conso')
 
-function getUrlFromEnv (): string | undefined {
+function getUrlFromEnv(): string | undefined {
   return process.env.AUTOCALSOL_URL
 }
 
-function getUserFromEnv (): string | undefined {
-  return process.env.AUTOCALSOL_USER
-}
-
-function getTokenFromEnv (): string | undefined {
+function getTokenFromEnv(): string | undefined {
   return process.env.AUTOCALSOL_TOKEN
 }
 
-function convertTimestamp (timestamp: number): string {
+function convertTimestamp(timestamp: number): string {
   const date = new Date(timestamp)
 
   // Use the Intl.DateTimeFormat object to format the date in Paris timezone
@@ -28,11 +24,11 @@ function convertTimestamp (timestamp: number): string {
     hour: '2-digit',
     minute: '2-digit',
     second: '2-digit',
-    hour12: false
+    hour12: false,
   })
 
   // Extract the date parts
-  let [
+  const [
     { value: month },
     ,
     { value: day },
@@ -43,19 +39,20 @@ function convertTimestamp (timestamp: number): string {
     ,
     { value: minute },
     ,
-    { value: second }
+    { value: second },
   ] = dateFormatter.formatToParts(date)
 
+  let hour00 = hour
   if (hour == '24') {
-    hour = '00'
+    hour00 = '00'
   }
 
   // Return the formatted date string
-  return `${year}-${month}-${day} ${hour}:${minute}:${second}`
+  return `${year}-${month}-${day} ${hour00}:${minute}:${second}`
 }
 
 // The consumption and production data are taken over a single day: date_prod_conso
-function getFormattedProdAndConso (data: Array<[number, string]>) {
+function getFormattedProdAndConso(data: Array<[number, string]>) {
   const dataFilterredOnTheGoodDay: Array<[string, string | number]> = []
 
   data.forEach((item) => {
@@ -64,9 +61,7 @@ function getFormattedProdAndConso (data: Array<[number, string]>) {
       const hours = date.split(' ')[1]
       // Half-hour data is not taken into account
       if (hours.match(':30:') == null) {
-        dataFilterredOnTheGoodDay.push(
-          [hours, parseInt(item[1])]
-        )
+        dataFilterredOnTheGoodDay.push([hours, parseInt(item[1])])
       }
     }
   })
@@ -76,25 +71,26 @@ function getFormattedProdAndConso (data: Array<[number, string]>) {
   return dataFilterredOnTheGoodDay
 }
 
-function formatComputeData (compute: AutocalsolType) {
+function formatComputeData(compute: AutocalsolType) {
   const prodByMonth = compute.resultConso.tabProdMonth
   const consoByMonth = compute.resultConso.tabConsoMonth
   const prodByHour = getFormattedProdAndConso(compute.resultConso.prodTotale)
   const consoByHour = getFormattedProdAndConso(compute.resultConso.consoPetit)
 
   const consoAnnualInjected = compute.resultConso.energieInjectee / 1000 // Wh to kwH
-  const consoAnnualAutoConsumed = compute.resultConso.energieAutoconsommee / 1000 // Wh to kwH
+  const consoAnnualAutoConsumed =
+    compute.resultConso.energieAutoconsommee / 1000 // Wh to kwH
   return {
     prodByMonth,
     consoByMonth,
     prodByHour,
     consoByHour,
     consoAnnualInjected,
-    consoAnnualAutoConsumed
+    consoAnnualAutoConsumed,
   }
 }
 
-export async function getComputeData (
+export async function getComputeData(
   latitude: string,
   longitude: string,
   slope: number,
@@ -111,7 +107,7 @@ export async function getComputeData (
         puissanceCrete: peak_power,
         pr: getConfigFromKey('autocalsol.pr'),
         tech: getConfigFromKey('autocalsol.tech'),
-        integration: getConfigFromKey('autocalsol.integration')
+        integration: getConfigFromKey('autocalsol.integration'),
       },
       usePuissanceOnduleur: false,
       consommation: {
@@ -121,9 +117,9 @@ export async function getComputeData (
           typeCompteur: getConfigFromKey('autocalsol.typeCompteur'),
           qteConso: annual_consumption,
           tarifVente: getConfigFromKey('autocalsol.tarifVente'),
-          tabConsommation: null
-        }
-      }
+          tabConsommation: null,
+        },
+      },
     },
     init: true,
     results: {
@@ -131,7 +127,7 @@ export async function getComputeData (
       resultBatiments: {
         energiePVGIS: true,
         irradianceMoyReal: true,
-        energieMeteoByMonth: true
+        energieMeteoByMonth: true,
       },
       resultConso: {
         tabProdMonth: true,
@@ -140,32 +136,37 @@ export async function getComputeData (
         consoPetit: true,
         energieInjectee: true,
         energieAutoconsommee: true,
-        energieSoutiree: true
+        energieSoutiree: true,
       },
       resultAutoConso: {
         tabProdJournaliere: true,
         tabConsoJournaliere: true,
-        tabInjectionJournaliere: true
-      }
-    }
+        tabInjectionJournaliere: true,
+      },
+    },
   }
-  const url = getUrlFromEnv() + '/api/v1/compute' + '?latitude=' + encodeURIComponent(latitude) + '&longitude=' + encodeURIComponent(longitude)
+  const url =
+    getUrlFromEnv() +
+    '/api/v1/compute' +
+    '?latitude=' +
+    encodeURIComponent(latitude) +
+    '&longitude=' +
+    encodeURIComponent(longitude)
   const config = {
     method: 'post' as Method,
     url,
     headers: {
       'Content-Type': 'application/json',
-      Authorization: `Bearer ${getTokenFromEnv()}`
+      Authorization: `Bearer ${getTokenFromEnv()}`,
     },
     data,
-    timeout: 60000 // 60 secondes
+    timeout: 60000, // 60 secondes
   }
   try {
     const response = await axios(config)
     const data2 = response.data
     return formatComputeData(data2)
-  } catch (error) {
-    // @ts-ignore
+  } catch (error: any) {
     throw new Error('Error during get consumption: ' + error.message)
   }
 }
