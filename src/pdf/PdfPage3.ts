@@ -5,7 +5,7 @@ import { getAutocalsolResultGlobal } from './components/AutocalsolResultGlobal'
 import { getNeighbourhoodData } from './components/NeighbourhoodData'
 import { type AutocalsolResult } from './type/type'
 
-export function getPage3 (
+export function getPage3(
   autocalsolResult: AutocalsolResult,
   districtNumberInstallations: number,
   districtProduction: number
@@ -28,15 +28,11 @@ export function getPage3 (
                         Votre production d'énergie
                     </span>
                 </div>
-                ${getAutocalsolResultGlobal(
-                    autocalsolResult
+                ${getAutocalsolResultGlobal(autocalsolResult)}
+                ${getNeighbourhoodData(
+                  districtNumberInstallations,
+                  districtProduction
                 )}
-                ${
-                    getNeighbourhoodData(
-                        districtNumberInstallations,
-                        districtProduction
-                    )
-                }
             </div>
 
             <!-- Footer -->

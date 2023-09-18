@@ -1,6 +1,6 @@
 import { getDivider } from './PdfDivider'
 
-export function getHeader (numPage: number) {
+export function getHeader(numPage: number) {
   const divider = getDivider()
   let textHeader = 'Votre simulation d’installation photovoltaïque'
   if ([5, 6].includes(numPage)) {

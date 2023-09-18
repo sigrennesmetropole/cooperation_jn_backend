@@ -2,16 +2,14 @@ import { getComputeData } from './../services/api-autocalsol'
 import { getIrisCode } from './../services/api-iris'
 import { getTotalDistrictDatas } from './../services/api-enedis-district'
 import { getPdfHtml } from './PdfHtml'
+import { Request } from 'express'
 
-export async function generateHTMLPdf (
-  // @ts-ignore
-  req
-) {
+export async function generateHTMLPdf(req: Request) {
   /* Get data autocalsol */
   let data_autocalsol
   if (
     req.body.autocalsolResult === undefined ||
-      req.body.autocalsolResult === null
+    req.body.autocalsolResult === null
   ) {
     try {
       data_autocalsol = await getComputeData(
@@ -48,7 +46,6 @@ export async function generateHTMLPdf (
 
   // Your HTML content
   const html = await getPdfHtml(
-    // @ts-ignore
     data_autocalsol,
     req.body.selectedRoof,
     req.body.address,

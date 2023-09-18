@@ -5,7 +5,7 @@ import { getConsumptionInformation } from './components/ConsumptionInformation'
 import { getProductionInformationText } from './components/ProductionInformationText'
 import { type RoofSurfaceModel } from './type/type'
 
-export function getPage2 (
+export function getPage2(
   adress: string,
   selectedRoof: RoofSurfaceModel,
   annualConsumption: string,
@@ -24,19 +24,14 @@ export function getPage2 (
             <!-- Content -->
             <div class="margin-x-30 flex-row gap-4" style="font-family: DM Sans; margin-top: 40px;">
                 <div style="flex: 1;">
-                    ${getSunshineInformation(
-                        adress,
-                        selectedRoof
-                    )}
-                    ${getConsumptionInformation(
-                        annualConsumption
-                    )}
+                    ${getSunshineInformation(adress, selectedRoof)}
+                    ${getConsumptionInformation(annualConsumption)}
                 </div>
                 <div style="flex: 1;">
                     ${getProductionInformationText(
-                        currentNumSolarPanel,
-                        currentPower,
-                        currentSurface
+                      currentNumSolarPanel,
+                      currentPower,
+                      currentSurface
                     )}
                 </div>
             </div>

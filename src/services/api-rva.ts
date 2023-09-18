@@ -55,7 +55,7 @@ interface AddressStreet {
 class ApiRvaService {
   // Documention of API : https://api-rva.sig.rennesmetropole.fr/documentation.php
 
-  getApiKey (): string {
+  getApiKey(): string {
     if (process.env.ENV === 'dev') {
       return process.env.RVA_API_KEY as string
     } else {
@@ -63,24 +63,23 @@ class ApiRvaService {
     }
   }
 
-  async fetchAddress (
+  async fetchAddress(
     search: string,
     filter: string,
-    displayInsee: boolean = false
+    displayInsee = false
   ): Promise<ApiData> {
     const baseUrl = 'https://api-rva.sig.rennesmetropole.fr/'
     const apiKey = this.getApiKey()
     let url =
-        baseUrl +
-        `?key=${apiKey}&version=1.0&format=json&epsg=4326&cmd=${filter}&query=${search}`
+      baseUrl +
+      `?key=${apiKey}&version=1.0&format=json&epsg=4326&cmd=${filter}&query=${search}`
     if (displayInsee) {
       url += '&insee=all'
     }
-
     const config = {
       method: 'get' as Method,
       url,
-      timeout: 20000 // 20 seconds
+      timeout: 20000, // 20 seconds
     }
 
     const response = await axios(config)
@@ -88,12 +87,12 @@ class ApiRvaService {
     return data
   }
 
-  isDataValid (data: ApiData): boolean {
+  isDataValid(data: ApiData): boolean {
     const answer = data.rva.answer
     return answer.status.code === '1' && answer.status.message === 'ok'
   }
 
-  async fetchFullAddresses (search: string): Promise<AddressRva[]> {
+  async fetchFullAddresses(search: string): Promise<AddressRva[]> {
     const filter = 'getfulladdresses'
     const data = await this.fetchAddress(search, filter)
     if (!this.isDataValid(data)) {
@@ -102,7 +101,7 @@ class ApiRvaService {
     return data.rva.answer.addresses
   }
 
-  async fetchStreets (search: string): Promise<AddressStreet[]> {
+  async fetchStreets(search: string): Promise<AddressStreet[]> {
     const filter = 'getlanes'
     const data = await this.fetchAddress(search, filter, true)
     if (!this.isDataValid(data)) {
@@ -111,7 +110,7 @@ class ApiRvaService {
     return data.rva.answer.lanes
   }
 
-  normalizeString (str: string): string {
+  normalizeString(str: string): string {
     return str
       .normalize('NFD')
       .replace(/[\u0300-\u036f]/g, '')
@@ -119,14 +118,14 @@ class ApiRvaService {
       .toLowerCase()
   }
 
-  isString1IncludedInString2 (string1: string, string2: string): boolean {
+  isString1IncludedInString2(string1: string, string2: string): boolean {
     const normalizedString1 = this.normalizeString(string1)
     const normalizedString2 = this.normalizeString(string2)
 
     return normalizedString2.includes(normalizedString1)
   }
 
-  async fetchCommunes (search: string): Promise<AddressCommune[]> {
+  async fetchCommunes(search: string): Promise<AddressCommune[]> {
     const filter = 'getcities'
     const data = await this.fetchAddress(search, filter, true)
     if (!this.isDataValid(data)) {

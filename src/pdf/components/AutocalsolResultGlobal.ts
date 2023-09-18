@@ -3,12 +3,10 @@ import { getElectricityProductionImg } from '../assets/electricityProductionImg'
 import { getEqualCircle } from '../assets/equalCircleImg'
 import { getPlusCircle } from '../assets/plusCircleImg'
 
-export function getAutocalsolResultGlobal (
-  autocalsolResult: AutocalsolResult
-) {
+export function getAutocalsolResultGlobal(autocalsolResult: AutocalsolResult) {
   const production = Math.round(
     autocalsolResult.consoAnnualInjected +
-        autocalsolResult.consoAnnualAutoConsumed
+      autocalsolResult.consoAnnualAutoConsumed
   )
   const autoConsumed = Math.round(autocalsolResult.consoAnnualAutoConsumed)
   const injected = Math.round(autocalsolResult.consoAnnualInjected)

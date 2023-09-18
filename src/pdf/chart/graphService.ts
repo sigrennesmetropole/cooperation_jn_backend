@@ -2,7 +2,7 @@
   Autocalsol data is sorted by hour. Except that the graph starts at 3am and not midnight
   So we have to sort the hours starting with 3am
 */
-export function sortedHoursWith3amStart (data: Array<[string, number]>) {
+export function sortedHoursWith3amStart(data: Array<[string, number]>) {
   const after3hours: number[] = []
   const before3hours: number[] = []
   data.forEach((element) => {
@@ -24,7 +24,7 @@ const STUFFING_PRECISION = 10
  * The intersection graph will be a straight line between 1000W and 2000W
  * With the stuffing, we will have 10 values between 1000W and 2000W : 1000W, 1100W, 1200W, 1300W, 1400W, 1500W, 1600W, 1700W, 1800W, 1900W, 2000W
  */
-export function stuffingData (data: number[]): number[] {
+export function stuffingData(data: number[]): number[] {
   const newData = []
   for (let i = 0; i < data.length; i++) {
     newData.push(data[i])
@@ -50,12 +50,12 @@ export function stuffingData (data: number[]): number[] {
   return newData
 }
 
-export function convertDataForGraph (data: Array<[string, number]>) {
+export function convertDataForGraph(data: Array<[string, number]>) {
   const newData = sortedHoursWith3amStart(data)
   return stuffingData(newData)
 }
 
-export function calculateIntersectionData (
+export function calculateIntersectionData(
   productionData: number[],
   consommationData: number[]
 ) {
@@ -64,7 +64,7 @@ export function calculateIntersectionData (
   })
 }
 
-export function stuffingXAxis (xAxis: string[]) {
+export function stuffingXAxis(xAxis: string[]) {
   const newXAxis = []
   for (let i = 0; i < xAxis.length; i++) {
     newXAxis.push(xAxis[i])
@@ -79,7 +79,7 @@ export function stuffingXAxis (xAxis: string[]) {
   return newXAxis
 }
 
-export function generateXAxis () {
+export function generateXAxis() {
   const baseHours = [
     '3h',
     '4h',
@@ -104,12 +104,12 @@ export function generateXAxis () {
     '23h',
     '0h',
     '1h',
-    '2h'
+    '2h',
   ]
   return stuffingXAxis(baseHours)
 }
 
-export function generateTickPositions (xAxis: string[]) {
+export function generateTickPositions(xAxis: string[]) {
   const tickPositions: number[] = []
   xAxis.forEach((element, index) => {
     if (element.match('h') != null) {

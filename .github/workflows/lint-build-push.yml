@@ -55,4 +55,3 @@ jobs:
           build-args: |
             NPM_TOKEN=${{secrets.GITHUB_TOKEN}}
           labels: ${{ steps.meta.outputs.labels }}
-
