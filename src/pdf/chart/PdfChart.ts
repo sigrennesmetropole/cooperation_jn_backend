@@ -1,15 +1,13 @@
-import {
-  getChartOptions
-} from './graphOptions'
+import { getChartOptions } from './graphOptions'
 import { type AutocalsolResult as AutocalsolResultType } from '../type/type'
 
-const fs = require('fs')
-const puppeteer = require('puppeteer')
+import puppeteer from 'puppeteer'
 
-export async function generateChartImg (
-  data_autocalsol: AutocalsolResultType
-) {
-  const browser = await puppeteer.launch({headless: true, args: ['--no-sandbox']})
+export async function generateChartImg(data_autocalsol: AutocalsolResultType) {
+  const browser = await puppeteer.launch({
+    headless: true,
+    args: ['--no-sandbox'],
+  })
   const page = await browser.newPage()
 
   const { staticOptions, dynamicOptions } = getChartOptions(data_autocalsol)
@@ -36,7 +34,6 @@ export async function generateChartImg (
         </body>
         </html>
     `
-
   // Set the HTML content of the page
   await page.setContent(html)
 
@@ -50,9 +47,9 @@ export async function generateChartImg (
       x: 0,
       y: 0,
       width: 800,
-      height: 400
+      height: 400,
     },
-    encoding: 'base64' // this will return base64 string
+    encoding: 'base64', // this will return base64 string
   })
 
   // Clean up: close the browser

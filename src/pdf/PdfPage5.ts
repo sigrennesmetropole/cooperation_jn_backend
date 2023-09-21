@@ -2,7 +2,7 @@ import { getHeader } from './PdfHeader'
 import { getFooter } from './PdfFooter'
 import { getGoFurther } from './components/GoFurther'
 
-export function getPage5 () {
+export function getPage5() {
   const html = `
         <div class="page" style="font-family: DM Sans;">
             <!-- Header -->
@@ -19,7 +19,7 @@ export function getPage5 () {
             </div>
 
             <!-- Footer -->
-            <div style="margin-top: 90px;">
+            <div style="margin-top: 80px;">
                 ${getFooter(5)}
             </div>
         </div>
