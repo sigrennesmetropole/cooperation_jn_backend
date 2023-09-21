@@ -1,6 +1,6 @@
 import NodeCache from 'node-cache'
 import fetch from 'node-fetch'
-
+import configuration from './configuration.json'
 const cache = new NodeCache({
   stdTTL: 3600,
 })
@@ -12,8 +12,13 @@ export async function getConfig() {
   if (cachedConfig) {
     return cachedConfig
   }
-  const baseUrl = `https://${getEnvGithubToken()}@raw.githubusercontent.com/sigrennesmetropole/cooperation_jn_conf/main/configuration.json`
+  if (process.env.CONF === 'local') {
+    console.log('Local setup: use local configuration')
+    return configuration
+  }
+  console.log('Server setup: use remote configuration')
 
+  const baseUrl = `${getConfFileGithubPath()}`
   try {
     const response = await fetch(baseUrl)
     const resJson = await response.json()
@@ -24,8 +29,8 @@ export async function getConfig() {
   }
 }
 
-export function getEnvGithubToken() {
-  return process.env.GITHUB_CONFIG_TOKEN as string
+export function getConfFileGithubPath() {
+  return process.env.CONF_FILE_GITHUB_PATH as string
 }
 
 export async function getConfigFromKey(key: string) {
