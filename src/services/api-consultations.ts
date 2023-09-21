@@ -159,6 +159,8 @@ async function getProjectFullInformations(projectId: string) {
         `
 
   const url = `${getProjectsUrl()}`
+  console.log(`url: ${url}`)
+  console.log(`project id: ${projectId}`)
   const config = {
     method: 'post' as Method,
     url,
@@ -173,6 +175,7 @@ async function getProjectFullInformations(projectId: string) {
     const cleanData = cleanGraphQlData(response)
     return cleanData
   } catch (error) {
+    console.log(error)
     return null
   }
 }
@@ -196,7 +199,7 @@ export async function getConsultationInformations() {
   // This is a simulation of results given by the first api call on FabriqueCitoyenne url. Do not remove for now.
   const projectsBasicInformations: any[] = [
     {
-      id: 'UHJvamVjdDo4YTg1MWQyOS01MDdlLTExZWQtYWZjMy0wMjQyYWMxMTAwMDI=',
+      id: 'UHJvamVjdDpiYjIwMWFlNy0zNmJiLTExZWUtYTM3MC0wMjQyYWMxMTAwMDQ=',
       title: 'Trambus',
       url: 'https://fabriquecitoyenne.fr/project/trambus/presentation/presentation',
     },
@@ -205,6 +208,7 @@ export async function getConsultationInformations() {
   if (projectsBasicInformations.length >= 0) {
     for (const project of projectsBasicInformations) {
       const projectInformation = await getProjectFullInformations(project.id)
+      console.log(projectInformation)
       if (projectInformation) {
         projectsInformations.push(projectInformation)
       } else {
@@ -213,4 +217,42 @@ export async function getConsultationInformations() {
     }
   }
   return projectsInformations
+}
+
+export async function getProjects() {
+  const data = JSON.stringify({
+    query: `{
+    projects(first: 5, orderBy: {field: PUBLISHED_AT, direction: DESC}) {
+      totalCount
+      edges {
+        node {
+          id
+          title
+          publishedAt
+        }
+      }
+    }
+  }`,
+    variables: {},
+  })
+
+  const config = {
+    method: 'post',
+    maxBodyLength: Infinity,
+    url: 'https://demo3.cap-collectif.com/graphql',
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/vnd.cap-collectif.preview+json',
+    },
+    data: data,
+  }
+
+  axios
+    .request(config)
+    .then((response) => {
+      console.log(JSON.stringify(response.data))
+    })
+    .catch((error) => {
+      console.log(error)
+    })
 }
