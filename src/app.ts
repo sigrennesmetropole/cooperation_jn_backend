@@ -234,7 +234,10 @@ app.get(
 )
 
 import puppeteer from 'puppeteer'
-import { getConsultationInformations } from './services/api-consultations'
+import {
+  getConsultationInformations,
+  getProjects,
+} from './services/api-consultations'
 const pdfMiddleware = [
   body('annual_consumption')
     .isNumeric()
@@ -555,6 +558,20 @@ app.get(
     async (req: Request & { session: MySessionData }, res: Response) => {
       try {
         const consultationsInformations = await getConsultationInformations()
+        res.json(consultationsInformations)
+      } catch (error: any) {
+        res.status(500).json({ error: error.toString() })
+      }
+    }
+  )
+)
+
+app.get(
+  '/api/consultations/projects',
+  asyncHandler(
+    async (req: Request & { session: MySessionData }, res: Response) => {
+      try {
+        const consultationsInformations = await getProjects()
         res.json(consultationsInformations)
       } catch (error: any) {
         res.status(500).json({ error: error.toString() })
