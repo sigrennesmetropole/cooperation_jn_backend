@@ -2,20 +2,16 @@ import { getComputeData } from './../services/api-autocalsol'
 import { getIrisCode } from './../services/api-iris'
 import { getTotalDistrictDatas } from './../services/api-enedis-district'
 import { getPdfHtml } from './PdfHtml'
+import { Request } from 'express'
 
-export async function generateHTMLPdf (
-  // @ts-ignore
-  req
-) {
+export async function generateHTMLPdf(req: Request) {
   /* Get data autocalsol */
-  console.log('autocalsol')
   let data_autocalsol
   if (
     req.body.autocalsolResult === undefined ||
-      req.body.autocalsolResult === null
+    req.body.autocalsolResult === null
   ) {
     try {
-      console.log('get autocalsol')
       data_autocalsol = await getComputeData(
         req.body.latitude,
         req.body.longitude,
@@ -32,12 +28,10 @@ export async function generateHTMLPdf (
   }
 
   /* Get data district */
-  console.log('district')
   let irisCode = await getIrisCode(
     req.body.latitude.toString(),
     req.body.longitude.toString()
   )
-  console.log('irisCode', irisCode)
   let districtDatas = null
   if (irisCode !== null && irisCode != 0) {
     districtDatas = await getTotalDistrictDatas(irisCode)
@@ -51,9 +45,7 @@ export async function generateHTMLPdf (
   }
 
   // Your HTML content
-  console.log('get pdf')
   const html = await getPdfHtml(
-    // @ts-ignore
     data_autocalsol,
     req.body.selectedRoof,
     req.body.address,
@@ -64,6 +56,5 @@ export async function generateHTMLPdf (
     districtDatas === null ? 0 : districtDatas?.totalProduction,
     req.body.roofImageBase64
   )
-  console.log('end html')
   return html
 }

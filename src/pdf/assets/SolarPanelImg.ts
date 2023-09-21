@@ -1,4 +1,4 @@
-export function getSolarPanelImg () {
+export function getSolarPanelImg() {
   return `
     <svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
     <path d="M11.5 22H48C48 22 50.5 22 51.5 25C52.6068 28.3204 49.5 28.5 49.5 28.5H15C15 28.5 12 28.5 11 32C10 35.5 13.5 35.5 13.5 35.5H58" stroke="#DD3627" stroke-width="1.5"/>

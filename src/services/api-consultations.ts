@@ -1,45 +1,54 @@
 import axios, { type Method } from 'axios'
 
-function getProjectsUrl (): string | undefined {
-    return process.env.FABRIQUE_CITOYENNE_URL
-  }
+function getProjectsUrl(): string | undefined {
+  return process.env.FABRIQUE_CITOYENNE_URL
+}
 
 // function getThemeId (): string | undefined {
 //     return process.env.FABRIQUE_CITOYENNE_THEME_ID
 // }
 
 function cleanGraphQlData(response: any) {
-    const data = response.data.data.node
+  const data = response.data.data.node
 
-    let state = "open"
-    if(data.steps.every((s: { state: string }) => s.state == "CLOSED")) {
-        state = "closed"
-    }
+  let state = 'open'
+  if (data.steps.every((s: { state: string }) => s.state == 'CLOSED')) {
+    state = 'closed'
+  }
 
-    const arrayDate: string [] = data.steps.filter((s: { timeRange: any | undefined }) => s.timeRange !== undefined).map((s: { timeRange: { endAt: string } }) => s.timeRange.endAt.split(" ")[0])
+  const arrayDate: string[] = data.steps
+    .filter((s: { timeRange: any | undefined }) => s.timeRange !== undefined)
+    .map(
+      (s: { timeRange: { endAt: string } }) => s.timeRange.endAt.split(' ')[0]
+    )
 
-    const sortedDates = arrayDate.sort((a, b) => {
-        const dateA: number = Date.parse(a);
-        const dateB: number = Date.parse(b);
-      
-        return dateB - dateA;
-      })
-   let displaySortedDates = sortedDates[0].split("-")
-   let date_end = displaySortedDates[2] + "/" + displaySortedDates[1] + "/" + displaySortedDates[0]
+  const sortedDates = arrayDate.sort((a, b) => {
+    const dateA: number = Date.parse(a)
+    const dateB: number = Date.parse(b)
 
-   return {
-        id: data.id,
-        img: data.cover.url,
-        title: data.title,
-        status: state,
-        date_end: date_end,
-        location: "Non renseigné",
-        content: "Non renseigné",
-        nb_comments: data.contributions.totalCount,
-        nb_likes: data.votes.totalCount,
-        nb_persons: data.contributors.totalCount,
-        url: data.url
-    }
+    return dateB - dateA
+  })
+  const displaySortedDates = sortedDates[0].split('-')
+  const date_end =
+    displaySortedDates[2] +
+    '/' +
+    displaySortedDates[1] +
+    '/' +
+    displaySortedDates[0]
+
+  return {
+    id: data.id,
+    img: data.cover.url,
+    title: data.title,
+    status: state,
+    date_end: date_end,
+    location: 'Non renseigné',
+    content: 'Non renseigné',
+    nb_comments: data.contributions.totalCount,
+    nb_likes: data.votes.totalCount,
+    nb_persons: data.contributors.totalCount,
+    url: data.url,
+  }
 }
 
 // Api call to get the projects from the theme id
@@ -76,12 +85,11 @@ function cleanGraphQlData(response: any) {
 //     return response.data.data
 //   } catch (error) {
 //     return []
-//   } 
+//   }
 // }
 
 async function getProjectFullInformations(projectId: string) {
-    const data =
-        `
+  const data = `
         {
             node(id: "${projectId}") {
                 ... on Project {
@@ -156,9 +164,9 @@ async function getProjectFullInformations(projectId: string) {
     url,
     headers: {
       'Content-Type': 'application/graphql',
-      'Accept': 'application/vnd.cap-collectif.preview+json'
+      Accept: 'application/vnd.cap-collectif.preview+json',
     },
-    data
+    data,
   }
   try {
     const response = await axios(config)
@@ -166,42 +174,43 @@ async function getProjectFullInformations(projectId: string) {
     return cleanData
   } catch (error) {
     return null
-  } 
+  }
 }
 
-export async function getConsultationInformations () {
-    const projectsInformations: any[] = []
+export async function getConsultationInformations() {
+  const projectsInformations: any[] = []
 
-    // const projectsBasicInformations: any[] = await getProjectsBasicInformations(getThemeId())
+  // const projectsBasicInformations: any[] = await getProjectsBasicInformations(getThemeId())
 
-    // This is a simulation of results given by the first api call on CapCollectif url. Do not remove for now.
-    // const projectsBasicInformations: any[] = [{
-    //     id:'UHJvamVjdDo2ZGZjMzc3Mi05MDBhLTExZWQtODBlMC0wMjQyYWMxMTAwMDk=',
-    //     title:'Concertation guidée TRAMBUS',
-    //     url:'https://demo3.cap-collectif.com/project/concertation-guidee-trambus/questionnaire/contribution-requalification-de-la-rue-chicogne'
-    // },{
-    //     id:'UHJvamVjdDowNmYwNmZmYS05MGNmLTExZWQtODBlMC0wMjQyYWMxMTAwMDk=',
-    //     title:'Boite à idées TRAMBUS',
-    //     url:'https://demo3.cap-collectif.com/project/boite-a-idees-trambus/presentation/le-trambus-quest-ce-que-cest'
-    // }]
+  // This is a simulation of results given by the first api call on CapCollectif url. Do not remove for now.
+  // const projectsBasicInformations: any[] = [{
+  //     id:'UHJvamVjdDo2ZGZjMzc3Mi05MDBhLTExZWQtODBlMC0wMjQyYWMxMTAwMDk=',
+  //     title:'Concertation guidée TRAMBUS',
+  //     url:'https://demo3.cap-collectif.com/project/concertation-guidee-trambus/questionnaire/contribution-requalification-de-la-rue-chicogne'
+  // },{
+  //     id:'UHJvamVjdDowNmYwNmZmYS05MGNmLTExZWQtODBlMC0wMjQyYWMxMTAwMDk=',
+  //     title:'Boite à idées TRAMBUS',
+  //     url:'https://demo3.cap-collectif.com/project/boite-a-idees-trambus/presentation/le-trambus-quest-ce-que-cest'
+  // }]
 
-    // This is a simulation of results given by the first api call on FabriqueCitoyenne url. Do not remove for now.
-    const projectsBasicInformations: any[] = [{
-        id:'UHJvamVjdDo4YTg1MWQyOS01MDdlLTExZWQtYWZjMy0wMjQyYWMxMTAwMDI=',
-        title:'Trambus',
-        url:'https://fabriquecitoyenne.fr/project/trambus/presentation/presentation'
-    }]
+  // This is a simulation of results given by the first api call on FabriqueCitoyenne url. Do not remove for now.
+  const projectsBasicInformations: any[] = [
+    {
+      id: 'UHJvamVjdDo4YTg1MWQyOS01MDdlLTExZWQtYWZjMy0wMjQyYWMxMTAwMDI=',
+      title: 'Trambus',
+      url: 'https://fabriquecitoyenne.fr/project/trambus/presentation/presentation',
+    },
+  ]
 
-    if(projectsBasicInformations.length >= 0) {
-        for (let project of projectsBasicInformations) {
-            const projectInformation = await getProjectFullInformations(project.id)
-            if(projectInformation) {
-                projectsInformations.push(projectInformation)
-            }
-            else {
-                projectsInformations.push(project)
-            }
-        }
+  if (projectsBasicInformations.length >= 0) {
+    for (const project of projectsBasicInformations) {
+      const projectInformation = await getProjectFullInformations(project.id)
+      if (projectInformation) {
+        projectsInformations.push(projectInformation)
+      } else {
+        projectsInformations.push(project)
+      }
     }
-    return projectsInformations
   }
+  return projectsInformations
+}

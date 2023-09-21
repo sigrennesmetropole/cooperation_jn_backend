@@ -1,8 +1,6 @@
 import { getGoToWhite } from '../assets/goToWhiteImg'
 
-export function getButtonVisitWebsite (
-  link: string
-) {
+export function getButtonVisitWebsite(link: string) {
   return `
     <a
         href="${link}"
