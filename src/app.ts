@@ -236,8 +236,9 @@ app.get(
 import puppeteer from 'puppeteer'
 import {
   apiConsultationService,
-  getConsultationInformations,
+  // getConsultationInformations,
 } from './services/api-consultations'
+
 const pdfMiddleware = [
   body('annual_consumption')
     .isNumeric()
@@ -552,19 +553,19 @@ app.get(
 )
 
 // ROUTES API CAP COLLECTIF : CONSULTATIONS INFORMATIONS
-app.get(
-  '/api/consultations',
-  asyncHandler(
-    async (req: Request & { session: MySessionData }, res: Response) => {
-      try {
-        const consultationsInformations = await getConsultationInformations()
-        res.json(consultationsInformations)
-      } catch (error: any) {
-        res.status(500).json({ error: error.toString() })
-      }
-    }
-  )
-)
+// app.get(
+//   '/api/consultations',
+//   asyncHandler(
+//     async (req: Request & { session: MySessionData }, res: Response) => {
+//       try {
+//         const consultationsInformations = await getConsultationInformations()
+//         res.json(consultationsInformations)
+//       } catch (error: any) {
+//         res.status(500).json({ error: error.toString() })
+//       }
+//     }
+//   )
+// )
 
 app.get(
   '/api/consultations/projects',

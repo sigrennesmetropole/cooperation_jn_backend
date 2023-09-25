@@ -1,4 +1,4 @@
-import axios, { type Method } from 'axios'
+import axios from 'axios'
 
 function getProjectsUrl(): string | undefined {
   return process.env.FABRIQUE_CITOYENNE_URL
@@ -123,10 +123,6 @@ class ApiConsultationService {
     const projectDetail = await this.getProjectDetail(sampleProjectID)
     return projectDetail
   }
-
-  parseProjectDetail(projectDetail: any){
-
-  }
 }
 
 // function getThemeId (): string | undefined {
@@ -213,135 +209,135 @@ function cleanGraphQlData(response: any) {
 //   }
 // }
 
-async function getProjectFullInformations(projectId: string) {
-  const data = `
-        {
-            node(id: "${projectId}") {
-                ... on Project {
-                    id
-                    title
-                    url
-                    contributors {
-                        totalCount
-                    }
-                    votes {
-                        totalCount
-                    }
-                    contributions {
-                        totalCount
-                    }
-                    cover {
-                        url
-                    }
-                    steps {
-                        __typename
-                        ... on QuestionnaireStep {
-                          id
-                          title
-                          state
-                          timeRange {
-                            endAt
-                          }
-                        }
-                        ... on SelectionStep {
-                          id
-                          title
-                          state
-                          timeRange {
-                            endAt
-                          }
-                        }
-                        ... on CollectStep {
-                          id
-                          title
-                          state
-                          timeRange {
-                            endAt
-                          }
-                        }
-                        ... on PresentationStep {
-                          id
-                          title
-                          state
-                        }
-                        ... on ConsultationStep {
-                          id
-                          title
-                          state
-                          timeRange {
-                            endAt
-                          }
-                        }
-                        ... on OtherStep {
-                          id
-                          title
-                          state
-                        }
-                    }
-                }
-            }
-        }
-        `
+// async function getProjectFullInformations(projectId: string) {
+//   const data = `
+//         {
+//             node(id: "${projectId}") {
+//                 ... on Project {
+//                     id
+//                     title
+//                     url
+//                     contributors {
+//                         totalCount
+//                     }
+//                     votes {
+//                         totalCount
+//                     }
+//                     contributions {
+//                         totalCount
+//                     }
+//                     cover {
+//                         url
+//                     }
+//                     steps {
+//                         __typename
+//                         ... on QuestionnaireStep {
+//                           id
+//                           title
+//                           state
+//                           timeRange {
+//                             endAt
+//                           }
+//                         }
+//                         ... on SelectionStep {
+//                           id
+//                           title
+//                           state
+//                           timeRange {
+//                             endAt
+//                           }
+//                         }
+//                         ... on CollectStep {
+//                           id
+//                           title
+//                           state
+//                           timeRange {
+//                             endAt
+//                           }
+//                         }
+//                         ... on PresentationStep {
+//                           id
+//                           title
+//                           state
+//                         }
+//                         ... on ConsultationStep {
+//                           id
+//                           title
+//                           state
+//                           timeRange {
+//                             endAt
+//                           }
+//                         }
+//                         ... on OtherStep {
+//                           id
+//                           title
+//                           state
+//                         }
+//                     }
+//                 }
+//             }
+//         }
+//         `
 
-  const url = `${getProjectsUrl()}`
-  console.log(`url: ${url}`)
-  console.log(`project id: ${projectId}`)
-  const config = {
-    method: 'post' as Method,
-    url,
-    headers: {
-      'Content-Type': 'application/json',
-      Accept: 'application/vnd.cap-collectif.preview+json',
-    },
-    data,
-  }
-  try {
-    const response = await axios(config)
-    const cleanData = cleanGraphQlData(response)
-    return cleanData
-  } catch (error) {
-    console.log(error)
-    return null
-  }
-}
+//   const url = `${getProjectsUrl()}`
+//   console.log(`url: ${url}`)
+//   console.log(`project id: ${projectId}`)
+//   const config = {
+//     method: 'post' as Method,
+//     url,
+//     headers: {
+//       'Content-Type': 'application/json',
+//       Accept: 'application/vnd.cap-collectif.preview+json',
+//     },
+//     data,
+//   }
+//   try {
+//     const response = await axios(config)
+//     const cleanData = cleanGraphQlData(response)
+//     return cleanData
+//   } catch (error) {
+//     console.log(error)
+//     return null
+//   }
+// }
 
-export async function getConsultationInformations() {
-  const projectsInformations: any[] = []
+// export async function getConsultationInformations() {
+//   const projectsInformations: any[] = []
 
-  // const projectsBasicInformations: any[] = await getProjectsBasicInformations(getThemeId())
+//   // const projectsBasicInformations: any[] = await getProjectsBasicInformations(getThemeId())
 
-  // This is a simulation of results given by the first api call on CapCollectif url. Do not remove for now.
-  // const projectsBasicInformations: any[] = [{
-  //     id:'UHJvamVjdDo2ZGZjMzc3Mi05MDBhLTExZWQtODBlMC0wMjQyYWMxMTAwMDk=',
-  //     title:'Concertation guidée TRAMBUS',
-  //     url:'https://demo3.cap-collectif.com/project/concertation-guidee-trambus/questionnaire/contribution-requalification-de-la-rue-chicogne'
-  // },{
-  //     id:'UHJvamVjdDowNmYwNmZmYS05MGNmLTExZWQtODBlMC0wMjQyYWMxMTAwMDk=',
-  //     title:'Boite à idées TRAMBUS',
-  //     url:'https://demo3.cap-collectif.com/project/boite-a-idees-trambus/presentation/le-trambus-quest-ce-que-cest'
-  // }]
+//   // This is a simulation of results given by the first api call on CapCollectif url. Do not remove for now.
+//   // const projectsBasicInformations: any[] = [{
+//   //     id:'UHJvamVjdDo2ZGZjMzc3Mi05MDBhLTExZWQtODBlMC0wMjQyYWMxMTAwMDk=',
+//   //     title:'Concertation guidée TRAMBUS',
+//   //     url:'https://demo3.cap-collectif.com/project/concertation-guidee-trambus/questionnaire/contribution-requalification-de-la-rue-chicogne'
+//   // },{
+//   //     id:'UHJvamVjdDowNmYwNmZmYS05MGNmLTExZWQtODBlMC0wMjQyYWMxMTAwMDk=',
+//   //     title:'Boite à idées TRAMBUS',
+//   //     url:'https://demo3.cap-collectif.com/project/boite-a-idees-trambus/presentation/le-trambus-quest-ce-que-cest'
+//   // }]
 
-  // This is a simulation of results given by the first api call on FabriqueCitoyenne url. Do not remove for now.
-  const projectsBasicInformations: any[] = [
-    {
-      id: 'UHJvamVjdDpiYjIwMWFlNy0zNmJiLTExZWUtYTM3MC0wMjQyYWMxMTAwMDQ=',
-      title: 'Trambus',
-      url: 'https://fabriquecitoyenne.fr/project/trambus/presentation/presentation',
-    },
-  ]
+//   // This is a simulation of results given by the first api call on FabriqueCitoyenne url. Do not remove for now.
+//   const projectsBasicInformations: any[] = [
+//     {
+//       id: 'UHJvamVjdDpiYjIwMWFlNy0zNmJiLTExZWUtYTM3MC0wMjQyYWMxMTAwMDQ=',
+//       title: 'Trambus',
+//       url: 'https://fabriquecitoyenne.fr/project/trambus/presentation/presentation',
+//     },
+//   ]
 
-  if (projectsBasicInformations.length >= 0) {
-    for (const project of projectsBasicInformations) {
-      const projectInformation = await getProjectFullInformations(project.id)
-      console.log(projectInformation)
-      if (projectInformation) {
-        projectsInformations.push(projectInformation)
-      } else {
-        projectsInformations.push(project)
-      }
-    }
-  }
-  return projectsInformations
-}
+//   if (projectsBasicInformations.length >= 0) {
+//     for (const project of projectsBasicInformations) {
+//       const projectInformation = await getProjectFullInformations(project.id)
+//       console.log(projectInformation)
+//       if (projectInformation) {
+//         projectsInformations.push(projectInformation)
+//       } else {
+//         projectsInformations.push(project)
+//       }
+//     }
+//   }
+//   return projectsInformations
+// }
 
 export const apiConsultationService = new ApiConsultationService()
