@@ -41,6 +41,92 @@ class ApiConsultationService {
     const response = await this.sendRequest(data)
     return response.data
   }
+
+  async getProjectDetail(projectId: string) {
+    const data = JSON.stringify({
+      query: `{
+    node(id: "${projectId}") {
+       ... on Project {
+                    id
+                    title
+                    url
+                    contributors {
+                        totalCount
+                    }
+                    votes {
+                        totalCount
+                    }
+                    contributions {
+                        totalCount
+                    }
+                    cover {
+                        url
+                    }
+                    steps {
+                        __typename
+                        ... on QuestionnaireStep {
+                          id
+                          title
+                          state
+                          timeRange {
+                            endAt
+                          }
+                        }
+                        ... on SelectionStep {
+                          id
+                          title
+                          state
+                          timeRange {
+                            endAt
+                          }
+                        }
+                        ... on CollectStep {
+                          id
+                          title
+                          state
+                          timeRange {
+                            endAt
+                          }
+                        }
+                        ... on PresentationStep {
+                          id
+                          title
+                          state
+                        }
+                        ... on ConsultationStep {
+                          id
+                          title
+                          state
+                          timeRange {
+                            endAt
+                          }
+                        }
+                        ... on OtherStep {
+                          id
+                          title
+                          state
+                        }
+                    }
+                }
+            }
+        }`,
+      variables: {},
+    })
+
+    const response = await this.sendRequest(data)
+    return response.data
+  }
+
+  async getSampleProjectDetail() {
+    const response = await this.getProjects()
+    const sampleProjectID = response.projects.edges[0].node.id
+    const projectDetail = await this.getProjectDetail(sampleProjectID)
+    return projectDetail
+  }
+
+  parseProjectDetail(projectDetail: any){
+
+  }
 }
 
 // function getThemeId (): string | undefined {
@@ -204,7 +290,7 @@ async function getProjectFullInformations(projectId: string) {
     method: 'post' as Method,
     url,
     headers: {
-      'Content-Type': 'application/graphql',
+      'Content-Type': 'application/json',
       Accept: 'application/vnd.cap-collectif.preview+json',
     },
     data,
