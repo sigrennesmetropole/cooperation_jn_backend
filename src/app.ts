@@ -581,6 +581,21 @@ app.get(
   )
 )
 
+app.get(
+  '/api/consultations/sample-project',
+  asyncHandler(
+    async (req: Request & { session: MySessionData }, res: Response) => {
+      try {
+        const consultationsInformations =
+          await apiConsultationService.getSampleProjectDetail()
+        res.json(consultationsInformations)
+      } catch (error: any) {
+        res.status(500).json({ error: error.toString() })
+      }
+    }
+  )
+)
+
 // app.get(
 //   '/api/check-env',
 //   asyncHandler(async (req: Request & { session: MySessionData }, res: Response) => {
