@@ -235,8 +235,8 @@ app.get(
 
 import puppeteer from 'puppeteer'
 import {
+  apiConsultationService,
   getConsultationInformations,
-  getProjects,
 } from './services/api-consultations'
 const pdfMiddleware = [
   body('annual_consumption')
@@ -571,7 +571,8 @@ app.get(
   asyncHandler(
     async (req: Request & { session: MySessionData }, res: Response) => {
       try {
-        const consultationsInformations = await getProjects()
+        const consultationsInformations =
+          await apiConsultationService.getProjects()
         res.json(consultationsInformations)
       } catch (error: any) {
         res.status(500).json({ error: error.toString() })

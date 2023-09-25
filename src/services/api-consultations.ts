@@ -4,6 +4,45 @@ function getProjectsUrl(): string | undefined {
   return process.env.FABRIQUE_CITOYENNE_URL
 }
 
+class ApiConsultationService {
+  async sendRequest(data: string): Promise<any> {
+    const config = {
+      method: 'post',
+      maxBodyLength: Infinity,
+      url: getProjectsUrl(),
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/vnd.cap-collectif.preview+json',
+      },
+      data: data,
+    }
+
+    const response = await axios(config)
+    return response.data
+  }
+
+  async getProjects() {
+    const data = JSON.stringify({
+      query: `{
+      projects(first: 5, orderBy: {field: PUBLISHED_AT, direction: DESC}) {
+        totalCount
+        edges {
+          node {
+            id
+            title
+            publishedAt
+          }
+        }
+      }
+    }`,
+      variables: {},
+    })
+
+    const response = await this.sendRequest(data)
+    return response.data
+  }
+}
+
 // function getThemeId (): string | undefined {
 //     return process.env.FABRIQUE_CITOYENNE_THEME_ID
 // }
@@ -219,40 +258,4 @@ export async function getConsultationInformations() {
   return projectsInformations
 }
 
-export async function getProjects() {
-  const data = JSON.stringify({
-    query: `{
-    projects(first: 5, orderBy: {field: PUBLISHED_AT, direction: DESC}) {
-      totalCount
-      edges {
-        node {
-          id
-          title
-          publishedAt
-        }
-      }
-    }
-  }`,
-    variables: {},
-  })
-
-  const config = {
-    method: 'post',
-    maxBodyLength: Infinity,
-    url: 'https://demo3.cap-collectif.com/graphql',
-    headers: {
-      'Content-Type': 'application/json',
-      Accept: 'application/vnd.cap-collectif.preview+json',
-    },
-    data: data,
-  }
-
-  return axios
-    .request(config)
-    .then((response) => {
-      return response.data
-    })
-    .catch((error) => {
-      console.log(error)
-    })
-}
+export const apiConsultationService = new ApiConsultationService()
