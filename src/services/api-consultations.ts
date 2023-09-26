@@ -4,6 +4,7 @@ interface ProjectJSON {
   id: string
   img: string
   title: string
+  meta_description: string
   status: string
   date_end: string | null
   location: string
@@ -72,6 +73,7 @@ class ApiConsultationService {
                     id
                     title
                     url
+                    metaDescription
                     contributors {
                         totalCount
                     }
@@ -172,6 +174,7 @@ class ApiConsultationService {
       id: project.id,
       img: project.cover?.url,
       title: project.title,
+      meta_description: project.metaDescription,
       status: state,
       date_end: date_end,
       location: 'Non renseigné',
