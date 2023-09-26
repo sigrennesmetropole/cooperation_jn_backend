@@ -1,5 +1,19 @@
 import axios from 'axios'
 
+interface ProjectJSON {
+  id: string
+  img: string
+  title: string
+  status: string
+  date_end: string | null
+  location: string
+  content: string
+  nb_comments: number
+  nb_likes: number
+  nb_persons: number
+  url: string
+}
+
 function getProjectsUrl(): string | undefined {
   return process.env.FABRIQUE_CITOYENNE_URL
 }
@@ -38,8 +52,16 @@ class ApiConsultationService {
       variables: {},
     })
 
+    const projects: ProjectJSON[] = []
+
     const response = await this.sendRequest(data)
-    return response.data
+    for (const e of response.data.projects.edges) {
+      const projectDetail = await this.getProjectDetail(e.node.id)
+      const projectJSON = this.parseProjectDetail(projectDetail.node)
+      projects.push(projectJSON)
+    }
+
+    return projects
   }
 
   async getProjectDetail(projectId: string) {
@@ -117,20 +139,7 @@ class ApiConsultationService {
     return response.data
   }
 
-  async getSampleProjectDetail() {
-    const response = await this.getProjects()
-    const sampleProjectID = response.projects.edges[0].node.id
-    const projectDetail = await this.getProjectDetail(sampleProjectID)
-    try {
-      const projectJSON = this.parseProjectDetail(projectDetail.node)
-      return projectJSON
-    } catch (error) {
-      console.log(error)
-      return null
-    }
-  }
-
-  parseProjectDetail(project: any) {
+  parseProjectDetail(project: any): ProjectJSON {
     let state = 'open'
     if (project.steps.every((s: { state: string }) => s.state == 'CLOSED')) {
       state = 'closed'
