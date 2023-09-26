@@ -67,74 +67,76 @@ class ApiConsultationService {
 
   async getProjectDetail(projectId: string) {
     const data = JSON.stringify({
-      query: `{
-    node(id: "${projectId}") {
-       ... on Project {
-                    id
-                    title
-                    url
-                    metaDescription
-                    contributors {
-                        totalCount
-                    }
-                    votes {
-                        totalCount
-                    }
-                    contributions {
-                        totalCount
-                    }
-                    cover {
+      query: `query ($nodeID: ID!){
+        node(id: $nodeID) {
+           ... on Project {
+                        id
+                        title
                         url
-                    }
-                    steps {
-                        __typename
-                        ... on QuestionnaireStep {
-                          id
-                          title
-                          state
-                          timeRange {
-                            endAt
-                          }
+                        metaDescription
+                        contributors {
+                            totalCount
                         }
-                        ... on SelectionStep {
-                          id
-                          title
-                          state
-                          timeRange {
-                            endAt
-                          }
+                        votes {
+                            totalCount
                         }
-                        ... on CollectStep {
-                          id
-                          title
-                          state
-                          timeRange {
-                            endAt
-                          }
+                        contributions {
+                            totalCount
                         }
-                        ... on PresentationStep {
-                          id
-                          title
-                          state
+                        cover {
+                            url
                         }
-                        ... on ConsultationStep {
-                          id
-                          title
-                          state
-                          timeRange {
-                            endAt
-                          }
-                        }
-                        ... on OtherStep {
-                          id
-                          title
-                          state
+                        steps {
+                            __typename
+                            ... on QuestionnaireStep {
+                              id
+                              title
+                              state
+                              timeRange {
+                                endAt
+                              }
+                            }
+                            ... on SelectionStep {
+                              id
+                              title
+                              state
+                              timeRange {
+                                endAt
+                              }
+                            }
+                            ... on CollectStep {
+                              id
+                              title
+                              state
+                              timeRange {
+                                endAt
+                              }
+                            }
+                            ... on PresentationStep {
+                              id
+                              title
+                              state
+                            }
+                            ... on ConsultationStep {
+                              id
+                              title
+                              state
+                              timeRange {
+                                endAt
+                              }
+                            }
+                            ... on OtherStep {
+                              id
+                              title
+                              state
+                            }
                         }
                     }
                 }
-            }
-        }`,
-      variables: {},
+            }`,
+      variables: {
+        nodeID: projectId,
+      },
     })
 
     const response = await this.sendRequest(data)
