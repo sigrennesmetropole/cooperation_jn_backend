@@ -373,14 +373,16 @@ app.post(
 
 app.get(
   '/api/config',
-  (req: Request & { session: MySessionData }, res: Response) => {
-    try {
-      const config = getConfig()
-      res.json({ config })
-    } catch (error: any) {
-      res.status(500).json({ error: error.toString() })
+  asyncHandler(
+    async (req: Request & { session: MySessionData }, res: Response) => {
+      try {
+        const config = await getConfig()
+        res.json({ config })
+      } catch (error: any) {
+        res.status(500).json({ error: error.toString() })
+      }
     }
-  }
+  )
 )
 
 app.get(
@@ -552,11 +554,11 @@ app.get(
 //   asyncHandler(async (req: Request & { session: MySessionData }, res: Response) => {
 //     try {
 //       const env = {
-//         env: process.env.ENV,
-//         SITEORG_API_KEY: process.env.SITEORG_API_KEY,
-//         RVA_API_KEY: process.env.RVA_API_KEY,
-//         SITEORG_PROD_API_KEY: process.env.SITEORG_PROD_API_KEY,
-//         RVA_PROD_API_KEY: process.env.RVA_PROD_API_KEY
+//         "env": process.env.ENV,
+//         "SITEORG_API_KEY": process.env.SITEORG_API_KEY,
+//         "RVA_API_KEY": process.env.RVA_API_KEY,
+//         "SITEORG_PROD_API_KEY": process.env.SITEORG_PROD_API_KEY,
+//         "RVA_PROD_API_KEY": process.env.RVA_PROD_API_KEY
 //       }
 //       res.json(env)
 //     } catch (error: any) {
