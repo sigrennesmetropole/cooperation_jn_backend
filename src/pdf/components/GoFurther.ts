@@ -5,9 +5,11 @@ import { getLinkWithIconArrow } from './LinkWithIconArrow'
 import { getImg } from '../ImgService'
 import { getConfigFromKey } from '../../config/configService'
 
-export function getGoFurther() {
-  const url_signe_qualite = getConfigFromKey('link.url_signe_qualite')
-  const url_choisir_modele_eco = getConfigFromKey('link.choisir_modele_eco')
+export async function getGoFurther() {
+  const url_signe_qualite = await getConfigFromKey('link.url_signe_qualite')
+  const url_choisir_modele_eco = await getConfigFromKey(
+    'link.choisir_modele_eco'
+  )
 
   return `
     ${getPhotoVoltaique()}
