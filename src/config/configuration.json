@@ -20,9 +20,17 @@
     "azimuth_on_flat_roof": 180
   },
   "grid": {
-    "height_solar_panel": 2,
-    "width_solar_panel": 4,
-    "square_size": 475
+    "rectangle_height": 1900,
+    "rectangle_width": 950
+  },
+  "ogcServices": {
+    "baseUrl": "https://public.sig.rennesmetropole.fr/geoserver/ows?",
+    "potentialLayer": "cli_climat:photovolta%C3%AFque_potentiel_classif_2021",
+    "potentialFilterOnAttribute": "buildingid",
+    "potentialSurfaceIdAttribute": "surface_id",
+    "roofLayer": "app:coopterr_solaire_toits",
+    "roofFilterOnAttribute": "id",
+    "roofSurfaceIdAttribute": "emprise_id_rm"
   },
   "link": {
     "photovoltaique_link": "https://www.photovoltaique.info/fr/",
