@@ -45,5 +45,5 @@ export async function getConfigFromKey(key: string) {
       return null
     }
   }
-  return obj
+  return Promise.resolve(obj)
 }
