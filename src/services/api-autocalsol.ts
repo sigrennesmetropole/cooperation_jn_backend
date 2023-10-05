@@ -105,18 +105,18 @@ export async function getComputeData(
         inclinaison: slope,
         orientation: azimuth,
         puissanceCrete: peak_power,
-        pr: getConfigFromKey('autocalsol.pr'),
-        tech: getConfigFromKey('autocalsol.tech'),
-        integration: getConfigFromKey('autocalsol.integration'),
+        pr: await getConfigFromKey('autocalsol.pr'),
+        tech: await getConfigFromKey('autocalsol.tech'),
+        integration: await getConfigFromKey('autocalsol.integration'),
       },
       usePuissanceOnduleur: false,
       consommation: {
         typeConsommateur: 'res1',
         formatConso: 'default-conso',
         consoResidentielBase: {
-          typeCompteur: getConfigFromKey('autocalsol.typeCompteur'),
+          typeCompteur: await getConfigFromKey('autocalsol.typeCompteur'),
           qteConso: annual_consumption,
-          tarifVente: getConfigFromKey('autocalsol.tarifVente'),
+          tarifVente: await getConfigFromKey('autocalsol.tarifVente'),
           tabConsommation: null,
         },
       },
@@ -167,6 +167,7 @@ export async function getComputeData(
     const data2 = response.data
     return formatComputeData(data2)
   } catch (error: any) {
+    console.error(`Error proxying: ${url} with token ${getTokenFromEnv()} and data: ${JSON.stringify(data)}`)
     throw new Error('Error during get consumption: ' + error.message)
   }
 }
