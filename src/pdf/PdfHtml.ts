@@ -25,7 +25,7 @@ export async function getPdfHtml(
 ) {
   const currentSurface =
     currentNumSolarPanel *
-    Number(getConfigFromKey('solar_panel.solar_panel_surface'))
+    Number(await getConfigFromKey('solar_panel.solar_panel_surface'))
 
   const chartImageBase64 = await generateChartImg(data_autocalsol)
 
