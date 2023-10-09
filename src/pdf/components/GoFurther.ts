@@ -3,11 +3,14 @@ import { getQualiLabelsImg } from '../assets/qualiLabelsImg'
 import { getProfitabilityImg } from '../assets/profitabilityImg'
 import { getLinkWithIconArrow } from './LinkWithIconArrow'
 import { getImg } from '../ImgService'
-import { getConfigFromKey } from '../../config/configService'
 
-export function getGoFurther() {
+export function getGoFurther(
+  urlSigneQualite: string,
+  photovoltaiqueLink: string,
+  choisirModeleEco: string
+) {
   return `
-    ${getPhotoVoltaique()}
+    ${getPhotoVoltaique(photovoltaiqueLink)}
 
     <div class="flex flex-row gap-8">
         <div class="flex-column gap-6 flex-1 bg-slate-100 rounded-lg p-6 mx-auto">
@@ -32,7 +35,7 @@ export function getGoFurther() {
                   'qualifelec.png'
                 )}" class="h-10 w-[34px]">
             </div>
-            ${getLinkWithIconArrow(getConfigFromKey('link.url_signe_qualite'))}
+            ${getLinkWithIconArrow(urlSigneQualite)}
         </div>
         <div class="flex-column gap-6 flex-1 bg-slate-100 rounded-lg p-6 mx-auto">
             <div class="rounded-xl" style="width: 100px">
@@ -42,7 +45,7 @@ export function getGoFurther() {
                 Connaitre des ordres de grandeur de coûts et de rentabilité d'un
                 projet photovoltaïque
             </h2>
-            ${getLinkWithIconArrow(getConfigFromKey('link.choisir_modele_eco'))}
+            ${getLinkWithIconArrow(choisirModeleEco)}
         </div>
     </div>
 

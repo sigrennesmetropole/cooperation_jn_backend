@@ -2,7 +2,11 @@ import { getHeader } from './PdfHeader'
 import { getFooter } from './PdfFooter'
 import { getGoFurther } from './components/GoFurther'
 
-export function getPage5() {
+export function getPage5(
+  urlSigneQualite: string,
+  photovoltaiqueLink: string,
+  choisirModeleEco: string
+) {
   const html = `
         <div class="page" style="font-family: DM Sans;">
             <!-- Header -->
@@ -15,7 +19,11 @@ export function getPage5() {
                 class="flex-column box-white margin-x-30"
                 style="margin-top: 40px;"
             >
-                ${getGoFurther()}
+                ${getGoFurther(
+                  urlSigneQualite,
+                  photovoltaiqueLink,
+                  choisirModeleEco
+                )}
             </div>
 
             <!-- Footer -->
