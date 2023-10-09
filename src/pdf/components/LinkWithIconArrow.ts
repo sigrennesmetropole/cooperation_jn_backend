@@ -1,6 +1,6 @@
 import { getExpandImg } from '../assets/expandImg'
 
-export function getLinkWithIconArrow(link: string) {
+export function getLinkWithIconArrow(link: Promise<any>) {
   return `
         <a
             href="${link}"
