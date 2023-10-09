@@ -1,8 +1,7 @@
 import { getImg } from '../ImgService'
 import { getButtonVisitWebsite } from './ButtonVisitWebsite'
-import { getConfigFromKey } from '../../config/configService'
 
-export function getSolarCoop() {
+export function getSolarCoop(solarCoopLink: string) {
   return `
     <div class="flex-column h-fit bg-white">
         <h2 class="font-dm-sans font-bold text-2xl">
@@ -20,9 +19,7 @@ export function getSolarCoop() {
                     Vous pouvez vous faire accompagner par la structure citoyenne Solarcoop qui vous aidera à trouver la meilleure installation.
                 </p>
 
-                ${getButtonVisitWebsite(
-                  getConfigFromKey('link.solar_coop_link')
-                )}
+                ${getButtonVisitWebsite(solarCoopLink)}
             </div>
         </div>
     </div>

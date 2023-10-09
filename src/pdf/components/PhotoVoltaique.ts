@@ -1,8 +1,7 @@
 import { getImg } from '../ImgService'
 import { getButtonVisitWebsite } from './ButtonVisitWebsite'
-import { getConfigFromKey } from '../../config/configService'
 
-export function getPhotoVoltaique() {
+export function getPhotoVoltaique(photovoltaiqueLink: string) {
   return `
     <div class="flex-row gap-8 h-fit bg-white">
         <div
@@ -20,9 +19,7 @@ export function getPhotoVoltaique() {
                 le photovoltaïque.
             </p>
 
-            ${getButtonVisitWebsite(
-              getConfigFromKey('link.photovoltaique_link')
-            )}
+            ${getButtonVisitWebsite(photovoltaiqueLink)}
         </div>
     </div>
     `
