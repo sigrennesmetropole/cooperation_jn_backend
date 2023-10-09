@@ -5,12 +5,7 @@ import { getLinkWithIconArrow } from './LinkWithIconArrow'
 import { getImg } from '../ImgService'
 import { getConfigFromKey } from '../../config/configService'
 
-export async function getGoFurther() {
-  const url_signe_qualite = await getConfigFromKey('link.url_signe_qualite')
-  const url_choisir_modele_eco = await getConfigFromKey(
-    'link.choisir_modele_eco'
-  )
-
+export function getGoFurther() {
   return `
     ${getPhotoVoltaique()}
 
@@ -37,7 +32,7 @@ export async function getGoFurther() {
                   'qualifelec.png'
                 )}" class="h-10 w-[34px]">
             </div>
-            ${getLinkWithIconArrow(url_signe_qualite)}
+            ${getLinkWithIconArrow(getConfigFromKey('link.url_signe_qualite'))}
         </div>
         <div class="flex-column gap-6 flex-1 bg-slate-100 rounded-lg p-6 mx-auto">
             <div class="rounded-xl" style="width: 100px">
@@ -47,7 +42,7 @@ export async function getGoFurther() {
                 Connaitre des ordres de grandeur de coûts et de rentabilité d'un
                 projet photovoltaïque
             </h2>
-            ${getLinkWithIconArrow(url_choisir_modele_eco)}
+            ${getLinkWithIconArrow(getConfigFromKey('link.choisir_modele_eco'))}
         </div>
     </div>
 
