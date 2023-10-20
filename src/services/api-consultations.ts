@@ -74,6 +74,21 @@ class ApiConsultationService {
                         title
                         url
                         metaDescription
+                        districts{
+                          edges {
+                              node {
+                                  id
+                                  name
+                                  description
+                              }
+                          }
+                      }
+                      themes {
+                          __typename
+                          ... on Theme {
+                              title
+                          }
+                      }
                         contributors {
                             totalCount
                         }
