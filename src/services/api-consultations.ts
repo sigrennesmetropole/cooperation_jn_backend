@@ -39,7 +39,7 @@ class ApiConsultationService {
   async getProjects() {
     const data = JSON.stringify({
       query: `{
-      projects(first: 20 orderBy: {field: PUBLISHED_AT, direction: DESC}) {
+      projects(first: 10 orderBy: {field: PUBLISHED_AT, direction: DESC}) {
         totalCount
         edges {
           node {
@@ -165,7 +165,7 @@ class ApiConsultationService {
   }
 
   parseProjectDetail(project: any): ProjectJSON {
-    console.log(project)
+    console.log(project.districts)
 
     // State
     let state = 'open'
@@ -197,6 +197,12 @@ class ApiConsultationService {
         displaySortedDates[0]
     }
 
+    // Location
+    let location = null
+    if (project.districts){
+        location = project.districts.edges[0].node.name
+    }
+
     return {
       id: project.id,
       img: project.cover?.url,
@@ -204,7 +210,7 @@ class ApiConsultationService {
       meta_description: project.metaDescription,
       status: state,
       date_end: date_end,
-      location: project.districts,
+      location: location,
       content: project.themes,
       nb_comments: project.contributions.totalCount,
       nb_likes: project.votes.totalCount,
