@@ -36,7 +36,7 @@ class ApiConsultationService {
     return response.data
   }
 
-  async getProjects() {
+  async getProjects(count = 10) {
     const data = JSON.stringify({
       query: `{
       projects(first: 100 orderBy: {field: PUBLISHED_AT, direction: DESC}) {
@@ -57,6 +57,9 @@ class ApiConsultationService {
 
     const response = await this.sendRequest(data)
     for (const e of response.data.projects.edges) {
+      if (projects.length >= count){
+        break
+      }
       try {
         const projectDetail = await this.getProjectDetail(e.node.id)
         const projectJSON = this.parseProjectDetail(projectDetail.node)
