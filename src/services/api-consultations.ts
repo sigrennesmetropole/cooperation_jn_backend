@@ -39,7 +39,7 @@ class ApiConsultationService {
   async getProjects() {
     const data = JSON.stringify({
       query: `{
-      projects(first: 5, orderBy: {field: PUBLISHED_AT, direction: DESC}) {
+      projects(first: 20 orderBy: {field: PUBLISHED_AT, direction: DESC}) {
         totalCount
         edges {
           node {
@@ -57,9 +57,15 @@ class ApiConsultationService {
 
     const response = await this.sendRequest(data)
     for (const e of response.data.projects.edges) {
-      const projectDetail = await this.getProjectDetail(e.node.id)
-      const projectJSON = this.parseProjectDetail(projectDetail.node)
-      projects.push(projectJSON)
+      try {
+        const projectDetail = await this.getProjectDetail(e.node.id)
+        const projectJSON = this.parseProjectDetail(projectDetail.node)
+        projects.push(projectJSON)
+      } catch (error) {
+        console.log(`Failed to retrieve project ${e.node.id}`)
+        console.log(error)
+      }
+
     }
 
     return projects
@@ -159,11 +165,15 @@ class ApiConsultationService {
   }
 
   parseProjectDetail(project: any): ProjectJSON {
+    console.log(project)
+
+    // State
     let state = 'open'
     if (project.steps.every((s: { state: string }) => s.state == 'CLOSED')) {
       state = 'closed'
     }
 
+    // End Date
     const arrayDate: string[] = project.steps
       .filter((s: { timeRange: any | undefined }) => s.timeRange !== undefined)
       .map((s: { timeRange: { endAt: string } }) =>
@@ -194,8 +204,8 @@ class ApiConsultationService {
       meta_description: project.metaDescription,
       status: state,
       date_end: date_end,
-      location: 'Non renseigné',
-      content: 'Non renseigné',
+      location: project.districts,
+      content: project.themes,
       nb_comments: project.contributions.totalCount,
       nb_likes: project.votes.totalCount,
       nb_persons: project.contributors.totalCount,
