@@ -8,7 +8,7 @@ interface ProjectJSON {
   status: string
   date_end: string | null
   location: string
-  content: string
+  content: Array<string>
   nb_comments: number
   nb_likes: number
   nb_persons: number
@@ -39,7 +39,7 @@ class ApiConsultationService {
   async getProjects() {
     const data = JSON.stringify({
       query: `{
-      projects(first: 10 orderBy: {field: PUBLISHED_AT, direction: DESC}) {
+      projects(first: 100 orderBy: {field: PUBLISHED_AT, direction: DESC}) {
         totalCount
         edges {
           node {
@@ -67,7 +67,8 @@ class ApiConsultationService {
       }
 
     }
-
+    console.log(`Total projects: ${response.data.projects.totalCount}`)
+    console.log(`Retrieved projects: ${projects.length}`)
     return projects
   }
 
@@ -165,8 +166,6 @@ class ApiConsultationService {
   }
 
   parseProjectDetail(project: any): ProjectJSON {
-    console.log(project.districts)
-
     // State
     let state = 'open'
     if (project.steps.every((s: { state: string }) => s.state == 'CLOSED')) {
@@ -203,6 +202,15 @@ class ApiConsultationService {
         location = project.districts.edges[0].node.name
     }
 
+    // Themes
+    const content = []
+    if (project.themes){
+      for (const t of project.themes) {
+        content.push(t.title)
+      }
+
+    }
+
     return {
       id: project.id,
       img: project.cover?.url,
@@ -211,7 +219,7 @@ class ApiConsultationService {
       status: state,
       date_end: date_end,
       location: location,
-      content: project.themes,
+      content: content,
       nb_comments: project.contributions.totalCount,
       nb_likes: project.votes.totalCount,
       nb_persons: project.contributors.totalCount,
