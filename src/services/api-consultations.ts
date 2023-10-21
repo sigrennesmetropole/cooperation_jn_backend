@@ -8,7 +8,7 @@ interface ProjectJSON {
   status: string
   date_end: string | null
   location: string
-  content: Array<string>
+  content: string
   nb_comments: number
   nb_likes: number
   nb_persons: number
@@ -206,10 +206,13 @@ class ApiConsultationService {
     }
 
     // Themes
-    const content = []
+    let content = null
     if (project.themes){
       for (const t of project.themes) {
-        content.push(t.title)
+        if (t.title){
+          content = t.title
+          break
+        }
       }
 
     }
