@@ -207,14 +207,8 @@ class ApiConsultationService {
 
     // Themes
     let content = null
-    if (project.themes){
-      for (const t of project.themes) {
-        if (t.title){
-          content = t.title
-          break
-        }
-      }
-
+    if (project.themes.length > 0){
+      content = project.themes[0].title
     }
 
     return {
