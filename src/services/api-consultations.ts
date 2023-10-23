@@ -57,7 +57,7 @@ class ApiConsultationService {
 
     const response = await this.sendRequest(data)
     for (const e of response.data.projects.edges) {
-      if (projects.length >= count){
+      if (projects.length >= count) {
         break
       }
       try {
@@ -68,7 +68,6 @@ class ApiConsultationService {
         console.log(`Failed to retrieve project ${e.node.id}`)
         console.log(error)
       }
-
     }
     console.log(`Total projects: ${response.data.projects.totalCount}`)
     console.log(`Retrieved projects: ${projects.length}`)
@@ -201,13 +200,13 @@ class ApiConsultationService {
 
     // Location
     let location = null
-    if (project.districts){
-        location = project.districts.edges[0].node.name
+    if (project.districts) {
+      location = project.districts.edges[0].node.name
     }
 
     // Themes
     let content = null
-    if (project.themes.length > 0){
+    if (project.themes.length > 0) {
       content = project.themes[0].title
     }
 

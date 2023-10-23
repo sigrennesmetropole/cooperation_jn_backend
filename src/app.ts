@@ -561,7 +561,7 @@ app.get(
     async (req: Request & { session: MySessionData }, res: Response) => {
       try {
         // Check if a query parameter 'count' is provided, or use a default value
-        const count = req.query.count || 10;
+        const count = req.query.count || 10
 
         const consultationsInformations =
           await apiConsultationService.getProjects(count as number)
