@@ -36,29 +36,36 @@ class ApiConsultationService {
     return response.data
   }
 
-  async getProjects(count = 10) {
+  async getProjects(theme: string, count = 10) {
     const data = JSON.stringify({
       query: `{
-      projects(first: 100 orderBy: {field: PUBLISHED_AT, direction: DESC}) {
-        totalCount
-        edges {
-          node {
-            id
-            title
-            publishedAt
+        projects (first: 1000 orderBy: {field: PUBLISHED_AT, direction: DESC}) {
+          totalCount
+          edges {
+            node {
+              id
+              title
+              publishedAt
+              themes {
+                  title
+              }
+            }
           }
         }
-      }
-    }`,
+      }`,
       variables: {},
     })
-
     const projects: ProjectJSON[] = []
 
     const response = await this.sendRequest(data)
+    // Filter based on the theme
     for (const e of response.data.projects.edges) {
       if (projects.length >= count) {
         break
+      }
+      const themes = e.node.themes.map((theme: any) => theme.title)
+      if (!themes.includes(theme)){
+        continue
       }
       try {
         const projectDetail = await this.getProjectDetail(e.node.id)

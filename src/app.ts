@@ -564,7 +564,7 @@ app.get(
         const count = req.query.count || 10
 
         const consultationsInformations =
-          await apiConsultationService.getProjects(count as number)
+          await apiConsultationService.getProjects('TRAMBUS', count as number)
         res.json(consultationsInformations)
       } catch (error: any) {
         res.status(500).json({ error: error.toString() })
