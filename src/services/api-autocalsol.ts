@@ -2,8 +2,6 @@ import axios, { type Method } from 'axios'
 import { type AutocalsolType } from '../model/autocalsol.model'
 import { getConfigFromKey } from '../config/configService'
 
-const date_prod_conso = getConfigFromKey('autocalsol.date_prod_conso')
-
 function getUrlFromEnv(): string | undefined {
   return process.env.AUTOCALSOL_URL
 }
@@ -52,8 +50,9 @@ function convertTimestamp(timestamp: number): string {
 }
 
 // The consumption and production data are taken over a single day: date_prod_conso
-function getFormattedProdAndConso(data: Array<[number, string]>) {
+async function getFormattedProdAndConso(data: Array<[number, string]>) {
   const dataFilterredOnTheGoodDay: Array<[string, string | number]> = []
+  const date_prod_conso = await getConfigFromKey('autocalsol.date_prod_conso')
 
   data.forEach((item) => {
     const date = convertTimestamp(item[0])
@@ -71,11 +70,15 @@ function getFormattedProdAndConso(data: Array<[number, string]>) {
   return dataFilterredOnTheGoodDay
 }
 
-function formatComputeData(compute: AutocalsolType) {
+async function formatComputeData(compute: AutocalsolType) {
   const prodByMonth = compute.resultConso.tabProdMonth
   const consoByMonth = compute.resultConso.tabConsoMonth
-  const prodByHour = getFormattedProdAndConso(compute.resultConso.prodTotale)
-  const consoByHour = getFormattedProdAndConso(compute.resultConso.consoPetit)
+  const prodByHour = await getFormattedProdAndConso(
+    compute.resultConso.prodTotale
+  )
+  const consoByHour = await getFormattedProdAndConso(
+    compute.resultConso.consoPetit
+  )
 
   const consoAnnualInjected = compute.resultConso.energieInjectee / 1000 // Wh to kwH
   const consoAnnualAutoConsumed =
@@ -105,18 +108,18 @@ export async function getComputeData(
         inclinaison: slope,
         orientation: azimuth,
         puissanceCrete: peak_power,
-        pr: getConfigFromKey('autocalsol.pr'),
-        tech: getConfigFromKey('autocalsol.tech'),
-        integration: getConfigFromKey('autocalsol.integration'),
+        pr: await getConfigFromKey('autocalsol.pr'),
+        tech: await getConfigFromKey('autocalsol.tech'),
+        integration: await getConfigFromKey('autocalsol.integration'),
       },
       usePuissanceOnduleur: false,
       consommation: {
         typeConsommateur: 'res1',
         formatConso: 'default-conso',
         consoResidentielBase: {
-          typeCompteur: getConfigFromKey('autocalsol.typeCompteur'),
+          typeCompteur: await getConfigFromKey('autocalsol.typeCompteur'),
           qteConso: annual_consumption,
-          tarifVente: getConfigFromKey('autocalsol.tarifVente'),
+          tarifVente: await getConfigFromKey('autocalsol.tarifVente'),
           tabConsommation: null,
         },
       },
@@ -165,8 +168,13 @@ export async function getComputeData(
   try {
     const response = await axios(config)
     const data2 = response.data
-    return formatComputeData(data2)
+    return await formatComputeData(data2)
   } catch (error: any) {
+    console.error(
+      `Error proxying: ${url} with token ${getTokenFromEnv()} and data: ${JSON.stringify(
+        data
+      )}`
+    )
     throw new Error('Error during get consumption: ' + error.message)
   }
 }
