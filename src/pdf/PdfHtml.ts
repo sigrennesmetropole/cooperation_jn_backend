@@ -25,8 +25,13 @@ export async function getPdfHtml(
 ) {
   const currentSurface =
     currentNumSolarPanel *
-    Number(getConfigFromKey('solar_panel.solar_panel_surface'))
+    Number(await getConfigFromKey('solar_panel.solar_panel_surface'))
 
+  const urlSigneQualite = await getConfigFromKey('link.url_signe_qualite')
+  const photovoltaiqueLink = await getConfigFromKey('link.photovoltaique_link')
+  const choisirModeleEco = await getConfigFromKey('link.choisir_modele_eco')
+  const energiesLink = await getConfigFromKey('link.energies_link')
+  const solarCoopLink = await getConfigFromKey('link.solar_coop_link')
   const chartImageBase64 = await generateChartImg(data_autocalsol)
 
   const html = `
@@ -51,8 +56,12 @@ export async function getPdfHtml(
                   districtProduction
                 )}
                 ${getPage4(chartImageBase64)}
-                ${getPage5()}
-                ${getPage6()}
+                ${getPage5(
+                  urlSigneQualite,
+                  photovoltaiqueLink,
+                  choisirModeleEco
+                )}
+                ${getPage6(energiesLink, solarCoopLink)}
 
             </body>
         </html>

@@ -3,7 +3,7 @@ import { getFooter } from './PdfFooter'
 import { getSolarCoop } from './components/SolarCoop'
 import { getEnergiesRennes } from './components/EnergiesRennes'
 
-export function getPage6() {
+export function getPage6(energiesLink: string, solarCoopLink: string) {
   const html = `
         <div class="page" style="font-family: DM Sans;">
             <!-- Header -->
@@ -16,13 +16,13 @@ export function getPage6() {
                 class="flex-column box-white margin-x-30"
                 style="margin-top: 40px;"
             >
-                ${getSolarCoop()}
+                ${getSolarCoop(solarCoopLink)}
             </div>
             <div
                 class="flex-column box-white margin-x-30"
                 style="margin-top: 20px;"
             >
-                ${getEnergiesRennes()}
+                ${getEnergiesRennes(energiesLink)}
             </div>
 
 

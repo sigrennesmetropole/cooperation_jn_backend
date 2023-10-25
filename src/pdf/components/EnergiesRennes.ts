@@ -1,9 +1,8 @@
 import { getImg } from '../ImgService'
 import { getButtonVisitWebsite } from './ButtonVisitWebsite'
 import { getInformationGreyImg } from '../assets/informationGreyImg'
-import { getConfigFromKey } from '../../config/configService'
 
-export function getEnergiesRennes() {
+export function getEnergiesRennes(energiesLink: string) {
   return `
     <div class="flex-column h-fit bg-white">
         <h2 class="font-dm-sans font-bold text-2xl">
@@ -25,7 +24,7 @@ export function getEnergiesRennes() {
                       est une association citoyenne pour le développement du solaire photovoltaïque sur Rennes et sa région.
                 </p>
 
-                ${getButtonVisitWebsite(getConfigFromKey('link.energies_link'))}
+                ${getButtonVisitWebsite(energiesLink)}
             </div>
         </div>
 
