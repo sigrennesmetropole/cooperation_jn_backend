@@ -234,10 +234,7 @@ app.get(
 )
 
 import puppeteer from 'puppeteer'
-import {
-  apiConsultationService,
-  // getConsultationInformations,
-} from './services/api-consultations'
+import { apiConsultationService } from './services/api-consultations'
 
 const pdfMiddleware = [
   body('annual_consumption')
