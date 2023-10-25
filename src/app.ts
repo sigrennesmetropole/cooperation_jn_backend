@@ -557,11 +557,13 @@ app.get(
   asyncHandler(
     async (req: Request & { session: MySessionData }, res: Response) => {
       try {
-        // Check if a query parameter 'count' is provided, or use a default value
-        const count = req.query.count || 10
-
+        // Check if a query parameter 'count' is provided or invalid, or use a default value
+        const count = req.query.count as unknown as number | 10
+        if (count > 100) {
+          res.status(500).json({ error: 'Maximum count is 100' })
+        }
         const consultationsInformations =
-          await apiConsultationService.getProjects('TRAMBUS', count as number)
+          await apiConsultationService.getProjects('TRAMBUS', count)
         res.json(consultationsInformations)
       } catch (error: any) {
         res.status(500).json({ error: error.toString() })
