@@ -239,8 +239,4 @@ class ApiConsultationService {
   }
 }
 
-// function getThemeId (): string | undefined {
-//     return process.env.FABRIQUE_CITOYENNE_THEME_ID
-// }
-
 export const apiConsultationService = new ApiConsultationService()
