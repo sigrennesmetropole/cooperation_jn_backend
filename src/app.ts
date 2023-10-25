@@ -560,7 +560,7 @@ app.get(
         // Check if a query parameter 'count' is provided or invalid, or use a default value
         const count = req.query.count as unknown as number | 10
         if (count > 100) {
-          res.status(500).json({ error: 'Maximum count is 100' })
+          res.status(400).json({ error: 'Maximum count is 100' })
         }
         const consultationsInformations =
           await apiConsultationService.getProjects('TRAMBUS', count)
