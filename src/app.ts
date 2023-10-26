@@ -234,6 +234,8 @@ app.get(
 )
 
 import puppeteer from 'puppeteer'
+import { apiConsultationService } from './services/api-consultations'
+
 const pdfMiddleware = [
   body('annual_consumption')
     .isNumeric()
@@ -542,6 +544,27 @@ app.get(
       try {
         const sitesmeasurement = await getModifiedSitesMeasurement()
         res.json(sitesmeasurement)
+      } catch (error: any) {
+        res.status(500).json({ error: error.toString() })
+      }
+    }
+  )
+)
+
+// ROUTES API CAP COLLECTIF : CONSULTATIONS INFORMATIONS
+app.get(
+  '/api/consultations/projects',
+  asyncHandler(
+    async (req: Request & { session: MySessionData }, res: Response) => {
+      try {
+        // Check if a query parameter 'count' is provided or invalid, or use a default value
+        const count = req.query.count as unknown as number | 10
+        if (count > 100) {
+          res.status(400).json({ error: 'Maximum count is 100' })
+        }
+        const consultationsInformations =
+          await apiConsultationService.getProjects('TRAMBUS', count)
+        res.json(consultationsInformations)
       } catch (error: any) {
         res.status(500).json({ error: error.toString() })
       }
