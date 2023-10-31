@@ -8,7 +8,7 @@ interface ProjectJSON {
   status: string
   date_end: string | null
   location: string
-  location_geojson: string
+  geojson: string
   content: string
   nb_comments: number
   nb_likes: number
@@ -209,10 +209,19 @@ class ApiConsultationService {
 
     // Location
     let location = null
-    let location_geojson = null
+    let geojson = null
     if (project.districts) {
       location = project.districts.edges[0].node.name
-      location_geojson = project.districts.edges[0].node.geojson
+      try {
+        geojson = project.districts.edges[0].node.geojson
+        if (geojson) {
+          geojson = JSON.parse(geojson)
+        }
+      } catch (error) {
+        console.log(
+          `Error parsing location for ID ${project.id}:  ${project.districts.edges[0].node.geojson}`
+        )
+      }
     }
 
     // Themes
@@ -229,7 +238,7 @@ class ApiConsultationService {
       status: state,
       date_end: date_end,
       location: location,
-      location_geojson: location_geojson,
+      geojson: geojson,
       content: content,
       nb_comments: project.contributions.totalCount,
       nb_likes: project.votes.totalCount,
