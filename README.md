@@ -2,19 +2,19 @@
 
 ## Quick start
 
-#### Installation
+### Installation
 
 ```shell
 npm i
 ```
 
-#### File .env
+### File .env
 
 Create a .env file using the example in .env.example
 
 You should request sensitive information directly from the project team. For example the value of : ENEDIS_CLIENT_ID, ENEDIS_CLIENT_SECRET
 
-#### Run the app in dev mode
+### Run the app in dev mode
 
 ```shell
 npm run dev
