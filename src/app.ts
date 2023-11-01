@@ -31,6 +31,8 @@ app.use(
   cors({
     origin: function (origin, callback) {
       const allowedOrigins = process.env.ALLOWED_ORIGINS?.split(',')
+      // TODO(IS): A hacky way to add allowed origins, remove it later
+      allowedOrigins?.push('https://vcmap-demo.apps.gs-fr-prod.camptocamp.com')
       // allow requests with no origin (like mobile apps or curl requests)
       if (!origin) {
         callback(null, true)
