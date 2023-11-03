@@ -179,7 +179,13 @@ class ApiConsultationService {
   parseProjectDetail(project: any): ProjectJSON {
     // State
     let state = 'open'
-    if (project.steps.every((s: { state: string }) => s.state == 'CLOSED')) {
+    if (
+      project.steps
+        .filter(
+          (s: { __typename: string }) => s.__typename != 'PresentationStep'
+        )
+        .every((s: { state: string }) => s.state == 'CLOSED')
+    ) {
       state = 'closed'
     }
 
