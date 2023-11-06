@@ -31,8 +31,6 @@ app.use(
   cors({
     origin: function (origin, callback) {
       const allowedOrigins = process.env.ALLOWED_ORIGINS?.split(',')
-      // TODO(IS): A hacky way to add allowed origins, remove it later
-      allowedOrigins?.push('https://vcmap-demo.apps.gs-fr-prod.camptocamp.com')
       // allow requests with no origin (like mobile apps or curl requests)
       if (!origin) {
         callback(null, true)
@@ -574,24 +572,24 @@ app.get(
   )
 )
 
-app.get(
-  '/api/check-env',
-  asyncHandler(
-    async (req: Request & { session: MySessionData }, res: Response) => {
-      try {
-        const env = {
-          env: process.env.ENV,
-          // SITEORG_API_KEY: process.env.SITEORG_API_KEY,
-          // RVA_API_KEY: process.env.RVA_API_KEY,
-          // SITEORG_PROD_API_KEY: process.env.SITEORG_PROD_API_KEY,
-          // RVA_PROD_API_KEY: process.env.RVA_PROD_API_KEY,
-          FABRIQUE_CITOYENNE_URL: process.env.FABRIQUE_CITOYENNE_URL,
-          ALLOWED_ORIGINS: process.env.ALLOWED_ORIGINS,
-        }
-        res.json(env)
-      } catch (error: any) {
-        res.status(500).json({ error: error.toString() })
-      }
-    }
-  )
-)
+// app.get(
+//   '/api/check-env',
+//   asyncHandler(
+//     async (req: Request & { session: MySessionData }, res: Response) => {
+//       try {
+//         const env = {
+//           env: process.env.ENV,
+//           SITEORG_API_KEY: process.env.SITEORG_API_KEY,
+//           RVA_API_KEY: process.env.RVA_API_KEY,
+//           SITEORG_PROD_API_KEY: process.env.SITEORG_PROD_API_KEY,
+//           RVA_PROD_API_KEY: process.env.RVA_PROD_API_KEY,
+//           FABRIQUE_CITOYENNE_URL: process.env.FABRIQUE_CITOYENNE_URL,
+//           ALLOWED_ORIGINS: process.env.ALLOWED_ORIGINS,
+//         }
+//         res.json(env)
+//       } catch (error: any) {
+//         res.status(500).json({ error: error.toString() })
+//       }
+//     }
+//   )
+// )
