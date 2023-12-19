@@ -50,5 +50,9 @@
   },
   "consumption": {
     "default_consumption": 0
+  },
+  "trambus": {
+    "projectPlanningBaseMapUrl": "https://public.sig.rennesmetropole.fr/geowebcache/service/wmts",
+    "projectPlanningLayerUrl": "https://public.sig.rennesmetropole.fr/geoserver/ows?service=WFS&request=getFeature&typename=trp_coll:trambus_lignes_planification&outputFormat=application/json&srsName=EPSG:4326"
   }
 }
