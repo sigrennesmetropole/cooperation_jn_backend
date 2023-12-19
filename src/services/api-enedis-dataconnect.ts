@@ -8,8 +8,9 @@ export function getUrlUserAuthorization(
 ) {
   req.session.state = (Math.random() + 1).toString(36).substring(7)
   req.session.save()
+  const baseUrl = process.env.ENEDIS_DATACONNECT_URL
   const url =
-    'https://mon-compte-particulier.enedis.fr/dataconnect/v1/oauth2/authorize' +
+    baseUrl +
     '?' +
     `client_id=${process.env.ENEDIS_CLIENT_PROD_ID}` +
     `&state=${encodeURIComponent(req.session.state)}` +

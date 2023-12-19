@@ -3,7 +3,7 @@ import axios, { type Method } from 'axios'
 // Documention of API : https://adresse.data.gouv.fr/api-doc/adresse
 
 export async function getAddressReverse(lat: string, lon: string) {
-  const baseUrl = 'https://api-adresse.data.gouv.fr/reverse/'
+  const baseUrl = process.env.ADDRESS_API_URL
   const url = baseUrl + `?lon=${lon}&lat=${lat}`
 
   const config = {
