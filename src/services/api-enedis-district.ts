@@ -1,7 +1,7 @@
 import axios, { type Method } from 'axios'
-const baseURL = 'https://data.enedis.fr/api/records/1.0/search/'
 
 async function getDistrictConsumptionData(rows: number, codeIris: string) {
+  const baseURL = process.env.ENEDIS_DISTRICT_URL
   const config = {
     method: 'get' as Method,
     url: baseURL,
@@ -32,6 +32,7 @@ async function getDistrictConsumptionData(rows: number, codeIris: string) {
 }
 
 async function getDistrictProductionData(rows: number, codeIris: string) {
+  const baseURL = process.env.ENEDIS_DISTRICT_URL
   const config = {
     method: 'get' as Method,
     url: baseURL,

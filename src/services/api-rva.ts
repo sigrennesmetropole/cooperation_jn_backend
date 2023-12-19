@@ -68,7 +68,7 @@ class ApiRvaService {
     filter: string,
     displayInsee = false
   ): Promise<ApiData> {
-    const baseUrl = 'https://api-rva.sig.rennesmetropole.fr/'
+    const baseUrl = process.env.RVA_API_URL
     const apiKey = this.getApiKey()
     let url =
       baseUrl +

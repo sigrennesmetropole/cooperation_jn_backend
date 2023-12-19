@@ -3,7 +3,9 @@ import axios, { type Method } from 'axios'
 class ApiSitesorgService {
   // Documention of API : https://api-sitesorg.sig.rennesmetropole.fr/doc/api
 
-  private readonly baseUrl = 'https://api-sitesorg.sig.rennesmetropole.fr/v1/'
+  getBaseUrl(): string | undefined {
+    return process.env.SITEORG_API_URL
+  }
 
   getApiKey(): string {
     if (process.env.ENV === 'dev') {
@@ -29,7 +31,7 @@ class ApiSitesorgService {
   }
 
   async fetchOrganizations(search: string): Promise<any> {
-    const baseUrl = this.baseUrl + 'recherche'
+    const baseUrl = this.getBaseUrl() + 'recherche'
     const url =
       baseUrl +
       `?termes=${search}&termes_op=AND&types[]=organisme&offset=0&limit=3`
@@ -37,12 +39,12 @@ class ApiSitesorgService {
   }
 
   async fetchOrganizationById(id: number): Promise<any> {
-    const url = `${this.baseUrl}organismes/${id}`
+    const url = `${this.getBaseUrl()}organismes/${id}`
     return await this.sendRequest(url)
   }
 
   async fetchSiteById(id: number): Promise<any> {
-    const url = `${this.baseUrl}sites/${id}/asGeoJson`
+    const url = `${this.getBaseUrl()}sites/${id}/asGeoJson`
     return await this.sendRequest(url)
   }
 }

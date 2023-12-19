@@ -2,7 +2,7 @@ import axios, { type Method } from 'axios'
 import proj4 from 'proj4'
 
 export async function getIrisCode(lat: string, lon: string) {
-  const url = 'https://public.sig.rennesmetropole.fr/geoserver/ows'
+  const baseUrl = process.env.IRIS_LAYER_URL
 
   proj4.defs(
     'EPSG:3948',
@@ -15,7 +15,7 @@ export async function getIrisCode(lat: string, lon: string) {
 
   const config = {
     method: 'get' as Method,
-    url,
+    url: baseUrl,
     params: {
       service: 'wfs',
       request: 'getFeature',
