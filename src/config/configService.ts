@@ -14,6 +14,7 @@ export async function getConfig() {
   }
   if (process.env.CONF === 'local') {
     console.log('Local setup: use local configuration')
+    console.log(configuration)
     return configuration
   }
   console.log('Server setup: use remote configuration')
