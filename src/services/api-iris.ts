@@ -1,8 +1,10 @@
 import axios, { type Method } from 'axios'
 import proj4 from 'proj4'
+import { getConfigFromKey } from '../config/configService'
 
 export async function getIrisCode(lat: string, lon: string) {
-  const baseUrl = process.env.IRIS_LAYER_URL
+  const baseUrl = await getConfigFromKey('ogcServices.baseUrl')
+  const irisTypename = await getConfigFromKey('ogcServices.irisLayer')
 
   proj4.defs(
     'EPSG:3948',
@@ -19,7 +21,7 @@ export async function getIrisCode(lat: string, lon: string) {
     params: {
       service: 'wfs',
       request: 'getFeature',
-      typename: 'dem_stats:iris',
+      typename: irisTypename,
       outputformat: 'json',
       srs: 'EPSG:4326',
       cql_filter:

@@ -23,6 +23,7 @@
   },
   "ogcServices": {
     "baseUrl": "https://public.sig.rennesmetropole.fr/geoserver/ows?",
+    "irisLayer": "dem_stats:iris",
     "potentialLayer": "cli_climat:photovolta%C3%AFque_potentiel_classif_2021",
     "potentialFilterOnAttribute": "buildingid",
     "potentialSurfaceIdAttribute": "surface_id",
