@@ -2,6 +2,7 @@ import { describe, expect, it } from '@jest/globals'
 import request from 'supertest'
 import { app } from '../app'
 
+// Skip if run in CI because no env variable set
 const runTest = process.env.CI ? it.skip : it
 
 describe('Test Address Reverse API', () => {
