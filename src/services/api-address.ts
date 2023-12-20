@@ -4,8 +4,6 @@ import axios, { type Method } from 'axios'
 
 export async function getAddressReverse(lat: string, lon: string) {
   const baseUrl = process.env.ADDRESS_API_URL
-  console.log(`baseUrl: ${baseUrl}`)
-  console.log(process.env)
   const url = baseUrl + `?lon=${lon}&lat=${lat}`
 
   const config = {
