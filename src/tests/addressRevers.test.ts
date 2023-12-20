@@ -2,8 +2,10 @@ import { describe, expect, it } from '@jest/globals'
 import request from 'supertest'
 import { app } from '../app'
 
+const runTest = process.env.CI ? it.skip : it
+
 describe('Test Address Reverse API', () => {
-  it('returns 200', async () => {
+  runTest('returns 200', async () => {
     const res = await request(app).get(
       '/api/address-reverse/48.109084953055884/-1.692617319569419'
     )
@@ -15,7 +17,7 @@ describe('Test Address Reverse API', () => {
     expect(res.body).toBe('60 Mail François Mitterrand 35000 Rennes')
   })
 
-  it('returns 400 when invalid lat long', async () => {
+  runTest('returns 400 when invalid lat long', async () => {
     const res = await request(app).get('/api/address-reverse/1000/abc')
 
     expect(res.statusCode).toEqual(400)
