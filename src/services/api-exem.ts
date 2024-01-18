@@ -2,7 +2,7 @@ import axios, { type Method } from 'axios'
 
 export async function getSiteMeasurement(id: string) {
   const baseUrl = process.env.EXEM_API_URL
-  const api_key = 'EXEM_API_KEY'
+  const api_key = process.env.EXEM_API_KEY
   const url = baseUrl + `?api_key=${api_key}`
 
   const config = {
@@ -23,7 +23,7 @@ export async function getSiteMeasurement(id: string) {
 
 export async function getSitesMeasurement() {
   const baseUrl = process.env.EXEM_API_URL
-  const api_key = 'EXEM_API_KEY'
+  const api_key = process.env.EXEM_API_KEY
   const url = baseUrl + `?api_key=${api_key}`
 
   const config = {
