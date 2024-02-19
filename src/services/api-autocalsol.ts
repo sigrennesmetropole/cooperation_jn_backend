@@ -175,6 +175,7 @@ export async function getComputeData(
         data
       )}`
     )
+    console.error(error)
     throw new Error('Error during get consumption: ' + error.message)
   }
 }
