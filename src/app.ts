@@ -227,6 +227,7 @@ app.get(
         const codeIris = await getIrisCode(req.params.lat, req.params.lon)
         res.json(codeIris)
       } catch (error: any) {
+        console.error('Error getting iris', error)
         res.status(500).json({ error: error.toString() })
       }
     }

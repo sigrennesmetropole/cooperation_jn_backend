@@ -3,8 +3,8 @@ import proj4 from 'proj4'
 import { getConfigFromKey } from '../config/configService'
 
 export async function getIrisCode(lat: string, lon: string) {
-  const baseUrl = await getConfigFromKey('ogcServices.baseUrl')
-  const irisTypename = await getConfigFromKey('ogcServices.irisLayer')
+  const baseUrl = await getConfigFromKey('common.ogcBaseUrl')
+  const irisTypename = await getConfigFromKey('solar.ogcServices.irisLayer')
 
   proj4.defs(
     'EPSG:3948',

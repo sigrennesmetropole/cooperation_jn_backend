@@ -52,7 +52,9 @@ function convertTimestamp(timestamp: number): string {
 // The consumption and production data are taken over a single day: date_prod_conso
 async function getFormattedProdAndConso(data: Array<[number, string]>) {
   const dataFilterredOnTheGoodDay: Array<[string, string | number]> = []
-  const date_prod_conso = await getConfigFromKey('autocalsol.date_prod_conso')
+  const date_prod_conso = await getConfigFromKey(
+    'solar.autocalsol.date_prod_conso'
+  )
 
   data.forEach((item) => {
     const date = convertTimestamp(item[0])
@@ -108,18 +110,18 @@ export async function getComputeData(
         inclinaison: slope,
         orientation: azimuth,
         puissanceCrete: peak_power,
-        pr: await getConfigFromKey('autocalsol.pr'),
-        tech: await getConfigFromKey('autocalsol.tech'),
-        integration: await getConfigFromKey('autocalsol.integration'),
+        pr: await getConfigFromKey('solar.autocalsol.pr'),
+        tech: await getConfigFromKey('solar.autocalsol.tech'),
+        integration: await getConfigFromKey('solar.autocalsol.integration'),
       },
       usePuissanceOnduleur: false,
       consommation: {
         typeConsommateur: 'res1',
         formatConso: 'default-conso',
         consoResidentielBase: {
-          typeCompteur: await getConfigFromKey('autocalsol.typeCompteur'),
+          typeCompteur: await getConfigFromKey('solar.autocalsol.typeCompteur'),
           qteConso: annual_consumption,
-          tarifVente: await getConfigFromKey('autocalsol.tarifVente'),
+          tarifVente: await getConfigFromKey('solar.autocalsol.tarifVente'),
           tabConsommation: null,
         },
       },
@@ -175,6 +177,7 @@ export async function getComputeData(
         data
       )}`
     )
+    console.error(error)
     throw new Error('Error during get consumption: ' + error.message)
   }
 }
