@@ -34,7 +34,7 @@ npm run dev
 ### Build locally the image
 
 ```shell
-docker build -t cooperation_jn_backend:latest .
+docker build -t cooperation_jn_backend:latest --build-arg NPM_TOKEN=<YOUR_GITHUB_NPM_TOKEN> .
 ```
 
 ### Run the image
