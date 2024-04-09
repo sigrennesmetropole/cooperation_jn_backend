@@ -21,8 +21,13 @@ export async function getConfig(): Promise<ConfigType> {
   console.log('Server setup: use remote configuration')
 
   const baseUrl = `${getConfFileGithubPath()}`
+  const authToken = `${getGithubPath()}`
   try {
-    const response = await fetch(baseUrl)
+    const response = await fetch(baseUrl, {
+      headers: {
+        Authorization: 'Token ' + authToken,
+      },
+    })
     const resJson = await response.json()
     cache.set(cacheKey, resJson)
     return resJson as ConfigType
@@ -34,6 +39,10 @@ export async function getConfig(): Promise<ConfigType> {
 
 export function getConfFileGithubPath() {
   return process.env.CONF_FILE_GITHUB_PATH as string
+}
+
+export function getGithubPath() {
+  return process.env.GITHUB_PAT as string
 }
 
 export async function getConfigFromKey(key: string) {
